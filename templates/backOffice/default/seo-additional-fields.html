@@ -1,0 +1,41 @@
+{$pageUrl}
+{form name = "betterseo_form"}
+<form method="POST" action="{url path="/admin/module/betterseo/save" object_id=$object_id object_type=$object_type}">
+    {form_hidden_fields form=$form}
+    {if $form_error}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-danger">{$form_error_message}</div>
+        </div>
+    </div>
+    {/if}
+
+    {form_field  field="noindex_checkbox"}
+    <div class="form-group{if $error} has-error{/if}">
+        <input id="{$label_attr.for}" type="checkbox" name="{$name}" value="1" {if $noindex_val == 1} checked {/if}/>
+        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
+        {if $error}
+        <div class="text-danger">
+            {$message}
+        </div>
+        {/if}
+    </div>
+    {/form_field}
+
+    {form_field  field="canonical_text_area"}
+    <div class="form-group{if $error} has-error{/if}">
+        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
+        <textarea id="{$label_attr.for}" class="form-control" name="{$name}">{$canonical_val}</textarea>
+        {if $error}
+        <div class="text-danger">
+            {$message}
+        </div>
+        {/if}
+    </div>
+    {/form_field}
+
+    <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success pull-right">
+        {intl l='Save'} <span class="glyphicon glyphicon-ok"></span>
+    </button>
+</form>
+{/form}

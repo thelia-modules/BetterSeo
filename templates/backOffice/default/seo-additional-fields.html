@@ -9,9 +9,9 @@
         </div>
     </div>
     {/if}
-
+    <label>{intl l="label.noindex" d="betterseo.bo.default"}</label>
     {form_field  field="noindex_checkbox"}
-    <div class="form-group{if $error} has-error{/if}">
+    <div class="{if $error} has-error{/if}">
         <input id="{$label_attr.for}" type="checkbox" name="{$name}" value="1" {if $noindex_val == 1} checked {/if}/>
         <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
         {if $error}
@@ -20,10 +20,13 @@
         </div>
         {/if}
     </div>
+    <div class="help-block">
+        {intl l="noindex.help" d="betterseo.bo.default"}
+    </div>
     {/form_field}
 
     {form_field  field="canonical_text_area"}
-    <div class="form-group{if $error} has-error{/if}">
+    <div class="{if $error} has-error{/if}">
         <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
         <textarea id="{$label_attr.for}" class="form-control" name="{$name}">{$canonical_val}</textarea>
         {if $error}
@@ -31,6 +34,9 @@
             {$message}
         </div>
         {/if}
+    </div>
+    <div class="help-block">
+        {intl l="canonical.help" d="betterseo.bo.default"}
     </div>
     {/form_field}
 

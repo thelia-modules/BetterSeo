@@ -37,7 +37,7 @@ class BetterSeoForm extends BaseForm
                 ))
             ->add(
                 'canonical_url',
-                'text',
+                'url',
                 array(
                     'required' => false,
                     'label' => Translator::getInstance()->trans(

@@ -32,7 +32,7 @@ class BetterSeoController extends BaseAdminController
             $noindex = 0;
         };
 
-        $canonical = $seoForm->get('canonical_text_area')->getData();
+        $canonical = $seoForm->get('canonical_url')->getData();
         if ($canonical !== null && $canonical[0] !== '/' && filter_var($canonical, FILTER_VALIDATE_URL) === false) {
             throw new \InvalidArgumentException('The value "' . (string) $canonical . '" is not a valid Url or Uri.');
         }

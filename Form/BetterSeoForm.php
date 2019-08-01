@@ -32,12 +32,12 @@ class BetterSeoForm extends BaseForm
                         BetterSeo::DOMAIN_NAME
                     ),
                     'label_attr' => array(
-                        'for' => 'canonical_text_area'
+                        'for' => 'noindex_checkbox'
                     )
                 ))
             ->add(
-                'canonical_text_area',
-                'textarea',
+                'canonical_url',
+                'url',
                 array(
                     'required' => false,
                     'label' => Translator::getInstance()->trans(
@@ -46,7 +46,7 @@ class BetterSeoForm extends BaseForm
                         BetterSeo::DOMAIN_NAME
                     ),
                     'label_attr' => array(
-                        'for' => 'canonical_text_area'
+                        'for' => 'canonical_url'
                     )
                 )
             );

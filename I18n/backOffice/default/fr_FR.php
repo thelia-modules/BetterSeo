@@ -2,8 +2,11 @@
 
 return array(
     'Save' => 'Enregistrer',
-    'noindex.help' => 'Permet de ne pas indexer la page Gestion de la meta robots noindex, nofollow',
-    'canonical.help' => 'Permet de définir l\'url principale (canonique)',
+
+    'noindex.help' => 'Gestion de la meta robots noindex, nofollow. Permet de ne pas indexer cette page pour les moteurs de recherche. Attention avant de cocher cela, bien vérifier que votre page ne génère pas de trafic sur Google Analytics. Vous risquez de perdre du référencement.',
+
+    'canonical.help' => 'Permet d\'indiquer une autre page de votre site comme étant l\'url référente et éviter le duplicate content. Ainsi la page indiquée sera priorisée pour les moteurs de recherche, et votre page actuelle sera considérée comme une URL de second rang au profit de l\'URL canonique. Pour renseigner l\'URL canonique veuillez mettre l\'URL complète (avec HTTP ou HTTPS selon les cas).',
+
     'label.noindex' => 'Gestion de la meta robots noindex, nofollow :',
     'canonical' => 'Url Canonique',
 );

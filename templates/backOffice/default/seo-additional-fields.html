@@ -28,7 +28,7 @@
     {form_field  field="canonical_text_area"}
     <div class="{if $error} has-error{/if}">
         <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
-        <textarea id="{$label_attr.for}" class="form-control" name="{$name}">{$canonical_val}</textarea>
+        <input type="url" id="{$label_attr.for}"  class="form-control" name="{$name}" pattern="http://.*|https://.*" value="{$canonical_val}"/>
         {if $error}
         <div class="text-danger">
             {$message}
@@ -39,6 +39,7 @@
         {intl l="canonical.help" d="betterseo.bo.default"}
     </div>
     {/form_field}
+
 
     <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success pull-right">
         {intl l='Save'} <span class="glyphicon glyphicon-ok"></span>

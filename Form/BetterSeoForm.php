@@ -37,7 +37,7 @@ class BetterSeoForm extends BaseForm
                 ))
             ->add(
                 'canonical_text_area',
-                'textarea',
+                'text',
                 array(
                     'required' => false,
                     'label' => Translator::getInstance()->trans(

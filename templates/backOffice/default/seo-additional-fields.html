@@ -25,7 +25,7 @@
     </div>
     {/form_field}
 
-    {form_field  field="canonical_text_area"}
+    {form_field  field="canonical_url"}
     <div class="{if $error} has-error{/if}">
         <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
         <input type="url" id="{$label_attr.for}"  class="form-control" name="{$name}" pattern="http://.*|https://.*" value="{$canonical_val}"/>

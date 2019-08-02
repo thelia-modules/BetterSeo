@@ -10,9 +10,18 @@ namespace BetterSeo\Hook;
 
 
 
-use BetterSeo\Model\SeoNoindexQuery;
+
+use BetterSeo\Model\BetterSeo;
+use BetterSeo\Model\BetterSeoQuery;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Hook\BaseHook;
+use Thelia\Model\BrandQuery;
+use Thelia\Model\CategoryQuery;
+use Thelia\Model\ContentQuery;
+use Thelia\Model\FolderQuery;
+use Thelia\Model\Lang;
+use Thelia\Model\LangQuery;
+use Thelia\Model\ProductQuery;
 
 class SeoFormHook extends BaseHook
 {
@@ -21,28 +30,14 @@ class SeoFormHook extends BaseHook
         $objectId = $event->getArgument('id');
         $objectType = $event->getArgument('type');
 
-        $objectSeo = SeoNoindexQuery::create()
-            ->filterByObjectId($objectId)
-            ->filterByObjectType($objectType)
-            ->findOne();
-        $noIndex = null;
-        $canonical = null;
-        if (null !== $objectSeo){
-            $noIndex = $objectSeo->getNoindex();
-            $canonical = $objectSeo->getCanonicalField();
-        }
-
         $event->add(
             $this->render(
                 "seo-additional-fields.html",
                 [
                     'object_id' => $objectId,
                     'object_type' => $objectType,
-                    'noindex_val' => $noIndex,
-                    'canonical_val' => $canonical
                 ]
             )
         );
-
     }
 }

@@ -4,25 +4,29 @@ namespace BetterSeo\Model\Base;
 
 use \Exception;
 use \PDO;
-use BetterSeo\Model\SeoNoindexQuery as ChildSeoNoindexQuery;
-use BetterSeo\Model\Map\SeoNoindexTableMap;
+use BetterSeo\Model\BetterSeo as ChildBetterSeo;
+use BetterSeo\Model\BetterSeoI18n as ChildBetterSeoI18n;
+use BetterSeo\Model\BetterSeoI18nQuery as ChildBetterSeoI18nQuery;
+use BetterSeo\Model\BetterSeoQuery as ChildBetterSeoQuery;
+use BetterSeo\Model\Map\BetterSeoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class SeoNoindex implements ActiveRecordInterface
+abstract class BetterSeo implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\BetterSeo\\Model\\Map\\SeoNoindexTableMap';
+    const TABLE_MAP = '\\BetterSeo\\Model\\Map\\BetterSeoTableMap';
 
 
     /**
@@ -70,17 +74,10 @@ abstract class SeoNoindex implements ActiveRecordInterface
     protected $object_type;
 
     /**
-     * The value for the noindex field.
-     * Note: this column has a database default value of: 0
-     * @var        int
+     * @var        ObjectCollection|ChildBetterSeoI18n[] Collection to store aggregation of ChildBetterSeoI18n objects.
      */
-    protected $noindex;
-
-    /**
-     * The value for the canonical_field field.
-     * @var        string
-     */
-    protected $canonical_field;
+    protected $collBetterSeoI18ns;
+    protected $collBetterSeoI18nsPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -90,24 +87,31 @@ abstract class SeoNoindex implements ActiveRecordInterface
      */
     protected $alreadyInSave = false;
 
-    /**
-     * Applies default values to this object.
-     * This method should be called from the object's constructor (or
-     * equivalent initialization method).
-     * @see __construct()
-     */
-    public function applyDefaultValues()
-    {
-        $this->noindex = 0;
-    }
+    // i18n behavior
 
     /**
-     * Initializes internal state of BetterSeo\Model\Base\SeoNoindex object.
-     * @see applyDefaults()
+     * Current locale
+     * @var        string
+     */
+    protected $currentLocale = 'en_US';
+
+    /**
+     * Current translation objects
+     * @var        array[ChildBetterSeoI18n]
+     */
+    protected $currentTranslations;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection
+     */
+    protected $betterSeoI18nsScheduledForDeletion = null;
+
+    /**
+     * Initializes internal state of BetterSeo\Model\Base\BetterSeo object.
      */
     public function __construct()
     {
-        $this->applyDefaultValues();
     }
 
     /**
@@ -199,9 +203,9 @@ abstract class SeoNoindex implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>SeoNoindex</code> instance.  If
-     * <code>obj</code> is an instance of <code>SeoNoindex</code>, delegates to
-     * <code>equals(SeoNoindex)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>BetterSeo</code> instance.  If
+     * <code>obj</code> is an instance of <code>BetterSeo</code>, delegates to
+     * <code>equals(BetterSeo)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -284,7 +288,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return SeoNoindex The current object, for fluid interface
+     * @return BetterSeo The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -316,7 +320,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
      *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
      * @param string $data The source data to import from
      *
-     * @return SeoNoindex The current object, for fluid interface
+     * @return BetterSeo The current object, for fluid interface
      */
     public function importFrom($parser, $data)
     {
@@ -395,32 +399,10 @@ abstract class SeoNoindex implements ActiveRecordInterface
     }
 
     /**
-     * Get the [noindex] column value.
-     *
-     * @return   int
-     */
-    public function getNoindex()
-    {
-
-        return $this->noindex;
-    }
-
-    /**
-     * Get the [canonical_field] column value.
-     *
-     * @return   string
-     */
-    public function getCanonicalField()
-    {
-
-        return $this->canonical_field;
-    }
-
-    /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
-     * @return   \BetterSeo\Model\SeoNoindex The current object (for fluent API support)
+     * @return   \BetterSeo\Model\BetterSeo The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -430,7 +412,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[SeoNoindexTableMap::ID] = true;
+            $this->modifiedColumns[BetterSeoTableMap::ID] = true;
         }
 
 
@@ -441,7 +423,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
      * Set the value of [object_id] column.
      *
      * @param      int $v new value
-     * @return   \BetterSeo\Model\SeoNoindex The current object (for fluent API support)
+     * @return   \BetterSeo\Model\BetterSeo The current object (for fluent API support)
      */
     public function setObjectId($v)
     {
@@ -451,7 +433,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
 
         if ($this->object_id !== $v) {
             $this->object_id = $v;
-            $this->modifiedColumns[SeoNoindexTableMap::OBJECT_ID] = true;
+            $this->modifiedColumns[BetterSeoTableMap::OBJECT_ID] = true;
         }
 
 
@@ -462,7 +444,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
      * Set the value of [object_type] column.
      *
      * @param      string $v new value
-     * @return   \BetterSeo\Model\SeoNoindex The current object (for fluent API support)
+     * @return   \BetterSeo\Model\BetterSeo The current object (for fluent API support)
      */
     public function setObjectType($v)
     {
@@ -472,54 +454,12 @@ abstract class SeoNoindex implements ActiveRecordInterface
 
         if ($this->object_type !== $v) {
             $this->object_type = $v;
-            $this->modifiedColumns[SeoNoindexTableMap::OBJECT_TYPE] = true;
+            $this->modifiedColumns[BetterSeoTableMap::OBJECT_TYPE] = true;
         }
 
 
         return $this;
     } // setObjectType()
-
-    /**
-     * Set the value of [noindex] column.
-     *
-     * @param      int $v new value
-     * @return   \BetterSeo\Model\SeoNoindex The current object (for fluent API support)
-     */
-    public function setNoindex($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->noindex !== $v) {
-            $this->noindex = $v;
-            $this->modifiedColumns[SeoNoindexTableMap::NOINDEX] = true;
-        }
-
-
-        return $this;
-    } // setNoindex()
-
-    /**
-     * Set the value of [canonical_field] column.
-     *
-     * @param      string $v new value
-     * @return   \BetterSeo\Model\SeoNoindex The current object (for fluent API support)
-     */
-    public function setCanonicalField($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->canonical_field !== $v) {
-            $this->canonical_field = $v;
-            $this->modifiedColumns[SeoNoindexTableMap::CANONICAL_FIELD] = true;
-        }
-
-
-        return $this;
-    } // setCanonicalField()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -531,10 +471,6 @@ abstract class SeoNoindex implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
-            if ($this->noindex !== 0) {
-                return false;
-            }
-
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -562,20 +498,14 @@ abstract class SeoNoindex implements ActiveRecordInterface
         try {
 
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : SeoNoindexTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : BetterSeoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : SeoNoindexTableMap::translateFieldName('ObjectId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : BetterSeoTableMap::translateFieldName('ObjectId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->object_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SeoNoindexTableMap::translateFieldName('ObjectType', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : BetterSeoTableMap::translateFieldName('ObjectType', TableMap::TYPE_PHPNAME, $indexType)];
             $this->object_type = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SeoNoindexTableMap::translateFieldName('Noindex', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->noindex = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : SeoNoindexTableMap::translateFieldName('CanonicalField', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->canonical_field = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -584,10 +514,10 @@ abstract class SeoNoindex implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = SeoNoindexTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = BetterSeoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating \BetterSeo\Model\SeoNoindex object", 0, $e);
+            throw new PropelException("Error populating \BetterSeo\Model\BetterSeo object", 0, $e);
         }
     }
 
@@ -629,13 +559,13 @@ abstract class SeoNoindex implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(SeoNoindexTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(BetterSeoTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildSeoNoindexQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildBetterSeoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -644,6 +574,8 @@ abstract class SeoNoindex implements ActiveRecordInterface
         $this->hydrate($row, 0, true, $dataFetcher->getIndexType()); // rehydrate
 
         if ($deep) {  // also de-associate any related objects?
+
+            $this->collBetterSeoI18ns = null;
 
         } // if (deep)
     }
@@ -654,8 +586,8 @@ abstract class SeoNoindex implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see SeoNoindex::setDeleted()
-     * @see SeoNoindex::isDeleted()
+     * @see BetterSeo::setDeleted()
+     * @see BetterSeo::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -664,12 +596,12 @@ abstract class SeoNoindex implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(SeoNoindexTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(BetterSeoTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ChildSeoNoindexQuery::create()
+            $deleteQuery = ChildBetterSeoQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -706,7 +638,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(SeoNoindexTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(BetterSeoTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
@@ -726,7 +658,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                SeoNoindexTableMap::addInstanceToPool($this);
+                BetterSeoTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -767,6 +699,23 @@ abstract class SeoNoindex implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+            if ($this->betterSeoI18nsScheduledForDeletion !== null) {
+                if (!$this->betterSeoI18nsScheduledForDeletion->isEmpty()) {
+                    \BetterSeo\Model\BetterSeoI18nQuery::create()
+                        ->filterByPrimaryKeys($this->betterSeoI18nsScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->betterSeoI18nsScheduledForDeletion = null;
+                }
+            }
+
+                if ($this->collBetterSeoI18ns !== null) {
+            foreach ($this->collBetterSeoI18ns as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -787,30 +736,24 @@ abstract class SeoNoindex implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[SeoNoindexTableMap::ID] = true;
+        $this->modifiedColumns[BetterSeoTableMap::ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . SeoNoindexTableMap::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . BetterSeoTableMap::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(SeoNoindexTableMap::ID)) {
+        if ($this->isColumnModified(BetterSeoTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
-        if ($this->isColumnModified(SeoNoindexTableMap::OBJECT_ID)) {
+        if ($this->isColumnModified(BetterSeoTableMap::OBJECT_ID)) {
             $modifiedColumns[':p' . $index++]  = 'OBJECT_ID';
         }
-        if ($this->isColumnModified(SeoNoindexTableMap::OBJECT_TYPE)) {
+        if ($this->isColumnModified(BetterSeoTableMap::OBJECT_TYPE)) {
             $modifiedColumns[':p' . $index++]  = 'OBJECT_TYPE';
-        }
-        if ($this->isColumnModified(SeoNoindexTableMap::NOINDEX)) {
-            $modifiedColumns[':p' . $index++]  = 'NOINDEX';
-        }
-        if ($this->isColumnModified(SeoNoindexTableMap::CANONICAL_FIELD)) {
-            $modifiedColumns[':p' . $index++]  = 'CANONICAL_FIELD';
         }
 
         $sql = sprintf(
-            'INSERT INTO seo_noindex (%s) VALUES (%s)',
+            'INSERT INTO better_seo (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -827,12 +770,6 @@ abstract class SeoNoindex implements ActiveRecordInterface
                         break;
                     case 'OBJECT_TYPE':
                         $stmt->bindValue($identifier, $this->object_type, PDO::PARAM_STR);
-                        break;
-                    case 'NOINDEX':
-                        $stmt->bindValue($identifier, $this->noindex, PDO::PARAM_INT);
-                        break;
-                    case 'CANONICAL_FIELD':
-                        $stmt->bindValue($identifier, $this->canonical_field, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -880,7 +817,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = SeoNoindexTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = BetterSeoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -905,12 +842,6 @@ abstract class SeoNoindex implements ActiveRecordInterface
             case 2:
                 return $this->getObjectType();
                 break;
-            case 3:
-                return $this->getNoindex();
-                break;
-            case 4:
-                return $this->getCanonicalField();
-                break;
             default:
                 return null;
                 break;
@@ -928,28 +859,32 @@ abstract class SeoNoindex implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['SeoNoindex'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['BetterSeo'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['SeoNoindex'][$this->getPrimaryKey()] = true;
-        $keys = SeoNoindexTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['BetterSeo'][$this->getPrimaryKey()] = true;
+        $keys = BetterSeoTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getObjectId(),
             $keys[2] => $this->getObjectType(),
-            $keys[3] => $this->getNoindex(),
-            $keys[4] => $this->getCanonicalField(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->collBetterSeoI18ns) {
+                $result['BetterSeoI18ns'] = $this->collBetterSeoI18ns->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+        }
 
         return $result;
     }
@@ -967,7 +902,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = SeoNoindexTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = BetterSeoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -992,12 +927,6 @@ abstract class SeoNoindex implements ActiveRecordInterface
             case 2:
                 $this->setObjectType($value);
                 break;
-            case 3:
-                $this->setNoindex($value);
-                break;
-            case 4:
-                $this->setCanonicalField($value);
-                break;
         } // switch()
     }
 
@@ -1020,13 +949,11 @@ abstract class SeoNoindex implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = SeoNoindexTableMap::getFieldNames($keyType);
+        $keys = BetterSeoTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setObjectId($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setObjectType($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setNoindex($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setCanonicalField($arr[$keys[4]]);
     }
 
     /**
@@ -1036,13 +963,11 @@ abstract class SeoNoindex implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(SeoNoindexTableMap::DATABASE_NAME);
+        $criteria = new Criteria(BetterSeoTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(SeoNoindexTableMap::ID)) $criteria->add(SeoNoindexTableMap::ID, $this->id);
-        if ($this->isColumnModified(SeoNoindexTableMap::OBJECT_ID)) $criteria->add(SeoNoindexTableMap::OBJECT_ID, $this->object_id);
-        if ($this->isColumnModified(SeoNoindexTableMap::OBJECT_TYPE)) $criteria->add(SeoNoindexTableMap::OBJECT_TYPE, $this->object_type);
-        if ($this->isColumnModified(SeoNoindexTableMap::NOINDEX)) $criteria->add(SeoNoindexTableMap::NOINDEX, $this->noindex);
-        if ($this->isColumnModified(SeoNoindexTableMap::CANONICAL_FIELD)) $criteria->add(SeoNoindexTableMap::CANONICAL_FIELD, $this->canonical_field);
+        if ($this->isColumnModified(BetterSeoTableMap::ID)) $criteria->add(BetterSeoTableMap::ID, $this->id);
+        if ($this->isColumnModified(BetterSeoTableMap::OBJECT_ID)) $criteria->add(BetterSeoTableMap::OBJECT_ID, $this->object_id);
+        if ($this->isColumnModified(BetterSeoTableMap::OBJECT_TYPE)) $criteria->add(BetterSeoTableMap::OBJECT_TYPE, $this->object_type);
 
         return $criteria;
     }
@@ -1057,8 +982,8 @@ abstract class SeoNoindex implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(SeoNoindexTableMap::DATABASE_NAME);
-        $criteria->add(SeoNoindexTableMap::ID, $this->id);
+        $criteria = new Criteria(BetterSeoTableMap::DATABASE_NAME);
+        $criteria->add(BetterSeoTableMap::ID, $this->id);
 
         return $criteria;
     }
@@ -1099,7 +1024,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \BetterSeo\Model\SeoNoindex (or compatible) type.
+     * @param      object $copyObj An object of \BetterSeo\Model\BetterSeo (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1108,8 +1033,20 @@ abstract class SeoNoindex implements ActiveRecordInterface
     {
         $copyObj->setObjectId($this->getObjectId());
         $copyObj->setObjectType($this->getObjectType());
-        $copyObj->setNoindex($this->getNoindex());
-        $copyObj->setCanonicalField($this->getCanonicalField());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getBetterSeoI18ns() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addBetterSeoI18n($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1125,7 +1062,7 @@ abstract class SeoNoindex implements ActiveRecordInterface
      * objects.
      *
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return                 \BetterSeo\Model\SeoNoindex Clone of current object.
+     * @return                 \BetterSeo\Model\BetterSeo Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1138,6 +1075,247 @@ abstract class SeoNoindex implements ActiveRecordInterface
         return $copyObj;
     }
 
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('BetterSeoI18n' == $relationName) {
+            return $this->initBetterSeoI18ns();
+        }
+    }
+
+    /**
+     * Clears out the collBetterSeoI18ns collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addBetterSeoI18ns()
+     */
+    public function clearBetterSeoI18ns()
+    {
+        $this->collBetterSeoI18ns = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collBetterSeoI18ns collection loaded partially.
+     */
+    public function resetPartialBetterSeoI18ns($v = true)
+    {
+        $this->collBetterSeoI18nsPartial = $v;
+    }
+
+    /**
+     * Initializes the collBetterSeoI18ns collection.
+     *
+     * By default this just sets the collBetterSeoI18ns collection to an empty array (like clearcollBetterSeoI18ns());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initBetterSeoI18ns($overrideExisting = true)
+    {
+        if (null !== $this->collBetterSeoI18ns && !$overrideExisting) {
+            return;
+        }
+        $this->collBetterSeoI18ns = new ObjectCollection();
+        $this->collBetterSeoI18ns->setModel('\BetterSeo\Model\BetterSeoI18n');
+    }
+
+    /**
+     * Gets an array of ChildBetterSeoI18n objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildBetterSeo is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return Collection|ChildBetterSeoI18n[] List of ChildBetterSeoI18n objects
+     * @throws PropelException
+     */
+    public function getBetterSeoI18ns($criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collBetterSeoI18nsPartial && !$this->isNew();
+        if (null === $this->collBetterSeoI18ns || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collBetterSeoI18ns) {
+                // return empty collection
+                $this->initBetterSeoI18ns();
+            } else {
+                $collBetterSeoI18ns = ChildBetterSeoI18nQuery::create(null, $criteria)
+                    ->filterByBetterSeo($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collBetterSeoI18nsPartial && count($collBetterSeoI18ns)) {
+                        $this->initBetterSeoI18ns(false);
+
+                        foreach ($collBetterSeoI18ns as $obj) {
+                            if (false == $this->collBetterSeoI18ns->contains($obj)) {
+                                $this->collBetterSeoI18ns->append($obj);
+                            }
+                        }
+
+                        $this->collBetterSeoI18nsPartial = true;
+                    }
+
+                    reset($collBetterSeoI18ns);
+
+                    return $collBetterSeoI18ns;
+                }
+
+                if ($partial && $this->collBetterSeoI18ns) {
+                    foreach ($this->collBetterSeoI18ns as $obj) {
+                        if ($obj->isNew()) {
+                            $collBetterSeoI18ns[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collBetterSeoI18ns = $collBetterSeoI18ns;
+                $this->collBetterSeoI18nsPartial = false;
+            }
+        }
+
+        return $this->collBetterSeoI18ns;
+    }
+
+    /**
+     * Sets a collection of BetterSeoI18n objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $betterSeoI18ns A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return   ChildBetterSeo The current object (for fluent API support)
+     */
+    public function setBetterSeoI18ns(Collection $betterSeoI18ns, ConnectionInterface $con = null)
+    {
+        $betterSeoI18nsToDelete = $this->getBetterSeoI18ns(new Criteria(), $con)->diff($betterSeoI18ns);
+
+
+        //since at least one column in the foreign key is at the same time a PK
+        //we can not just set a PK to NULL in the lines below. We have to store
+        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
+        $this->betterSeoI18nsScheduledForDeletion = clone $betterSeoI18nsToDelete;
+
+        foreach ($betterSeoI18nsToDelete as $betterSeoI18nRemoved) {
+            $betterSeoI18nRemoved->setBetterSeo(null);
+        }
+
+        $this->collBetterSeoI18ns = null;
+        foreach ($betterSeoI18ns as $betterSeoI18n) {
+            $this->addBetterSeoI18n($betterSeoI18n);
+        }
+
+        $this->collBetterSeoI18ns = $betterSeoI18ns;
+        $this->collBetterSeoI18nsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related BetterSeoI18n objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related BetterSeoI18n objects.
+     * @throws PropelException
+     */
+    public function countBetterSeoI18ns(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collBetterSeoI18nsPartial && !$this->isNew();
+        if (null === $this->collBetterSeoI18ns || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collBetterSeoI18ns) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getBetterSeoI18ns());
+            }
+
+            $query = ChildBetterSeoI18nQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByBetterSeo($this)
+                ->count($con);
+        }
+
+        return count($this->collBetterSeoI18ns);
+    }
+
+    /**
+     * Method called to associate a ChildBetterSeoI18n object to this object
+     * through the ChildBetterSeoI18n foreign key attribute.
+     *
+     * @param    ChildBetterSeoI18n $l ChildBetterSeoI18n
+     * @return   \BetterSeo\Model\BetterSeo The current object (for fluent API support)
+     */
+    public function addBetterSeoI18n(ChildBetterSeoI18n $l)
+    {
+        if ($l && $locale = $l->getLocale()) {
+            $this->setLocale($locale);
+            $this->currentTranslations[$locale] = $l;
+        }
+        if ($this->collBetterSeoI18ns === null) {
+            $this->initBetterSeoI18ns();
+            $this->collBetterSeoI18nsPartial = true;
+        }
+
+        if (!in_array($l, $this->collBetterSeoI18ns->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddBetterSeoI18n($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param BetterSeoI18n $betterSeoI18n The betterSeoI18n object to add.
+     */
+    protected function doAddBetterSeoI18n($betterSeoI18n)
+    {
+        $this->collBetterSeoI18ns[]= $betterSeoI18n;
+        $betterSeoI18n->setBetterSeo($this);
+    }
+
+    /**
+     * @param  BetterSeoI18n $betterSeoI18n The betterSeoI18n object to remove.
+     * @return ChildBetterSeo The current object (for fluent API support)
+     */
+    public function removeBetterSeoI18n($betterSeoI18n)
+    {
+        if ($this->getBetterSeoI18ns()->contains($betterSeoI18n)) {
+            $this->collBetterSeoI18ns->remove($this->collBetterSeoI18ns->search($betterSeoI18n));
+            if (null === $this->betterSeoI18nsScheduledForDeletion) {
+                $this->betterSeoI18nsScheduledForDeletion = clone $this->collBetterSeoI18ns;
+                $this->betterSeoI18nsScheduledForDeletion->clear();
+            }
+            $this->betterSeoI18nsScheduledForDeletion[]= clone $betterSeoI18n;
+            $betterSeoI18n->setBetterSeo(null);
+        }
+
+        return $this;
+    }
+
     /**
      * Clears the current object and sets all attributes to their default values
      */
@@ -1146,11 +1324,8 @@ abstract class SeoNoindex implements ActiveRecordInterface
         $this->id = null;
         $this->object_id = null;
         $this->object_type = null;
-        $this->noindex = null;
-        $this->canonical_field = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
-        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
@@ -1168,8 +1343,18 @@ abstract class SeoNoindex implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collBetterSeoI18ns) {
+                foreach ($this->collBetterSeoI18ns as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        // i18n behavior
+        $this->currentLocale = 'en_US';
+        $this->currentTranslations = null;
+
+        $this->collBetterSeoI18ns = null;
     }
 
     /**
@@ -1179,7 +1364,178 @@ abstract class SeoNoindex implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(SeoNoindexTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(BetterSeoTableMap::DEFAULT_STRING_FORMAT);
+    }
+
+    // i18n behavior
+
+    /**
+     * Sets the locale for translations
+     *
+     * @param     string $locale Locale to use for the translation, e.g. 'fr_FR'
+     *
+     * @return    ChildBetterSeo The current object (for fluent API support)
+     */
+    public function setLocale($locale = 'en_US')
+    {
+        $this->currentLocale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * Gets the locale for translations
+     *
+     * @return    string $locale Locale to use for the translation, e.g. 'fr_FR'
+     */
+    public function getLocale()
+    {
+        return $this->currentLocale;
+    }
+
+    /**
+     * Returns the current translation for a given locale
+     *
+     * @param     string $locale Locale to use for the translation, e.g. 'fr_FR'
+     * @param     ConnectionInterface $con an optional connection object
+     *
+     * @return ChildBetterSeoI18n */
+    public function getTranslation($locale = 'en_US', ConnectionInterface $con = null)
+    {
+        if (!isset($this->currentTranslations[$locale])) {
+            if (null !== $this->collBetterSeoI18ns) {
+                foreach ($this->collBetterSeoI18ns as $translation) {
+                    if ($translation->getLocale() == $locale) {
+                        $this->currentTranslations[$locale] = $translation;
+
+                        return $translation;
+                    }
+                }
+            }
+            if ($this->isNew()) {
+                $translation = new ChildBetterSeoI18n();
+                $translation->setLocale($locale);
+            } else {
+                $translation = ChildBetterSeoI18nQuery::create()
+                    ->filterByPrimaryKey(array($this->getPrimaryKey(), $locale))
+                    ->findOneOrCreate($con);
+                $this->currentTranslations[$locale] = $translation;
+            }
+            $this->addBetterSeoI18n($translation);
+        }
+
+        return $this->currentTranslations[$locale];
+    }
+
+    /**
+     * Remove the translation for a given locale
+     *
+     * @param     string $locale Locale to use for the translation, e.g. 'fr_FR'
+     * @param     ConnectionInterface $con an optional connection object
+     *
+     * @return    ChildBetterSeo The current object (for fluent API support)
+     */
+    public function removeTranslation($locale = 'en_US', ConnectionInterface $con = null)
+    {
+        if (!$this->isNew()) {
+            ChildBetterSeoI18nQuery::create()
+                ->filterByPrimaryKey(array($this->getPrimaryKey(), $locale))
+                ->delete($con);
+        }
+        if (isset($this->currentTranslations[$locale])) {
+            unset($this->currentTranslations[$locale]);
+        }
+        foreach ($this->collBetterSeoI18ns as $key => $translation) {
+            if ($translation->getLocale() == $locale) {
+                unset($this->collBetterSeoI18ns[$key]);
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns the current translation
+     *
+     * @param     ConnectionInterface $con an optional connection object
+     *
+     * @return ChildBetterSeoI18n */
+    public function getCurrentTranslation(ConnectionInterface $con = null)
+    {
+        return $this->getTranslation($this->getLocale(), $con);
+    }
+
+
+        /**
+         * Get the [noindex] column value.
+         *
+         * @return   int
+         */
+        public function getNoindex()
+        {
+        return $this->getCurrentTranslation()->getNoindex();
+    }
+
+
+        /**
+         * Set the value of [noindex] column.
+         *
+         * @param      int $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setNoindex($v)
+        {    $this->getCurrentTranslation()->setNoindex($v);
+
+        return $this;
+    }
+
+
+        /**
+         * Get the [nofollow] column value.
+         *
+         * @return   int
+         */
+        public function getNofollow()
+        {
+        return $this->getCurrentTranslation()->getNofollow();
+    }
+
+
+        /**
+         * Set the value of [nofollow] column.
+         *
+         * @param      int $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setNofollow($v)
+        {    $this->getCurrentTranslation()->setNofollow($v);
+
+        return $this;
+    }
+
+
+        /**
+         * Get the [canonical_field] column value.
+         *
+         * @return   string
+         */
+        public function getCanonicalField()
+        {
+        return $this->getCurrentTranslation()->getCanonicalField();
+    }
+
+
+        /**
+         * Set the value of [canonical_field] column.
+         *
+         * @param      string $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setCanonicalField($v)
+        {    $this->getCurrentTranslation()->setCanonicalField($v);
+
+        return $this;
     }
 
     /**

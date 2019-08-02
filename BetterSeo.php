@@ -14,8 +14,8 @@ namespace BetterSeo;
 
 
 
-use BetterSeo\Model\SeoNoindex;
-use BetterSeo\Model\SeoNoindexQuery;
+use BetterSeo\Model\BetterSeo as BetterSeoModel;
+use BetterSeo\Model\BetterSeoQuery;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Thelia\Install\Database;
 use Thelia\Model\Brand;
@@ -26,6 +26,8 @@ use Thelia\Model\Content;
 use Thelia\Model\ContentQuery;
 use Thelia\Model\Folder;
 use Thelia\Model\FolderQuery;
+use Thelia\Model\Lang;
+use Thelia\Model\LangQuery;
 use Thelia\Model\Product;
 use Thelia\Model\ProductQuery;
 use Thelia\Module\BaseModule;
@@ -42,65 +44,38 @@ class BetterSeo extends BaseModule
     public function postActivation(ConnectionInterface $con = null)
     {
         try{
-           SeoNoindexQuery::create()->findOne();
+           BetterSeoQuery::create()->findOne();
         }catch(\Exception $e){
             $database = new Database($con);
             $database->insertSql(null,[__DIR__ . "/Config/thelia.sql"]);
 
-            $products = ProductQuery::create()->find();
-            /** @var Product $product */
-            foreach ($products as $product){
-                $seoObject = new SeoNoindex();
-                $seoObject
-                    ->setObjectType("product")
-                    ->setObjectId($product->getId())
-                    ->setNoindex(0)
-                    ->setCanonicalField(null)
-                    ->save();
-            }
-            $categories = CategoryQuery::create()->find();
-            /** @var Category $category */
-            foreach ($categories as $category){
-                $seoObject = new SeoNoindex();
-                $seoObject
-                    ->setObjectType("category")
-                    ->setObjectId($category->getId())
-                    ->setNoindex(0)
-                    ->setCanonicalField(null)
-                    ->save();
-            }
-            $brands = BrandQuery::create()->find();
-            /** @var Brand $brand */
-            foreach ($brands as $brand){
-                $seoObject = new SeoNoindex();
-                $seoObject
-                    ->setObjectType("brand")
-                    ->setObjectId($brand->getId())
-                    ->setNoindex(0)
-                    ->setCanonicalField(null)
-                    ->save();
-            }
-            $folders = FolderQuery::create()->find();
-            /** @var Folder $folder */
-            foreach ($folders as $folder){
-                $seoObject = new SeoNoindex();
-                $seoObject
-                    ->setObjectType("folder")
-                    ->setObjectId($folder->getId())
-                    ->setNoindex(0)
-                    ->setCanonicalField(null)
-                    ->save();
-            }
-            $contents = ContentQuery::create()->find();
-            /** @var Content $content */
-            foreach ($contents as $content){
-                $seoObject = new SeoNoindex();
-                $seoObject
-                    ->setObjectType("content")
-                    ->setObjectId($content->getId())
-                    ->setNoindex(0)
-                    ->setCanonicalField(null)
-                    ->save();
+            $languages = LangQuery::create()
+                ->filterByActive(true)
+                ->find();
+
+            $objects = [];
+            $objects['product'] = ProductQuery::create()->find();
+            $objects['category'] = CategoryQuery::create()->find();
+            $objects['brand'] = BrandQuery::create()->find();
+            $objects['folder'] = FolderQuery::create()->find();
+            $objects['content'] = ContentQuery::create()->find();
+
+            foreach ($objects as $type => $objectArray){
+                foreach ($objectArray as $object){
+                    $seoObject = new BetterSeoModel();
+                    $seoObject
+                        ->setObjectType($type)
+                        ->setObjectId($object->getId());
+                    /** @var Lang $language */
+                    foreach ($languages as $language) {
+                        $seoObject
+                            ->setLocale($language->getLocale())
+                            ->setNoindex(0)
+                            ->setNofollow(0)
+                            ->setCanonicalField(null);
+                    }
+                    $seoObject->save();
+                }
             }
         }
     }

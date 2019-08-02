@@ -26,12 +26,16 @@
         </behavior>
     </table>
     -->
-    <table name="seo_noindex" namespace="BetterSeo\Model">
+    <table name="better_seo" namespace="BetterSeo\Model">
         <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
         <column name="object_id" required="true" type="INTEGER"/>
         <column name="object_type" required="true" type="VARCHAR"/>
         <column name="noindex" required="true" default="0" type="INTEGER" />
+        <column name="nofollow" required="true" default="0" type="INTEGER" />
         <column name="canonical_field" required="false" type="LONGVARCHAR" />
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="noindex, nofollow, canonical_field" />
+        </behavior>
     </table>
     <external-schema filename="local/config/schema.xml" referenceOnly="true" />
 </database>

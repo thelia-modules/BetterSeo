@@ -1,6 +1,11 @@
 {$pageUrl}
+{loop type="better_seo_loop" name="better_seo_data" object_id=$object_id object_type=$object_type lang_id=$edit_language_id}
+    {$noindex_val = $NOINDEX}
+    {$nofollow_val = $NOFOLLOW}
+    {$canonical_val = $CANONICAL}
+{/loop}
 {form name = "betterseo_form"}
-<form method="POST" action="{url path="/admin/module/betterseo/save" object_id=$object_id object_type=$object_type}">
+<form method="POST" action="{url path="/admin/module/betterseo/save" object_id=$object_id object_type=$object_type lang_id=$edit_language_id}">
     {form_hidden_fields form=$form}
     {if $form_error}
     <div class="row">
@@ -25,6 +30,21 @@
     </div>
     {/form_field}
 
+    {form_field  field="nofollow_checkbox"}
+    <div class="{if $error} has-error{/if}">
+        <input id="{$label_attr.for}" type="checkbox" name="{$name}" value="1" {if $nofollow_val == 1} checked {/if}/>
+        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
+        {if $error}
+        <div class="text-danger">
+            {$message}
+        </div>
+        {/if}
+    </div>
+    <div class="help-block">
+        {intl l="nofollow.help" d="betterseo.bo.default"}
+    </div>
+    {/form_field}
+
     {form_field  field="canonical_url"}
     <div class="{if $error} has-error{/if}">
         <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
@@ -40,8 +60,7 @@
     </div>
     {/form_field}
 
-
-    <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success pull-right">
+    <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success">
         {intl l='Save'} <span class="glyphicon glyphicon-ok"></span>
     </button>
 </form>

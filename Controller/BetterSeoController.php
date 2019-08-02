@@ -11,9 +11,16 @@ namespace BetterSeo\Controller;
 
 
 use BetterSeo\Form\BetterSeoForm;
-use BetterSeo\Model\SeoNoindex;
-use BetterSeo\Model\SeoNoindexQuery;
+use BetterSeo\Model\BetterSeo;
+use BetterSeo\Model\BetterSeoQuery;
 use Thelia\Controller\Admin\BaseAdminController;
+use Thelia\Model\BrandQuery;
+use Thelia\Model\CategoryQuery;
+use Thelia\Model\ContentQuery;
+use Thelia\Model\FolderQuery;
+use Thelia\Model\Lang;
+use Thelia\Model\LangQuery;
+use Thelia\Model\ProductQuery;
 
 class BetterSeoController extends BaseAdminController
 {
@@ -32,6 +39,10 @@ class BetterSeoController extends BaseAdminController
             $noindex = 0;
         };
 
+        if (null === $nofollow = $seoForm->get('nofollow_checkbox')->getData()){
+            $nofollow = 0;
+        };
+
         $canonical = $seoForm->get('canonical_url')->getData();
         if ($canonical !== null && $canonical[0] !== '/' && filter_var($canonical, FILTER_VALIDATE_URL) === false) {
             throw new \InvalidArgumentException('The value "' . (string) $canonical . '" is not a valid Url or Uri.');
@@ -39,43 +50,51 @@ class BetterSeoController extends BaseAdminController
         $object_id = $this->getRequest()->get('object_id');
         $object_type = $this->getRequest()->get('object_type');
 
-        $objectSeo = SeoNoindexQuery::create()
+        $objectSeo = BetterSeoQuery::create()
             ->filterByObjectId($object_id)
             ->filterByObjectType($object_type)
             ->findOne();
 
+        $lang = LangQuery::create()
+            ->filterById($this->getRequest()->get('lang_id'))
+            ->findOne();
+
         if (null === $objectSeo){
-            $objectSeo = new SeoNoindex();
+            $objectSeo = new BetterSeo();
             $objectSeo
                 ->setObjectId($object_id)
-                ->setObjectType($object_type)
-                ->setNoindex($noindex)
-                ->setCanonicalField($canonical)
-                ->save();
+                ->setObjectType($object_type);
         }
-        else{
-            $objectSeo
-                ->setNoindex($noindex)
-                ->setCanonicalField($canonical)
-                ->save();
-        }
+        $objectSeo
+            ->setLocale($lang->getLocale())
+            ->setNoindex($noindex)
+            ->setNofollow($nofollow)
+            ->setCanonicalField($canonical)
+            ->save();
 
         switch ($object_type){
             case 'product':
-                return $this->generateRedirectFromRoute('admin.products.update',[] ,['product_id' => $object_id]);
+                $nameInRoute = 'products';
+                break;
 
             case 'category':
-                return $this->generateRedirectFromRoute('admin.categories.update',[] ,['category_id' => $object_id]);
+                $nameInRoute = 'categories';
+                break;
 
             case 'folder':
-                return $this->generateRedirectFromRoute('admin.folders.update',[] ,['folder_id' => $object_id]);
+                $nameInRoute = 'folders';
+                break;
 
             case 'content':
-                return $this->generateRedirectFromRoute('admin.content.update',[] ,['content_id' => $object_id]);
+                $nameInRoute = $object_type;
+                break;
 
             case 'brand':
-                return $this->generateRedirectFromRoute('admin.brand.update',[] ,['brand_id' => $object_id]);
+                $nameInRoute = $object_type;
+                break;
 
         }
+        return $this->generateRedirectFromRoute('admin.'.$nameInRoute.'.update',[] ,[$object_type.'_id' => $object_id]);
+
     }
 }

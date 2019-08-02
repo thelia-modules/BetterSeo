@@ -36,6 +36,20 @@ class BetterSeoForm extends BaseForm
                     )
                 ))
             ->add(
+                'nofollow_checkbox',
+                'integer',
+                array(
+                    'required' => false,
+                    'label'=> Translator::getInstance()->trans(
+                        'nofollow',
+                        array(),
+                        BetterSeo::DOMAIN_NAME
+                    ),
+                    'label_attr' => array(
+                        'for' => 'nofollow_checkbox'
+                    )
+                ))
+            ->add(
                 'canonical_url',
                 'url',
                 array(

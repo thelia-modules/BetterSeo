@@ -2,8 +2,8 @@
 
 namespace BetterSeo\Model\Map;
 
-use BetterSeo\Model\SeoNoindex;
-use BetterSeo\Model\SeoNoindexQuery;
+use BetterSeo\Model\BetterSeoI18n;
+use BetterSeo\Model\BetterSeoI18nQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'seo_noindex' table.
+ * This class defines the structure of the 'better_seo_i18n' table.
  *
  *
  *
@@ -26,14 +26,14 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class SeoNoindexTableMap extends TableMap
+class BetterSeoI18nTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'BetterSeo.Model.Map.SeoNoindexTableMap';
+    const CLASS_NAME = 'BetterSeo.Model.Map.BetterSeoI18nTableMap';
 
     /**
      * The default database name for this class
@@ -43,17 +43,17 @@ class SeoNoindexTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'seo_noindex';
+    const TABLE_NAME = 'better_seo_i18n';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\BetterSeo\\Model\\SeoNoindex';
+    const OM_CLASS = '\\BetterSeo\\Model\\BetterSeoI18n';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'BetterSeo.Model.SeoNoindex';
+    const CLASS_DEFAULT = 'BetterSeo.Model.BetterSeoI18n';
 
     /**
      * The total number of columns
@@ -73,27 +73,27 @@ class SeoNoindexTableMap extends TableMap
     /**
      * the column name for the ID field
      */
-    const ID = 'seo_noindex.ID';
+    const ID = 'better_seo_i18n.ID';
 
     /**
-     * the column name for the OBJECT_ID field
+     * the column name for the LOCALE field
      */
-    const OBJECT_ID = 'seo_noindex.OBJECT_ID';
-
-    /**
-     * the column name for the OBJECT_TYPE field
-     */
-    const OBJECT_TYPE = 'seo_noindex.OBJECT_TYPE';
+    const LOCALE = 'better_seo_i18n.LOCALE';
 
     /**
      * the column name for the NOINDEX field
      */
-    const NOINDEX = 'seo_noindex.NOINDEX';
+    const NOINDEX = 'better_seo_i18n.NOINDEX';
+
+    /**
+     * the column name for the NOFOLLOW field
+     */
+    const NOFOLLOW = 'better_seo_i18n.NOFOLLOW';
 
     /**
      * the column name for the CANONICAL_FIELD field
      */
-    const CANONICAL_FIELD = 'seo_noindex.CANONICAL_FIELD';
+    const CANONICAL_FIELD = 'better_seo_i18n.CANONICAL_FIELD';
 
     /**
      * The default string format for model objects of the related table
@@ -107,11 +107,11 @@ class SeoNoindexTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'ObjectId', 'ObjectType', 'Noindex', 'CanonicalField', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'objectId', 'objectType', 'noindex', 'canonicalField', ),
-        self::TYPE_COLNAME       => array(SeoNoindexTableMap::ID, SeoNoindexTableMap::OBJECT_ID, SeoNoindexTableMap::OBJECT_TYPE, SeoNoindexTableMap::NOINDEX, SeoNoindexTableMap::CANONICAL_FIELD, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'OBJECT_ID', 'OBJECT_TYPE', 'NOINDEX', 'CANONICAL_FIELD', ),
-        self::TYPE_FIELDNAME     => array('id', 'object_id', 'object_type', 'noindex', 'canonical_field', ),
+        self::TYPE_PHPNAME       => array('Id', 'Locale', 'Noindex', 'Nofollow', 'CanonicalField', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'locale', 'noindex', 'nofollow', 'canonicalField', ),
+        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID, BetterSeoI18nTableMap::LOCALE, BetterSeoI18nTableMap::NOINDEX, BetterSeoI18nTableMap::NOFOLLOW, BetterSeoI18nTableMap::CANONICAL_FIELD, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'LOCALE', 'NOINDEX', 'NOFOLLOW', 'CANONICAL_FIELD', ),
+        self::TYPE_FIELDNAME     => array('id', 'locale', 'noindex', 'nofollow', 'canonical_field', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -122,11 +122,11 @@ class SeoNoindexTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'ObjectId' => 1, 'ObjectType' => 2, 'Noindex' => 3, 'CanonicalField' => 4, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'objectId' => 1, 'objectType' => 2, 'noindex' => 3, 'canonicalField' => 4, ),
-        self::TYPE_COLNAME       => array(SeoNoindexTableMap::ID => 0, SeoNoindexTableMap::OBJECT_ID => 1, SeoNoindexTableMap::OBJECT_TYPE => 2, SeoNoindexTableMap::NOINDEX => 3, SeoNoindexTableMap::CANONICAL_FIELD => 4, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'OBJECT_ID' => 1, 'OBJECT_TYPE' => 2, 'NOINDEX' => 3, 'CANONICAL_FIELD' => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'object_id' => 1, 'object_type' => 2, 'noindex' => 3, 'canonical_field' => 4, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Locale' => 1, 'Noindex' => 2, 'Nofollow' => 3, 'CanonicalField' => 4, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonicalField' => 4, ),
+        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID => 0, BetterSeoI18nTableMap::LOCALE => 1, BetterSeoI18nTableMap::NOINDEX => 2, BetterSeoI18nTableMap::NOFOLLOW => 3, BetterSeoI18nTableMap::CANONICAL_FIELD => 4, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'LOCALE' => 1, 'NOINDEX' => 2, 'NOFOLLOW' => 3, 'CANONICAL_FIELD' => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonical_field' => 4, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -140,16 +140,16 @@ class SeoNoindexTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('seo_noindex');
-        $this->setPhpName('SeoNoindex');
-        $this->setClassName('\\BetterSeo\\Model\\SeoNoindex');
+        $this->setName('better_seo_i18n');
+        $this->setPhpName('BetterSeoI18n');
+        $this->setClassName('\\BetterSeo\\Model\\BetterSeoI18n');
         $this->setPackage('BetterSeo.Model');
-        $this->setUseIdGenerator(true);
+        $this->setUseIdGenerator(false);
         // columns
-        $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('OBJECT_ID', 'ObjectId', 'INTEGER', true, null, null);
-        $this->addColumn('OBJECT_TYPE', 'ObjectType', 'VARCHAR', true, 255, null);
+        $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'better_seo', 'ID', true, null, null);
+        $this->addPrimaryKey('LOCALE', 'Locale', 'VARCHAR', true, 5, 'en_US');
         $this->addColumn('NOINDEX', 'Noindex', 'INTEGER', true, null, 0);
+        $this->addColumn('NOFOLLOW', 'Nofollow', 'INTEGER', true, null, 0);
         $this->addColumn('CANONICAL_FIELD', 'CanonicalField', 'LONGVARCHAR', false, null, null);
     } // initialize()
 
@@ -158,7 +158,61 @@ class SeoNoindexTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('BetterSeo', '\\BetterSeo\\Model\\BetterSeo', RelationMap::MANY_TO_ONE, array('id' => 'id', ), 'CASCADE', null);
     } // buildRelations()
+
+    /**
+     * Adds an object to the instance pool.
+     *
+     * Propel keeps cached copies of objects in an instance pool when they are retrieved
+     * from the database. In some cases you may need to explicitly add objects
+     * to the cache in order to ensure that the same objects are always returned by find*()
+     * and findPk*() calls.
+     *
+     * @param \BetterSeo\Model\BetterSeoI18n $obj A \BetterSeo\Model\BetterSeoI18n object.
+     * @param string $key             (optional) key to use for instance map (for performance boost if key was already calculated externally).
+     */
+    public static function addInstanceToPool($obj, $key = null)
+    {
+        if (Propel::isInstancePoolingEnabled()) {
+            if (null === $key) {
+                $key = serialize(array((string) $obj->getId(), (string) $obj->getLocale()));
+            } // if key === null
+            self::$instances[$key] = $obj;
+        }
+    }
+
+    /**
+     * Removes an object from the instance pool.
+     *
+     * Propel keeps cached copies of objects in an instance pool when they are retrieved
+     * from the database.  In some cases -- especially when you override doDelete
+     * methods in your stub classes -- you may need to explicitly remove objects
+     * from the cache in order to prevent returning objects that no longer exist.
+     *
+     * @param mixed $value A \BetterSeo\Model\BetterSeoI18n object or a primary key value.
+     */
+    public static function removeInstanceFromPool($value)
+    {
+        if (Propel::isInstancePoolingEnabled() && null !== $value) {
+            if (is_object($value) && $value instanceof \BetterSeo\Model\BetterSeoI18n) {
+                $key = serialize(array((string) $value->getId(), (string) $value->getLocale()));
+
+            } elseif (is_array($value) && count($value) === 2) {
+                // assume we've been passed a primary key";
+                $key = serialize(array((string) $value[0], (string) $value[1]));
+            } elseif ($value instanceof Criteria) {
+                self::$instances = [];
+
+                return;
+            } else {
+                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or \BetterSeo\Model\BetterSeoI18n object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value, true)));
+                throw $e;
+            }
+
+            unset(self::$instances[$key]);
+        }
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -174,11 +228,11 @@ class SeoNoindexTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('Locale', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return serialize(array((string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('Locale', TableMap::TYPE_PHPNAME, $indexType)]));
     }
 
     /**
@@ -196,11 +250,7 @@ class SeoNoindexTableMap extends TableMap
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
 
-            return (int) $row[
-                            $indexType == TableMap::TYPE_NUM
-                            ? 0 + $offset
-                            : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
-                        ];
+            return $pks;
     }
 
     /**
@@ -216,7 +266,7 @@ class SeoNoindexTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? SeoNoindexTableMap::CLASS_DEFAULT : SeoNoindexTableMap::OM_CLASS;
+        return $withPrefix ? BetterSeoI18nTableMap::CLASS_DEFAULT : BetterSeoI18nTableMap::OM_CLASS;
     }
 
     /**
@@ -230,21 +280,21 @@ class SeoNoindexTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
-     * @return array (SeoNoindex object, last column rank)
+     * @return array (BetterSeoI18n object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = SeoNoindexTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = SeoNoindexTableMap::getInstanceFromPool($key))) {
+        $key = BetterSeoI18nTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = BetterSeoI18nTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + SeoNoindexTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + BetterSeoI18nTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = SeoNoindexTableMap::OM_CLASS;
+            $cls = BetterSeoI18nTableMap::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            SeoNoindexTableMap::addInstanceToPool($obj, $key);
+            BetterSeoI18nTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -267,8 +317,8 @@ class SeoNoindexTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = SeoNoindexTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = SeoNoindexTableMap::getInstanceFromPool($key))) {
+            $key = BetterSeoI18nTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = BetterSeoI18nTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -277,7 +327,7 @@ class SeoNoindexTableMap extends TableMap
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                SeoNoindexTableMap::addInstanceToPool($obj, $key);
+                BetterSeoI18nTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -298,16 +348,16 @@ class SeoNoindexTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(SeoNoindexTableMap::ID);
-            $criteria->addSelectColumn(SeoNoindexTableMap::OBJECT_ID);
-            $criteria->addSelectColumn(SeoNoindexTableMap::OBJECT_TYPE);
-            $criteria->addSelectColumn(SeoNoindexTableMap::NOINDEX);
-            $criteria->addSelectColumn(SeoNoindexTableMap::CANONICAL_FIELD);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::ID);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::LOCALE);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::NOINDEX);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::NOFOLLOW);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::CANONICAL_FIELD);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
-            $criteria->addSelectColumn($alias . '.OBJECT_ID');
-            $criteria->addSelectColumn($alias . '.OBJECT_TYPE');
+            $criteria->addSelectColumn($alias . '.LOCALE');
             $criteria->addSelectColumn($alias . '.NOINDEX');
+            $criteria->addSelectColumn($alias . '.NOFOLLOW');
             $criteria->addSelectColumn($alias . '.CANONICAL_FIELD');
         }
     }
@@ -321,7 +371,7 @@ class SeoNoindexTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(SeoNoindexTableMap::DATABASE_NAME)->getTable(SeoNoindexTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(BetterSeoI18nTableMap::DATABASE_NAME)->getTable(BetterSeoI18nTableMap::TABLE_NAME);
     }
 
     /**
@@ -329,16 +379,16 @@ class SeoNoindexTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(SeoNoindexTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(SeoNoindexTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new SeoNoindexTableMap());
+      $dbMap = Propel::getServiceContainer()->getDatabaseMap(BetterSeoI18nTableMap::DATABASE_NAME);
+      if (!$dbMap->hasTable(BetterSeoI18nTableMap::TABLE_NAME)) {
+        $dbMap->addTableObject(new BetterSeoI18nTableMap());
       }
     }
 
     /**
-     * Performs a DELETE on the database, given a SeoNoindex or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a BetterSeoI18n or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or SeoNoindex object or primary key or array of primary keys
+     * @param mixed               $values Criteria or BetterSeoI18n object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -349,25 +399,35 @@ class SeoNoindexTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(SeoNoindexTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(BetterSeoI18nTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \BetterSeo\Model\SeoNoindex) { // it's a model object
+        } elseif ($values instanceof \BetterSeo\Model\BetterSeoI18n) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(SeoNoindexTableMap::DATABASE_NAME);
-            $criteria->add(SeoNoindexTableMap::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(BetterSeoI18nTableMap::DATABASE_NAME);
+            // primary key is composite; we therefore, expect
+            // the primary key passed to be an array of pkey values
+            if (count($values) == count($values, COUNT_RECURSIVE)) {
+                // array is not multi-dimensional
+                $values = array($values);
+            }
+            foreach ($values as $value) {
+                $criterion = $criteria->getNewCriterion(BetterSeoI18nTableMap::ID, $value[0]);
+                $criterion->addAnd($criteria->getNewCriterion(BetterSeoI18nTableMap::LOCALE, $value[1]));
+                $criteria->addOr($criterion);
+            }
         }
 
-        $query = SeoNoindexQuery::create()->mergeWith($criteria);
+        $query = BetterSeoI18nQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { SeoNoindexTableMap::clearInstancePool();
+        if ($values instanceof Criteria) { BetterSeoI18nTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { SeoNoindexTableMap::removeInstanceFromPool($singleval);
+            foreach ((array) $values as $singleval) { BetterSeoI18nTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -375,20 +435,20 @@ class SeoNoindexTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the seo_noindex table.
+     * Deletes all rows from the better_seo_i18n table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return SeoNoindexQuery::create()->doDeleteAll($con);
+        return BetterSeoI18nQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a SeoNoindex or Criteria object.
+     * Performs an INSERT on the database, given a BetterSeoI18n or Criteria object.
      *
-     * @param mixed               $criteria Criteria or SeoNoindex object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or BetterSeoI18n object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -397,22 +457,18 @@ class SeoNoindexTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(SeoNoindexTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(BetterSeoI18nTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from SeoNoindex object
-        }
-
-        if ($criteria->containsKey(SeoNoindexTableMap::ID) && $criteria->keyContainsValue(SeoNoindexTableMap::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SeoNoindexTableMap::ID.')');
+            $criteria = $criteria->buildCriteria(); // build Criteria from BetterSeoI18n object
         }
 
 
         // Set the correct dbName
-        $query = SeoNoindexQuery::create()->mergeWith($criteria);
+        $query = BetterSeoI18nQuery::create()->mergeWith($criteria);
 
         try {
             // use transaction because $criteria could contain info
@@ -428,7 +484,7 @@ class SeoNoindexTableMap extends TableMap
         return $pk;
     }
 
-} // SeoNoindexTableMap
+} // BetterSeoI18nTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-SeoNoindexTableMap::buildTableMap();
+BetterSeoI18nTableMap::buildTableMap();

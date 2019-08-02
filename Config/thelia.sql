@@ -4,19 +4,37 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
--- seo_noindex
+-- better_seo
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `seo_noindex`;
+DROP TABLE IF EXISTS `better_seo`;
 
-CREATE TABLE `seo_noindex`
+CREATE TABLE `better_seo`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `object_id` INTEGER NOT NULL,
     `object_type` VARCHAR(255) NOT NULL,
-    `noindex` INTEGER DEFAULT 0 NOT NULL,
-    `canonical_field` TEXT,
     PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- better_seo_i18n
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `better_seo_i18n`;
+
+CREATE TABLE `better_seo_i18n`
+(
+    `id` INTEGER NOT NULL,
+    `locale` VARCHAR(5) DEFAULT 'en_US' NOT NULL,
+    `noindex` INTEGER DEFAULT 0 NOT NULL,
+    `nofollow` INTEGER DEFAULT 0 NOT NULL,
+    `canonical_field` TEXT,
+    PRIMARY KEY (`id`,`locale`),
+    CONSTRAINT `better_seo_i18n_FK_1`
+        FOREIGN KEY (`id`)
+        REFERENCES `better_seo` (`id`)
+        ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 # This restores the fkey checks, after having unset them earlier

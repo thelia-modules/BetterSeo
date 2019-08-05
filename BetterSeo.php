@@ -48,35 +48,6 @@ class BetterSeo extends BaseModule
         }catch(\Exception $e){
             $database = new Database($con);
             $database->insertSql(null,[__DIR__ . "/Config/thelia.sql"]);
-
-            $languages = LangQuery::create()
-                ->filterByActive(true)
-                ->find();
-
-            $objects = [];
-            $objects['product'] = ProductQuery::create()->find();
-            $objects['category'] = CategoryQuery::create()->find();
-            $objects['brand'] = BrandQuery::create()->find();
-            $objects['folder'] = FolderQuery::create()->find();
-            $objects['content'] = ContentQuery::create()->find();
-
-            foreach ($objects as $type => $objectArray){
-                foreach ($objectArray as $object){
-                    $seoObject = new BetterSeoModel();
-                    $seoObject
-                        ->setObjectType($type)
-                        ->setObjectId($object->getId());
-                    /** @var Lang $language */
-                    foreach ($languages as $language) {
-                        $seoObject
-                            ->setLocale($language->getLocale())
-                            ->setNoindex(0)
-                            ->setNofollow(0)
-                            ->setCanonicalField(null);
-                    }
-                    $seoObject->save();
-                }
-            }
         }
     }
 }

@@ -97,7 +97,9 @@ class SeoListener implements EventSubscriberInterface
             ->filterByObjectType($objectType)
             ->filterByObjectId($objectId)
             ->findOne();
-        $betterSeoObject->setLocale($lang);
+        if (null !== $betterSeoObject){
+            $betterSeoObject->setLocale($lang);
+        }
 
         return $betterSeoObject;
     }

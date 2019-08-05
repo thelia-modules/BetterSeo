@@ -16,7 +16,7 @@ Add Noindex checkbox and Canonical Url field in the Seo tab in back
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/better-seo-module:~1.0
+composer require thelia/better-seo-module:~1.0.3
 ```
 
 ## Loop

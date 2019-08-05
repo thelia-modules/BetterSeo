@@ -148,8 +148,8 @@ class BetterSeoI18nTableMap extends TableMap
         // columns
         $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'better_seo', 'ID', true, null, null);
         $this->addPrimaryKey('LOCALE', 'Locale', 'VARCHAR', true, 5, 'en_US');
-        $this->addColumn('NOINDEX', 'Noindex', 'INTEGER', true, null, 0);
-        $this->addColumn('NOFOLLOW', 'Nofollow', 'INTEGER', true, null, 0);
+        $this->addColumn('NOINDEX', 'Noindex', 'TINYINT', true, 4, 0);
+        $this->addColumn('NOFOLLOW', 'Nofollow', 'TINYINT', true, 4, 0);
         $this->addColumn('CANONICAL_FIELD', 'CanonicalField', 'LONGVARCHAR', false, null, null);
     } // initialize()
 

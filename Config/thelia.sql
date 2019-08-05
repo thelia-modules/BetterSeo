@@ -27,8 +27,8 @@ CREATE TABLE `better_seo_i18n`
 (
     `id` INTEGER NOT NULL,
     `locale` VARCHAR(5) DEFAULT 'en_US' NOT NULL,
-    `noindex` INTEGER DEFAULT 0 NOT NULL,
-    `nofollow` INTEGER DEFAULT 0 NOT NULL,
+    `noindex` TINYINT(4) DEFAULT 0 NOT NULL,
+    `nofollow` TINYINT(4) DEFAULT 0 NOT NULL,
     `canonical_field` TEXT,
     PRIMARY KEY (`id`,`locale`),
     CONSTRAINT `better_seo_i18n_FK_1`

@@ -11,12 +11,12 @@ namespace BetterSeo\EventListeners;
 
 
 use AlternateHreflang\Event\AlternateHreflangEvent;
-use BetterSeo\Model\SeoNoindexQuery;
+use BetterSeo\Model\BetterSeoQuery;
 use CanonicalUrl\Event\CanonicalUrlEvent;
 use CanonicalUrl\Event\CanonicalUrlEvents;
+use Sitemap\Event\SitemapEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Request;
-
+use Thelia\Core\HttpFoundation\Request;
 
 class SeoListener implements EventSubscriberInterface
 {
@@ -28,25 +28,45 @@ class SeoListener implements EventSubscriberInterface
         $this->request = $request;
     }
 
-    /**
-     * @param CanonicalUrlEvent $event
-     */
+
     public function generateCanonical(CanonicalUrlEvent $event)
     {
-        $BetterSeoObject = $this->getBetterSeoObject();
-        if (null !== $BetterSeoObject){
-            if (null !== $BetterSeoObject->getCanonicalField()){
-                $event->setUrl($BetterSeoObject->getCanonicalField());
+        $objectType = $this->request->get('_view');
+        $objectId = $this->request->get($objectType.'_id');
+
+        $betterSeoObject = $this->getBetterSeoObject($objectType, $objectId);
+
+        if (null !== $betterSeoObject){
+            if (null !== $betterSeoObject->getCanonicalField()){
+                $event->setUrl($betterSeoObject->getCanonicalField());
             }
         }
     }
 
     public function removeHrefLang(AlternateHreflangEvent $event)
     {
-        $BetterSeoObject = $this->getBetterSeoObject();
-        if (null !== $BetterSeoObject){
-            if (null !== $BetterSeoObject->getCanonicalField()){
+        $objectType = $this->request->get('_view');
+        $objectId = $this->request->get($objectType.'_id');
+
+        $betterSeoObject = $this->getBetterSeoObject($objectType, $objectId);
+
+        if (null !== $betterSeoObject){
+            if (null !== $betterSeoObject->getCanonicalField()){
                 $event->setUrl(null);
+            }
+        }
+    }
+
+    public function checkSiteMap(SitemapEvent $event)
+    {
+        $objectId = $event->getRewritingUrl()->getViewId();
+        $objectType = $event->getRewritingUrl()->getView();
+
+        $betterSeoObject = $this->getBetterSeoObject($objectType, $objectId);
+
+        if (null !== $betterSeoObject){
+            if ($betterSeoObject->getNoindex() === 1){
+                $event->setHide(true);
             }
         }
     }
@@ -56,40 +76,31 @@ class SeoListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [
-            CanonicalUrlEvents::GENERATE_CANONICAL => ['generateCanonical', 128],
-            AlternateHreflangEvent::BASE_EVENT_NAME => ['removeHrefLang',128]
-        ];
+        $events = [];
+        if (class_exists('Sitemap\Event\SitemapEvent')){
+            $events[SitemapEvent::SITEMAP_EVENT] = ['checkSiteMap',128];
+        }
+        if (class_exists('AlternateHreflang\Event\AlternateHreflangEvent')){
+            $events[AlternateHreflangEvent::BASE_EVENT_NAME] = ['removeHrefLang',128];
+        }
+        if (class_exists('CanonicalUrl\Event\CanonicalUrlEvents')){
+            $events[CanonicalUrlEvents::GENERATE_CANONICAL] = ['generateCanonical', 128];
+        }
+        return $events;
     }
 
-    protected function getBetterSeoObject()
+    protected function getBetterSeoObject($objectType, $objectId)
     {
-        $objectType = $this->request->get('_view');
-        $objectId = null;
+        $lang = $this->request->getSession()->getLang()->getLocale();
 
-        switch ($objectType){
-            case 'product':
-                $objectId = $this->request->get('product_id');
-                break;
-            case 'category':
-                $objectId = $this->request->get('category_id');
-                break;
-            case 'brand':
-                $objectId = $this->request->get('brand_id');
-                break;
-            case 'folder':
-                $objectId = $this->request->get('folder_id');
-                break;
-            case 'content':
-                $objectId = $this->request->get('content_id');
-                break;
-        }
-
-        $seoObject = SeoNoindexQuery::create()
+        $betterSeoObject = BetterSeoQuery::create()
             ->filterByObjectType($objectType)
             ->filterByObjectId($objectId)
             ->findOne();
+        if (null !== $betterSeoObject){
+            $betterSeoObject->setLocale($lang);
+        }
 
-        return $seoObject;
+        return $betterSeoObject;
     }
 }

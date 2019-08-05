@@ -2,11 +2,11 @@
 
 namespace BetterSeo\Model;
 
-use BetterSeo\Model\Base\SeoNoindexQuery as BaseSeoNoindexQuery;
+use BetterSeo\Model\Base\BetterSeoQuery as BaseBetterSeoQuery;
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'seo_noindex' table.
+ * Skeleton subclass for performing query and update operations on the 'better_seo' table.
  *
  *
  *
@@ -15,7 +15,7 @@ use BetterSeo\Model\Base\SeoNoindexQuery as BaseSeoNoindexQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class SeoNoindexQuery extends BaseSeoNoindexQuery
+class BetterSeoQuery extends BaseBetterSeoQuery
 {
 
-} // SeoNoindexQuery
+} // BetterSeoQuery

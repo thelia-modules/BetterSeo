@@ -1,64 +1,89 @@
 {$pageUrl}
 {loop type="better_seo_loop" name="better_seo_data" object_id=$object_id object_type=$object_type lang_id=$edit_language_id}
-    {$noindex_val = $NOINDEX}
-    {$nofollow_val = $NOFOLLOW}
-    {$canonical_val = $CANONICAL}
+{$noindex_val = $NOINDEX}
+{$nofollow_val = $NOFOLLOW}
+{$canonical_val = $CANONICAL}
+{$h1 = $H1}
 {/loop}
 {form name = "betterseo_form"}
-<form method="POST" action="{url path="/admin/module/betterseo/save" object_id=$object_id object_type=$object_type lang_id=$edit_language_id}">
-    {form_hidden_fields form=$form}
-    {if $form_error}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="alert alert-danger">{$form_error_message}</div>
-        </div>
-    </div>
-    {/if}
-    <label>{intl l="label.noindex" d="betterseo.bo.default"}</label>
-    {form_field  field="noindex_checkbox"}
-    <div class="{if $error} has-error{/if}">
-        <input id="{$label_attr.for}" type="checkbox" name="{$name}" value="1" {if $noindex_val == 1} checked {/if}/>
-        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
-        {if $error}
-        <div class="text-danger">
-            {$message}
-        </div>
-        {/if}
-    </div>
-    {/form_field}
+    <form method="POST" action="{url path="/admin/module/betterseo/save" object_id=$object_id object_type=$object_type lang_id=$edit_language_id}">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <label>{intl l="label.noindex" d="betterseo.bo.default"}</label>
+            </div>
+            <div class="panel-body">
 
-    {form_field  field="nofollow_checkbox"}
-    <div class="{if $error} has-error{/if}">
-        <input id="{$label_attr.for}" type="checkbox" name="{$name}" value="1" {if $nofollow_val == 1} checked {/if}/>
-        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
-        {if $error}
-        <div class="text-danger">
-            {$message}
-        </div>
-        {/if}
-    </div>
-    {/form_field}
-    <div class="help-block">
-        {intl l="noindex_nofollow.help" d="betterseo.bo.default"}
-    </div>
+                {form_hidden_fields form=$form}
+                {if $form_error}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger">{$form_error_message}</div>
+                        </div>
+                    </div>
+                {/if}
+                {form_field  field="noindex_checkbox"}
+                    <div class="{if $error} has-error{/if}">
+                        <input id="{$label_attr.for}" type="checkbox" name="{$name}" value="1" {if $noindex_val == 1} checked {/if}/>
+                        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
+                        {if $error}
+                            <div class="text-danger">
+                                {$message}
+                            </div>
+                        {/if}
+                    </div>
+                {/form_field}
 
-    {form_field  field="canonical_url"}
-    <div class="{if $error} has-error{/if}">
-        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
-        <input type="url" id="{$label_attr.for}"  class="form-control" name="{$name}" pattern="http://.*|https://.*" value="{$canonical_val}"/>
-        {if $error}
-        <div class="text-danger">
-            {$message}
-        </div>
-        {/if}
-    </div>
-    <div class="help-block">
-        {intl l="canonical.help" d="betterseo.bo.default"}
-    </div>
-    {/form_field}
+                {form_field  field="nofollow_checkbox"}
+                    <div class="{if $error} has-error{/if}">
+                        <input id="{$label_attr.for}" type="checkbox" name="{$name}" value="1" {if $nofollow_val == 1} checked {/if}/>
+                        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
+                        {if $error}
+                            <div class="text-danger">
+                                {$message}
+                            </div>
+                        {/if}
+                    </div>
+                {/form_field}
+                <div class="help-block">
+                    {intl l="noindex_nofollow.help" d="betterseo.bo.default"}
+                </div>
 
-    <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success">
-        {intl l='Save'} <span class="glyphicon glyphicon-ok"></span>
-    </button>
-</form>
+                {form_field  field="canonical_url"}
+                    <div class="{if $error} has-error{/if}">
+                        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
+                        <input type="url" id="{$label_attr.for}"  class="form-control" name="{$name}" pattern="http://.*|https://.*" value="{$canonical_val}"/>
+                        {if $error}
+                            <div class="text-danger">
+                                {$message}
+                            </div>
+                        {/if}
+                    </div>
+                    <div class="help-block">
+                        {intl l="canonical.help" d="betterseo.bo.default"}
+                    </div>
+                {/form_field}
+
+                {form_field  field="h1"}
+                    <div class="{if $error} has-error{/if}">
+                        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
+                        <input type="text" id="{$label_attr.for}"  class="form-control" name="{$name}" value="{$h1}"/>
+                        {if $error}
+                            <div class="text-danger">
+                                {$message}
+                            </div>
+                        {/if}
+                    </div>
+                {/form_field}
+
+
+            </div>
+            <div class="panel-body text-right">
+                <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success">
+                    {intl l='Save'} <span class="glyphicon glyphicon-ok"></span>
+                </button>
+
+            </div>
+        </div>
+    </form>
+
 {/form}

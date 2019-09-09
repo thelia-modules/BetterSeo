@@ -7,6 +7,7 @@ return array(
 
     'canonical.help' => 'Permet d\'indiquer une autre page de votre site comme étant l\'url référente et éviter le duplicate content. Ainsi la page indiquée sera priorisée pour les moteurs de recherche, et votre page actuelle sera considérée comme une URL de second rang au profit de l\'URL canonique. Pour renseigner l\'URL canonique veuillez mettre l\'URL complète (avec HTTP ou HTTPS selon les cas).',
 
-    'label.noindex' => 'Gestion de la meta robots noindex, nofollow :',
+    'label.noindex' => 'Gestion de la meta robots noindex, nofollow, canonical et de la balise H1 :',
     'canonical' => 'Url Canonique',
+    'h1' => 'H1',
 );

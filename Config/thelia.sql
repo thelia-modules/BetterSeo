@@ -30,6 +30,7 @@ CREATE TABLE `better_seo_i18n`
     `noindex` TINYINT(4) DEFAULT 0 NOT NULL,
     `nofollow` TINYINT(4) DEFAULT 0 NOT NULL,
     `canonical_field` TEXT,
+    `h1` TEXT,
     PRIMARY KEY (`id`,`locale`),
     CONSTRAINT `better_seo_i18n_FK_1`
         FOREIGN KEY (`id`)

@@ -4,38 +4,27 @@
         xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_2.xsd">
     <fullnamespace>BetterSeo\BetterSeo</fullnamespace>
     <descriptive locale="en_US">
-        <title>Set noindex tag on pages</title>
-        <!--
-        <subtitle></subtitle>
-        <description></description>
-        <postscriptum></postscriptum>
-        -->
+        <title>Set noindex, nofollow, h1, canonical tag on pages</title>
     </descriptive>
     <descriptive locale="fr_FR">
-        <title>Ajoute la balise noindex sur les pages</title>
+        <title>Ajoute la balise noindex, nofollow, h1, canonical sur les pages</title>
     </descriptive>
-    <!-- <logo></logo> -->
-    <!--<images-folder>images</images-folder>-->
     <languages>
         <language>en_US</language>
         <language>fr_FR</language>
     </languages>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <authors>
         <author>
             <name>Nicolas Barbey</name>
             <email>nabrbey@openstudio.fr</email>
         </author>
+        <author>
+            <name>Gilles Bourgeat</name>
+            <email>gilles.bourgeat@gmail.com</email>
+        </author>
     </authors>
     <type>classic</type>
-    <!--
-    module dependencies
-    <required>
-        <module version="&gt;=0.1">Front</module>
-        <module version="~1.0">HookCart</module>
-        <module version="&gt;0.2">HookSearch</module>
-    </required>
-    -->
     <thelia>2.2.0</thelia>
     <stability>other</stability>
     <mandatory>0</mandatory>

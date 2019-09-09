@@ -12,24 +12,10 @@
 
 namespace BetterSeo;
 
-
-
-use BetterSeo\Model\BetterSeo as BetterSeoModel;
 use BetterSeo\Model\BetterSeoQuery;
 use Propel\Runtime\Connection\ConnectionInterface;
+use Symfony\Component\Finder\Finder;
 use Thelia\Install\Database;
-use Thelia\Model\Brand;
-use Thelia\Model\BrandQuery;
-use Thelia\Model\Category;
-use Thelia\Model\CategoryQuery;
-use Thelia\Model\Content;
-use Thelia\Model\ContentQuery;
-use Thelia\Model\Folder;
-use Thelia\Model\FolderQuery;
-use Thelia\Model\Lang;
-use Thelia\Model\LangQuery;
-use Thelia\Model\Product;
-use Thelia\Model\ProductQuery;
 use Thelia\Module\BaseModule;
 
 class BetterSeo extends BaseModule
@@ -43,11 +29,38 @@ class BetterSeo extends BaseModule
      */
     public function postActivation(ConnectionInterface $con = null)
     {
-        try{
-           BetterSeoQuery::create()->findOne();
-        }catch(\Exception $e){
+        try {
+            BetterSeoQuery::create()->findOne();
+        } catch (\Exception $e) {
             $database = new Database($con);
-            $database->insertSql(null,[__DIR__ . "/Config/thelia.sql"]);
+            $database->insertSql(null, [__DIR__ . "/Config/thelia.sql"]);
+        }
+    }
+
+    public function update($currentVersion, $newVersion, ConnectionInterface $con = null)
+    {
+        $sqlToExecute = [];
+        $finder = new Finder();
+        $sort = function (\SplFileInfo $a, \SplFileInfo $b) {
+            $a = strtolower(substr($a->getRelativePathname(), 0, -4));
+            $b = strtolower(substr($b->getRelativePathname(), 0, -4));
+            return version_compare($a, $b);
+        };
+
+        $files = $finder->name('*.sql')
+            ->in(__DIR__ ."/Config/Update/")
+            ->sort($sort);
+
+        foreach ($files as $file) {
+            if (version_compare($file->getFilename(), $currentVersion, ">")) {
+                $sqlToExecute[$file->getFilename()] = $file->getRealPath();
+            }
+        }
+
+        $database = new Database($con);
+
+        foreach ($sqlToExecute as $version => $sql) {
+            $database->insertSql(null, [$sql]);
         }
     }
 }

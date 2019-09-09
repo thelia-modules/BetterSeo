@@ -1,6 +1,6 @@
 # Better Seo
 
-Add Noindex checkbox and Canonical Url field in the Seo tab in back
+Add Noindex checkbox and Canonical Url, h& field in the Seo tab in back
 
 **For this module to work properly you need to install ```Sitemap``` module, ```AlternateHreflang``` module and ```CanonicalUrl``` module.**
 
@@ -16,7 +16,7 @@ Add Noindex checkbox and Canonical Url field in the Seo tab in back
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/better-seo-module:~1.0.3
+composer require thelia/better-seo-module:~1.1.0
 ```
 
 ## Loop
@@ -41,6 +41,7 @@ composer require thelia/better-seo-module:~1.0.3
 |$NOINDEX    | if the page of the object is index or not (value 0 or 1) |
 |$NOFOLLOW   | if the page of the object is follow or not (value 0 or 1) |
 |$CANONICAL    | Canonical Url |
+|$H1    | H1 |
 
 ### Exemple
 

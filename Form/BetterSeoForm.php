@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicolasbarbey
- * Date: 25/07/2019
- * Time: 15:56
- */
 
 namespace BetterSeo\Form;
 
-
 use BetterSeo\BetterSeo;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 
@@ -34,7 +26,8 @@ class BetterSeoForm extends BaseForm
                     'label_attr' => array(
                         'for' => 'noindex_checkbox'
                     )
-                ))
+                )
+            )
             ->add(
                 'nofollow_checkbox',
                 'integer',
@@ -48,7 +41,8 @@ class BetterSeoForm extends BaseForm
                     'label_attr' => array(
                         'for' => 'nofollow_checkbox'
                     )
-                ))
+                )
+            )
             ->add(
                 'canonical_url',
                 'url',
@@ -63,21 +57,26 @@ class BetterSeoForm extends BaseForm
                         'for' => 'canonical_url'
                     )
                 )
+            )
+            ->add(
+                'h1',
+                'text',
+                array(
+                    'required' => false,
+                    'label' => Translator::getInstance()->trans(
+                        'h1',
+                        array(),
+                        BetterSeo::DOMAIN_NAME
+                    ),
+                    'label_attr' => array(
+                        'for' => 'h1'
+                    )
+                )
             );
     }
-
-    /*public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-           'object_id' => null,
-           'object_type' => null
-        ));
-    }*/
 
     public function getName()
     {
         return 'betterseo_form';
     }
-
-
 }

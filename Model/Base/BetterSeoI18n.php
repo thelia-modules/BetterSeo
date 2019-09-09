@@ -87,6 +87,12 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
     protected $canonical_field;
 
     /**
+     * The value for the h1 field.
+     * @var        string
+     */
+    protected $h1;
+
+    /**
      * @var        BetterSeo
      */
     protected $aBetterSeo;
@@ -428,6 +434,17 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
     }
 
     /**
+     * Get the [h1] column value.
+     *
+     * @return   string
+     */
+    public function getH1()
+    {
+
+        return $this->h1;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
@@ -537,6 +554,27 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
     } // setCanonicalField()
 
     /**
+     * Set the value of [h1] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setH1($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->h1 !== $v) {
+            $this->h1 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::H1] = true;
+        }
+
+
+        return $this;
+    } // setH1()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -599,6 +637,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : BetterSeoI18nTableMap::translateFieldName('CanonicalField', TableMap::TYPE_PHPNAME, $indexType)];
             $this->canonical_field = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : BetterSeoI18nTableMap::translateFieldName('H1', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->h1 = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -607,7 +648,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = BetterSeoI18nTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = BetterSeoI18nTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \BetterSeo\Model\BetterSeoI18n object", 0, $e);
@@ -843,6 +884,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         if ($this->isColumnModified(BetterSeoI18nTableMap::CANONICAL_FIELD)) {
             $modifiedColumns[':p' . $index++]  = 'CANONICAL_FIELD';
         }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::H1)) {
+            $modifiedColumns[':p' . $index++]  = 'H1';
+        }
 
         $sql = sprintf(
             'INSERT INTO better_seo_i18n (%s) VALUES (%s)',
@@ -868,6 +912,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
                         break;
                     case 'CANONICAL_FIELD':
                         $stmt->bindValue($identifier, $this->canonical_field, PDO::PARAM_STR);
+                        break;
+                    case 'H1':
+                        $stmt->bindValue($identifier, $this->h1, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -939,6 +986,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
             case 4:
                 return $this->getCanonicalField();
                 break;
+            case 5:
+                return $this->getH1();
+                break;
             default:
                 return null;
                 break;
@@ -973,6 +1023,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
             $keys[2] => $this->getNoindex(),
             $keys[3] => $this->getNofollow(),
             $keys[4] => $this->getCanonicalField(),
+            $keys[5] => $this->getH1(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1032,6 +1083,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
             case 4:
                 $this->setCanonicalField($value);
                 break;
+            case 5:
+                $this->setH1($value);
+                break;
         } // switch()
     }
 
@@ -1061,6 +1115,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         if (array_key_exists($keys[2], $arr)) $this->setNoindex($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setNofollow($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setCanonicalField($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setH1($arr[$keys[5]]);
     }
 
     /**
@@ -1077,6 +1132,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         if ($this->isColumnModified(BetterSeoI18nTableMap::NOINDEX)) $criteria->add(BetterSeoI18nTableMap::NOINDEX, $this->noindex);
         if ($this->isColumnModified(BetterSeoI18nTableMap::NOFOLLOW)) $criteria->add(BetterSeoI18nTableMap::NOFOLLOW, $this->nofollow);
         if ($this->isColumnModified(BetterSeoI18nTableMap::CANONICAL_FIELD)) $criteria->add(BetterSeoI18nTableMap::CANONICAL_FIELD, $this->canonical_field);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::H1)) $criteria->add(BetterSeoI18nTableMap::H1, $this->h1);
 
         return $criteria;
     }
@@ -1152,6 +1208,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         $copyObj->setNoindex($this->getNoindex());
         $copyObj->setNofollow($this->getNofollow());
         $copyObj->setCanonicalField($this->getCanonicalField());
+        $copyObj->setH1($this->getH1());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1240,6 +1297,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         $this->noindex = null;
         $this->nofollow = null;
         $this->canonical_field = null;
+        $this->h1 = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();

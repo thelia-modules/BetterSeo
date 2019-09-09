@@ -58,7 +58,7 @@ class BetterSeoI18nTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class BetterSeoI18nTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the ID field
@@ -96,6 +96,11 @@ class BetterSeoI18nTableMap extends TableMap
     const CANONICAL_FIELD = 'better_seo_i18n.CANONICAL_FIELD';
 
     /**
+     * the column name for the H1 field
+     */
+    const H1 = 'better_seo_i18n.H1';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -107,12 +112,12 @@ class BetterSeoI18nTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Locale', 'Noindex', 'Nofollow', 'CanonicalField', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'locale', 'noindex', 'nofollow', 'canonicalField', ),
-        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID, BetterSeoI18nTableMap::LOCALE, BetterSeoI18nTableMap::NOINDEX, BetterSeoI18nTableMap::NOFOLLOW, BetterSeoI18nTableMap::CANONICAL_FIELD, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'LOCALE', 'NOINDEX', 'NOFOLLOW', 'CANONICAL_FIELD', ),
-        self::TYPE_FIELDNAME     => array('id', 'locale', 'noindex', 'nofollow', 'canonical_field', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id', 'Locale', 'Noindex', 'Nofollow', 'CanonicalField', 'H1', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'locale', 'noindex', 'nofollow', 'canonicalField', 'h1', ),
+        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID, BetterSeoI18nTableMap::LOCALE, BetterSeoI18nTableMap::NOINDEX, BetterSeoI18nTableMap::NOFOLLOW, BetterSeoI18nTableMap::CANONICAL_FIELD, BetterSeoI18nTableMap::H1, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'LOCALE', 'NOINDEX', 'NOFOLLOW', 'CANONICAL_FIELD', 'H1', ),
+        self::TYPE_FIELDNAME     => array('id', 'locale', 'noindex', 'nofollow', 'canonical_field', 'h1', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -122,12 +127,12 @@ class BetterSeoI18nTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Locale' => 1, 'Noindex' => 2, 'Nofollow' => 3, 'CanonicalField' => 4, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonicalField' => 4, ),
-        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID => 0, BetterSeoI18nTableMap::LOCALE => 1, BetterSeoI18nTableMap::NOINDEX => 2, BetterSeoI18nTableMap::NOFOLLOW => 3, BetterSeoI18nTableMap::CANONICAL_FIELD => 4, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'LOCALE' => 1, 'NOINDEX' => 2, 'NOFOLLOW' => 3, 'CANONICAL_FIELD' => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonical_field' => 4, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Locale' => 1, 'Noindex' => 2, 'Nofollow' => 3, 'CanonicalField' => 4, 'H1' => 5, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonicalField' => 4, 'h1' => 5, ),
+        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID => 0, BetterSeoI18nTableMap::LOCALE => 1, BetterSeoI18nTableMap::NOINDEX => 2, BetterSeoI18nTableMap::NOFOLLOW => 3, BetterSeoI18nTableMap::CANONICAL_FIELD => 4, BetterSeoI18nTableMap::H1 => 5, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'LOCALE' => 1, 'NOINDEX' => 2, 'NOFOLLOW' => 3, 'CANONICAL_FIELD' => 4, 'H1' => 5, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonical_field' => 4, 'h1' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -151,6 +156,7 @@ class BetterSeoI18nTableMap extends TableMap
         $this->addColumn('NOINDEX', 'Noindex', 'TINYINT', true, 4, 0);
         $this->addColumn('NOFOLLOW', 'Nofollow', 'TINYINT', true, 4, 0);
         $this->addColumn('CANONICAL_FIELD', 'CanonicalField', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('H1', 'H1', 'LONGVARCHAR', false, null, null);
     } // initialize()
 
     /**
@@ -353,12 +359,14 @@ class BetterSeoI18nTableMap extends TableMap
             $criteria->addSelectColumn(BetterSeoI18nTableMap::NOINDEX);
             $criteria->addSelectColumn(BetterSeoI18nTableMap::NOFOLLOW);
             $criteria->addSelectColumn(BetterSeoI18nTableMap::CANONICAL_FIELD);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::H1);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.LOCALE');
             $criteria->addSelectColumn($alias . '.NOINDEX');
             $criteria->addSelectColumn($alias . '.NOFOLLOW');
             $criteria->addSelectColumn($alias . '.CANONICAL_FIELD');
+            $criteria->addSelectColumn($alias . '.H1');
         }
     }
 

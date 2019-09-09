@@ -26,12 +26,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBetterSeoI18nQuery orderByNoindex($order = Criteria::ASC) Order by the noindex column
  * @method     ChildBetterSeoI18nQuery orderByNofollow($order = Criteria::ASC) Order by the nofollow column
  * @method     ChildBetterSeoI18nQuery orderByCanonicalField($order = Criteria::ASC) Order by the canonical_field column
+ * @method     ChildBetterSeoI18nQuery orderByH1($order = Criteria::ASC) Order by the h1 column
  *
  * @method     ChildBetterSeoI18nQuery groupById() Group by the id column
  * @method     ChildBetterSeoI18nQuery groupByLocale() Group by the locale column
  * @method     ChildBetterSeoI18nQuery groupByNoindex() Group by the noindex column
  * @method     ChildBetterSeoI18nQuery groupByNofollow() Group by the nofollow column
  * @method     ChildBetterSeoI18nQuery groupByCanonicalField() Group by the canonical_field column
+ * @method     ChildBetterSeoI18nQuery groupByH1() Group by the h1 column
  *
  * @method     ChildBetterSeoI18nQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildBetterSeoI18nQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -49,12 +51,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBetterSeoI18n findOneByNoindex(int $noindex) Return the first ChildBetterSeoI18n filtered by the noindex column
  * @method     ChildBetterSeoI18n findOneByNofollow(int $nofollow) Return the first ChildBetterSeoI18n filtered by the nofollow column
  * @method     ChildBetterSeoI18n findOneByCanonicalField(string $canonical_field) Return the first ChildBetterSeoI18n filtered by the canonical_field column
+ * @method     ChildBetterSeoI18n findOneByH1(string $h1) Return the first ChildBetterSeoI18n filtered by the h1 column
  *
  * @method     array findById(int $id) Return ChildBetterSeoI18n objects filtered by the id column
  * @method     array findByLocale(string $locale) Return ChildBetterSeoI18n objects filtered by the locale column
  * @method     array findByNoindex(int $noindex) Return ChildBetterSeoI18n objects filtered by the noindex column
  * @method     array findByNofollow(int $nofollow) Return ChildBetterSeoI18n objects filtered by the nofollow column
  * @method     array findByCanonicalField(string $canonical_field) Return ChildBetterSeoI18n objects filtered by the canonical_field column
+ * @method     array findByH1(string $h1) Return ChildBetterSeoI18n objects filtered by the h1 column
  *
  */
 abstract class BetterSeoI18nQuery extends ModelCriteria
@@ -143,7 +147,7 @@ abstract class BetterSeoI18nQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, LOCALE, NOINDEX, NOFOLLOW, CANONICAL_FIELD FROM better_seo_i18n WHERE ID = :p0 AND LOCALE = :p1';
+        $sql = 'SELECT ID, LOCALE, NOINDEX, NOFOLLOW, CANONICAL_FIELD, H1 FROM better_seo_i18n WHERE ID = :p0 AND LOCALE = :p1';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -425,6 +429,35 @@ abstract class BetterSeoI18nQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BetterSeoI18nTableMap::CANONICAL_FIELD, $canonicalField, $comparison);
+    }
+
+    /**
+     * Filter the query on the h1 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByH1('fooValue');   // WHERE h1 = 'fooValue'
+     * $query->filterByH1('%fooValue%'); // WHERE h1 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $h1 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByH1($h1 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($h1)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $h1)) {
+                $h1 = str_replace('*', '%', $h1);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::H1, $h1, $comparison);
     }
 
     /**

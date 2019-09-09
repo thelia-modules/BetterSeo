@@ -7,7 +7,7 @@ return array(
 
     'canonical.help' => 'Allows you to specify another page of your site as the referring url and avoid the duplicate content. Thus the page indicated will be prioritized for the search engines, and your current page will be considered as a second-rate URL in favor of the canonical URL. To contribute the canonical URL please put the complete URL (with HTTP or HTTPS as appropriate).',
 
-    'label.noindex' => 'Management of the meta robots noindex, nofollow',
+    'label.noindex' => 'Management of the meta robots noindex, nofollow, canonical and h1 tag',
     'canonical' => 'Canonical Url',
-
+    'h1' => 'H1',
 );

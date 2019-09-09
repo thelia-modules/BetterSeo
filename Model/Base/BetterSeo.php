@@ -1538,6 +1538,30 @@ abstract class BetterSeo implements ActiveRecordInterface
         return $this;
     }
 
+
+        /**
+         * Get the [h1] column value.
+         *
+         * @return   string
+         */
+        public function getH1()
+        {
+        return $this->getCurrentTranslation()->getH1();
+    }
+
+
+        /**
+         * Set the value of [h1] column.
+         *
+         * @param      string $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setH1($v)
+        {    $this->getCurrentTranslation()->setH1($v);
+
+        return $this;
+    }
+
     /**
      * Code to be run before persisting the object
      * @param  ConnectionInterface $con

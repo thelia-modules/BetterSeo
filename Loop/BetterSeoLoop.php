@@ -1,19 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicolasbarbey
- * Date: 26/07/2019
- * Time: 15:52
- */
 
 namespace BetterSeo\Loop;
-
-
 
 use BetterSeo\Model\BetterSeo;
 use BetterSeo\Model\BetterSeoQuery;
 use BetterSeo\Model\Map\BetterSeoI18nTableMap;
-use BetterSeo\Model\Map\BetterSeoTableMap;
 use Thelia\Core\Template\Element\BaseI18nLoop;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
@@ -52,7 +43,8 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
             ->endUse()
             ->withColumn(BetterSeoI18nTableMap::NOINDEX, 'noindex')
             ->withColumn(BetterSeoI18nTableMap::NOFOLLOW, 'nofollow')
-            ->withColumn(BetterSeoI18nTableMap::CANONICAL_FIELD, 'canonical');
+            ->withColumn(BetterSeoI18nTableMap::CANONICAL_FIELD, 'canonical')
+            ->withColumn(BetterSeoI18nTableMap::H1, 'h1');
 
         return $query;
     }
@@ -65,7 +57,7 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
     public function parseResults(LoopResult $loopResult)
     {
         /** @var BetterSeo $data */
-        foreach ($loopResult->getResultDataCollection() as $data){
+        foreach ($loopResult->getResultDataCollection() as $data) {
             $loopResultRow = new LoopResultRow($data);
 
             $loopResultRow->set('ID', $data->getId());
@@ -74,6 +66,7 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
             $loopResultRow->set('NOINDEX', $data->getVirtualColumn('noindex'));
             $loopResultRow->set('NOFOLLOW', $data->getVirtualColumn('nofollow'));
             $loopResultRow->set('CANONICAL', $data->getVirtualColumn('canonical'));
+            $loopResultRow->set('H1', $data->getVirtualColumn('h1'));
 
             $loopResult->addRow($loopResultRow);
         }

@@ -1,6 +1,6 @@
 # Better Seo
 
-Add Noindex checkbox and Canonical Url, h& field in the Seo tab in back
+Add Noindex checkbox and Canonical Url, h1 field and manage mesh links, in the Seo tab in back
 
 **For this module to work properly you need to install ```Sitemap``` module, ```AlternateHreflang``` module and ```CanonicalUrl``` module.**
 
@@ -16,7 +16,7 @@ Add Noindex checkbox and Canonical Url, h& field in the Seo tab in back
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/better-seo-module:~1.1.0
+composer require thelia/better-seo-module:~1.2.0
 ```
 
 ## Loop
@@ -42,6 +42,16 @@ composer require thelia/better-seo-module:~1.1.0
 |$NOFOLLOW   | if the page of the object is follow or not (value 0 or 1) |
 |$CANONICAL    | Canonical Url |
 |$H1    | H1 |
+|$MESH_TEXT_1    | mesh text 1 |
+|$MESH_URL_1    | mesh url 1 |
+|$MESH_TEXT_2    | mesh text 2 |
+|$MESH_URL_2    | mesh url 2 |
+|$MESH_TEXT_3    | mesh text 3 |
+|$MESH_URL_3    | mesh url 3 |
+|$MESH_TEXT_4    | mesh text 4 |
+|$MESH_URL_4    | mesh url 4 |
+|$MESH_TEXT_5    | mesh text 5 |
+|$MESH_URL_5    | mesh url 5 |
 
 ### Exemple
 

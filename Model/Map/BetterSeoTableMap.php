@@ -167,7 +167,7 @@ class BetterSeoTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
-            'i18n' => array('i18n_table' => '%TABLE%_i18n', 'i18n_phpname' => '%PHPNAME%I18n', 'i18n_columns' => 'noindex, nofollow, canonical_field,h1', 'locale_column' => 'locale', 'locale_length' => '5', 'default_locale' => '', 'locale_alias' => '', ),
+            'i18n' => array('i18n_table' => '%TABLE%_i18n', 'i18n_phpname' => '%PHPNAME%I18n', 'i18n_columns' => 'noindex,                        nofollow,                        canonical_field,                        h1, mesh_text_1, mesh_url_1, mesh_text_2, mesh_url_2, mesh_text_3, mesh_url_3, mesh_text_4, mesh_url_4, mesh_text_5, mesh_url_5 ', 'locale_column' => 'locale', 'locale_length' => '5', 'default_locale' => '', 'locale_alias' => '', ),
         );
     } // getBehaviors()
     /**

@@ -73,6 +73,39 @@ class BetterSeoForm extends BaseForm
                     )
                 )
             );
+
+        for ($i = 1; $i <= 5; $i++) {
+            $form->add(
+                'mesh_text_' . $i,
+                'text',
+                array(
+                    'required' => false,
+                    'label' => Translator::getInstance()->trans(
+                        'text',
+                        array(),
+                        BetterSeo::DOMAIN_NAME
+                    ),
+                    'label_attr' => array(
+                        'for' => 'mesh_text_' . $i
+                    )
+                )
+            )
+            ->add(
+                'mesh_url_' . $i,
+                'url',
+                array(
+                    'required' => false,
+                    'label' => Translator::getInstance()->trans(
+                        'url',
+                        array(),
+                        BetterSeo::DOMAIN_NAME
+                    ),
+                    'label_attr' => array(
+                        'for' => 'mesh_url_' . $i
+                    )
+                )
+            );
+        }
     }
 
     public function getName()

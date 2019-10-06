@@ -27,6 +27,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBetterSeoI18nQuery orderByNofollow($order = Criteria::ASC) Order by the nofollow column
  * @method     ChildBetterSeoI18nQuery orderByCanonicalField($order = Criteria::ASC) Order by the canonical_field column
  * @method     ChildBetterSeoI18nQuery orderByH1($order = Criteria::ASC) Order by the h1 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshText1($order = Criteria::ASC) Order by the mesh_text_1 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshUrl1($order = Criteria::ASC) Order by the mesh_url_1 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshText2($order = Criteria::ASC) Order by the mesh_text_2 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshUrl2($order = Criteria::ASC) Order by the mesh_url_2 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshText3($order = Criteria::ASC) Order by the mesh_text_3 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshUrl3($order = Criteria::ASC) Order by the mesh_url_3 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshText4($order = Criteria::ASC) Order by the mesh_text_4 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshUrl4($order = Criteria::ASC) Order by the mesh_url_4 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshText5($order = Criteria::ASC) Order by the mesh_text_5 column
+ * @method     ChildBetterSeoI18nQuery orderByMeshUrl5($order = Criteria::ASC) Order by the mesh_url_5 column
  *
  * @method     ChildBetterSeoI18nQuery groupById() Group by the id column
  * @method     ChildBetterSeoI18nQuery groupByLocale() Group by the locale column
@@ -34,6 +44,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBetterSeoI18nQuery groupByNofollow() Group by the nofollow column
  * @method     ChildBetterSeoI18nQuery groupByCanonicalField() Group by the canonical_field column
  * @method     ChildBetterSeoI18nQuery groupByH1() Group by the h1 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshText1() Group by the mesh_text_1 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshUrl1() Group by the mesh_url_1 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshText2() Group by the mesh_text_2 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshUrl2() Group by the mesh_url_2 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshText3() Group by the mesh_text_3 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshUrl3() Group by the mesh_url_3 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshText4() Group by the mesh_text_4 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshUrl4() Group by the mesh_url_4 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshText5() Group by the mesh_text_5 column
+ * @method     ChildBetterSeoI18nQuery groupByMeshUrl5() Group by the mesh_url_5 column
  *
  * @method     ChildBetterSeoI18nQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildBetterSeoI18nQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -52,6 +72,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBetterSeoI18n findOneByNofollow(int $nofollow) Return the first ChildBetterSeoI18n filtered by the nofollow column
  * @method     ChildBetterSeoI18n findOneByCanonicalField(string $canonical_field) Return the first ChildBetterSeoI18n filtered by the canonical_field column
  * @method     ChildBetterSeoI18n findOneByH1(string $h1) Return the first ChildBetterSeoI18n filtered by the h1 column
+ * @method     ChildBetterSeoI18n findOneByMeshText1(string $mesh_text_1) Return the first ChildBetterSeoI18n filtered by the mesh_text_1 column
+ * @method     ChildBetterSeoI18n findOneByMeshUrl1(string $mesh_url_1) Return the first ChildBetterSeoI18n filtered by the mesh_url_1 column
+ * @method     ChildBetterSeoI18n findOneByMeshText2(string $mesh_text_2) Return the first ChildBetterSeoI18n filtered by the mesh_text_2 column
+ * @method     ChildBetterSeoI18n findOneByMeshUrl2(string $mesh_url_2) Return the first ChildBetterSeoI18n filtered by the mesh_url_2 column
+ * @method     ChildBetterSeoI18n findOneByMeshText3(string $mesh_text_3) Return the first ChildBetterSeoI18n filtered by the mesh_text_3 column
+ * @method     ChildBetterSeoI18n findOneByMeshUrl3(string $mesh_url_3) Return the first ChildBetterSeoI18n filtered by the mesh_url_3 column
+ * @method     ChildBetterSeoI18n findOneByMeshText4(string $mesh_text_4) Return the first ChildBetterSeoI18n filtered by the mesh_text_4 column
+ * @method     ChildBetterSeoI18n findOneByMeshUrl4(string $mesh_url_4) Return the first ChildBetterSeoI18n filtered by the mesh_url_4 column
+ * @method     ChildBetterSeoI18n findOneByMeshText5(string $mesh_text_5) Return the first ChildBetterSeoI18n filtered by the mesh_text_5 column
+ * @method     ChildBetterSeoI18n findOneByMeshUrl5(string $mesh_url_5) Return the first ChildBetterSeoI18n filtered by the mesh_url_5 column
  *
  * @method     array findById(int $id) Return ChildBetterSeoI18n objects filtered by the id column
  * @method     array findByLocale(string $locale) Return ChildBetterSeoI18n objects filtered by the locale column
@@ -59,6 +89,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByNofollow(int $nofollow) Return ChildBetterSeoI18n objects filtered by the nofollow column
  * @method     array findByCanonicalField(string $canonical_field) Return ChildBetterSeoI18n objects filtered by the canonical_field column
  * @method     array findByH1(string $h1) Return ChildBetterSeoI18n objects filtered by the h1 column
+ * @method     array findByMeshText1(string $mesh_text_1) Return ChildBetterSeoI18n objects filtered by the mesh_text_1 column
+ * @method     array findByMeshUrl1(string $mesh_url_1) Return ChildBetterSeoI18n objects filtered by the mesh_url_1 column
+ * @method     array findByMeshText2(string $mesh_text_2) Return ChildBetterSeoI18n objects filtered by the mesh_text_2 column
+ * @method     array findByMeshUrl2(string $mesh_url_2) Return ChildBetterSeoI18n objects filtered by the mesh_url_2 column
+ * @method     array findByMeshText3(string $mesh_text_3) Return ChildBetterSeoI18n objects filtered by the mesh_text_3 column
+ * @method     array findByMeshUrl3(string $mesh_url_3) Return ChildBetterSeoI18n objects filtered by the mesh_url_3 column
+ * @method     array findByMeshText4(string $mesh_text_4) Return ChildBetterSeoI18n objects filtered by the mesh_text_4 column
+ * @method     array findByMeshUrl4(string $mesh_url_4) Return ChildBetterSeoI18n objects filtered by the mesh_url_4 column
+ * @method     array findByMeshText5(string $mesh_text_5) Return ChildBetterSeoI18n objects filtered by the mesh_text_5 column
+ * @method     array findByMeshUrl5(string $mesh_url_5) Return ChildBetterSeoI18n objects filtered by the mesh_url_5 column
  *
  */
 abstract class BetterSeoI18nQuery extends ModelCriteria
@@ -147,7 +187,7 @@ abstract class BetterSeoI18nQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, LOCALE, NOINDEX, NOFOLLOW, CANONICAL_FIELD, H1 FROM better_seo_i18n WHERE ID = :p0 AND LOCALE = :p1';
+        $sql = 'SELECT ID, LOCALE, NOINDEX, NOFOLLOW, CANONICAL_FIELD, H1, MESH_TEXT_1, MESH_URL_1, MESH_TEXT_2, MESH_URL_2, MESH_TEXT_3, MESH_URL_3, MESH_TEXT_4, MESH_URL_4, MESH_TEXT_5, MESH_URL_5 FROM better_seo_i18n WHERE ID = :p0 AND LOCALE = :p1';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -458,6 +498,296 @@ abstract class BetterSeoI18nQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BetterSeoI18nTableMap::H1, $h1, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_text_1 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshText1('fooValue');   // WHERE mesh_text_1 = 'fooValue'
+     * $query->filterByMeshText1('%fooValue%'); // WHERE mesh_text_1 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshText1 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshText1($meshText1 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshText1)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshText1)) {
+                $meshText1 = str_replace('*', '%', $meshText1);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_TEXT_1, $meshText1, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_url_1 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshUrl1('fooValue');   // WHERE mesh_url_1 = 'fooValue'
+     * $query->filterByMeshUrl1('%fooValue%'); // WHERE mesh_url_1 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshUrl1 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshUrl1($meshUrl1 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshUrl1)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshUrl1)) {
+                $meshUrl1 = str_replace('*', '%', $meshUrl1);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_URL_1, $meshUrl1, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_text_2 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshText2('fooValue');   // WHERE mesh_text_2 = 'fooValue'
+     * $query->filterByMeshText2('%fooValue%'); // WHERE mesh_text_2 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshText2 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshText2($meshText2 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshText2)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshText2)) {
+                $meshText2 = str_replace('*', '%', $meshText2);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_TEXT_2, $meshText2, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_url_2 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshUrl2('fooValue');   // WHERE mesh_url_2 = 'fooValue'
+     * $query->filterByMeshUrl2('%fooValue%'); // WHERE mesh_url_2 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshUrl2 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshUrl2($meshUrl2 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshUrl2)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshUrl2)) {
+                $meshUrl2 = str_replace('*', '%', $meshUrl2);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_URL_2, $meshUrl2, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_text_3 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshText3('fooValue');   // WHERE mesh_text_3 = 'fooValue'
+     * $query->filterByMeshText3('%fooValue%'); // WHERE mesh_text_3 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshText3 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshText3($meshText3 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshText3)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshText3)) {
+                $meshText3 = str_replace('*', '%', $meshText3);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_TEXT_3, $meshText3, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_url_3 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshUrl3('fooValue');   // WHERE mesh_url_3 = 'fooValue'
+     * $query->filterByMeshUrl3('%fooValue%'); // WHERE mesh_url_3 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshUrl3 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshUrl3($meshUrl3 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshUrl3)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshUrl3)) {
+                $meshUrl3 = str_replace('*', '%', $meshUrl3);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_URL_3, $meshUrl3, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_text_4 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshText4('fooValue');   // WHERE mesh_text_4 = 'fooValue'
+     * $query->filterByMeshText4('%fooValue%'); // WHERE mesh_text_4 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshText4 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshText4($meshText4 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshText4)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshText4)) {
+                $meshText4 = str_replace('*', '%', $meshText4);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_TEXT_4, $meshText4, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_url_4 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshUrl4('fooValue');   // WHERE mesh_url_4 = 'fooValue'
+     * $query->filterByMeshUrl4('%fooValue%'); // WHERE mesh_url_4 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshUrl4 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshUrl4($meshUrl4 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshUrl4)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshUrl4)) {
+                $meshUrl4 = str_replace('*', '%', $meshUrl4);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_URL_4, $meshUrl4, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_text_5 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshText5('fooValue');   // WHERE mesh_text_5 = 'fooValue'
+     * $query->filterByMeshText5('%fooValue%'); // WHERE mesh_text_5 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshText5 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshText5($meshText5 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshText5)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshText5)) {
+                $meshText5 = str_replace('*', '%', $meshText5);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_TEXT_5, $meshText5, $comparison);
+    }
+
+    /**
+     * Filter the query on the mesh_url_5 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMeshUrl5('fooValue');   // WHERE mesh_url_5 = 'fooValue'
+     * $query->filterByMeshUrl5('%fooValue%'); // WHERE mesh_url_5 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $meshUrl5 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByMeshUrl5($meshUrl5 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($meshUrl5)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $meshUrl5)) {
+                $meshUrl5 = str_replace('*', '%', $meshUrl5);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_URL_5, $meshUrl5, $comparison);
     }
 
     /**

@@ -93,6 +93,66 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
     protected $h1;
 
     /**
+     * The value for the mesh_text_1 field.
+     * @var        string
+     */
+    protected $mesh_text_1;
+
+    /**
+     * The value for the mesh_url_1 field.
+     * @var        string
+     */
+    protected $mesh_url_1;
+
+    /**
+     * The value for the mesh_text_2 field.
+     * @var        string
+     */
+    protected $mesh_text_2;
+
+    /**
+     * The value for the mesh_url_2 field.
+     * @var        string
+     */
+    protected $mesh_url_2;
+
+    /**
+     * The value for the mesh_text_3 field.
+     * @var        string
+     */
+    protected $mesh_text_3;
+
+    /**
+     * The value for the mesh_url_3 field.
+     * @var        string
+     */
+    protected $mesh_url_3;
+
+    /**
+     * The value for the mesh_text_4 field.
+     * @var        string
+     */
+    protected $mesh_text_4;
+
+    /**
+     * The value for the mesh_url_4 field.
+     * @var        string
+     */
+    protected $mesh_url_4;
+
+    /**
+     * The value for the mesh_text_5 field.
+     * @var        string
+     */
+    protected $mesh_text_5;
+
+    /**
+     * The value for the mesh_url_5 field.
+     * @var        string
+     */
+    protected $mesh_url_5;
+
+    /**
      * @var        BetterSeo
      */
     protected $aBetterSeo;
@@ -445,6 +505,116 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
     }
 
     /**
+     * Get the [mesh_text_1] column value.
+     *
+     * @return   string
+     */
+    public function getMeshText1()
+    {
+
+        return $this->mesh_text_1;
+    }
+
+    /**
+     * Get the [mesh_url_1] column value.
+     *
+     * @return   string
+     */
+    public function getMeshUrl1()
+    {
+
+        return $this->mesh_url_1;
+    }
+
+    /**
+     * Get the [mesh_text_2] column value.
+     *
+     * @return   string
+     */
+    public function getMeshText2()
+    {
+
+        return $this->mesh_text_2;
+    }
+
+    /**
+     * Get the [mesh_url_2] column value.
+     *
+     * @return   string
+     */
+    public function getMeshUrl2()
+    {
+
+        return $this->mesh_url_2;
+    }
+
+    /**
+     * Get the [mesh_text_3] column value.
+     *
+     * @return   string
+     */
+    public function getMeshText3()
+    {
+
+        return $this->mesh_text_3;
+    }
+
+    /**
+     * Get the [mesh_url_3] column value.
+     *
+     * @return   string
+     */
+    public function getMeshUrl3()
+    {
+
+        return $this->mesh_url_3;
+    }
+
+    /**
+     * Get the [mesh_text_4] column value.
+     *
+     * @return   string
+     */
+    public function getMeshText4()
+    {
+
+        return $this->mesh_text_4;
+    }
+
+    /**
+     * Get the [mesh_url_4] column value.
+     *
+     * @return   string
+     */
+    public function getMeshUrl4()
+    {
+
+        return $this->mesh_url_4;
+    }
+
+    /**
+     * Get the [mesh_text_5] column value.
+     *
+     * @return   string
+     */
+    public function getMeshText5()
+    {
+
+        return $this->mesh_text_5;
+    }
+
+    /**
+     * Get the [mesh_url_5] column value.
+     *
+     * @return   string
+     */
+    public function getMeshUrl5()
+    {
+
+        return $this->mesh_url_5;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
@@ -575,6 +745,216 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
     } // setH1()
 
     /**
+     * Set the value of [mesh_text_1] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshText1($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_text_1 !== $v) {
+            $this->mesh_text_1 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_TEXT_1] = true;
+        }
+
+
+        return $this;
+    } // setMeshText1()
+
+    /**
+     * Set the value of [mesh_url_1] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshUrl1($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_url_1 !== $v) {
+            $this->mesh_url_1 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_URL_1] = true;
+        }
+
+
+        return $this;
+    } // setMeshUrl1()
+
+    /**
+     * Set the value of [mesh_text_2] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshText2($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_text_2 !== $v) {
+            $this->mesh_text_2 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_TEXT_2] = true;
+        }
+
+
+        return $this;
+    } // setMeshText2()
+
+    /**
+     * Set the value of [mesh_url_2] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshUrl2($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_url_2 !== $v) {
+            $this->mesh_url_2 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_URL_2] = true;
+        }
+
+
+        return $this;
+    } // setMeshUrl2()
+
+    /**
+     * Set the value of [mesh_text_3] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshText3($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_text_3 !== $v) {
+            $this->mesh_text_3 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_TEXT_3] = true;
+        }
+
+
+        return $this;
+    } // setMeshText3()
+
+    /**
+     * Set the value of [mesh_url_3] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshUrl3($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_url_3 !== $v) {
+            $this->mesh_url_3 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_URL_3] = true;
+        }
+
+
+        return $this;
+    } // setMeshUrl3()
+
+    /**
+     * Set the value of [mesh_text_4] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshText4($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_text_4 !== $v) {
+            $this->mesh_text_4 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_TEXT_4] = true;
+        }
+
+
+        return $this;
+    } // setMeshText4()
+
+    /**
+     * Set the value of [mesh_url_4] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshUrl4($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_url_4 !== $v) {
+            $this->mesh_url_4 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_URL_4] = true;
+        }
+
+
+        return $this;
+    } // setMeshUrl4()
+
+    /**
+     * Set the value of [mesh_text_5] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshText5($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_text_5 !== $v) {
+            $this->mesh_text_5 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_TEXT_5] = true;
+        }
+
+
+        return $this;
+    } // setMeshText5()
+
+    /**
+     * Set the value of [mesh_url_5] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setMeshUrl5($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mesh_url_5 !== $v) {
+            $this->mesh_url_5 = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::MESH_URL_5] = true;
+        }
+
+
+        return $this;
+    } // setMeshUrl5()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -640,6 +1020,36 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : BetterSeoI18nTableMap::translateFieldName('H1', TableMap::TYPE_PHPNAME, $indexType)];
             $this->h1 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshText1', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_text_1 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshUrl1', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_url_1 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshText2', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_text_2 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshUrl2', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_url_2 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshText3', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_text_3 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshUrl3', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_url_3 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshText4', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_text_4 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshUrl4', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_url_4 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshText5', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_text_5 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : BetterSeoI18nTableMap::translateFieldName('MeshUrl5', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mesh_url_5 = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -648,7 +1058,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = BetterSeoI18nTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 16; // 16 = BetterSeoI18nTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \BetterSeo\Model\BetterSeoI18n object", 0, $e);
@@ -887,6 +1297,36 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         if ($this->isColumnModified(BetterSeoI18nTableMap::H1)) {
             $modifiedColumns[':p' . $index++]  = 'H1';
         }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_1)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_TEXT_1';
+        }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_1)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_URL_1';
+        }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_2)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_TEXT_2';
+        }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_2)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_URL_2';
+        }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_3)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_TEXT_3';
+        }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_3)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_URL_3';
+        }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_4)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_TEXT_4';
+        }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_4)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_URL_4';
+        }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_5)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_TEXT_5';
+        }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_5)) {
+            $modifiedColumns[':p' . $index++]  = 'MESH_URL_5';
+        }
 
         $sql = sprintf(
             'INSERT INTO better_seo_i18n (%s) VALUES (%s)',
@@ -915,6 +1355,36 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
                         break;
                     case 'H1':
                         $stmt->bindValue($identifier, $this->h1, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_TEXT_1':
+                        $stmt->bindValue($identifier, $this->mesh_text_1, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_URL_1':
+                        $stmt->bindValue($identifier, $this->mesh_url_1, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_TEXT_2':
+                        $stmt->bindValue($identifier, $this->mesh_text_2, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_URL_2':
+                        $stmt->bindValue($identifier, $this->mesh_url_2, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_TEXT_3':
+                        $stmt->bindValue($identifier, $this->mesh_text_3, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_URL_3':
+                        $stmt->bindValue($identifier, $this->mesh_url_3, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_TEXT_4':
+                        $stmt->bindValue($identifier, $this->mesh_text_4, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_URL_4':
+                        $stmt->bindValue($identifier, $this->mesh_url_4, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_TEXT_5':
+                        $stmt->bindValue($identifier, $this->mesh_text_5, PDO::PARAM_STR);
+                        break;
+                    case 'MESH_URL_5':
+                        $stmt->bindValue($identifier, $this->mesh_url_5, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -989,6 +1459,36 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
             case 5:
                 return $this->getH1();
                 break;
+            case 6:
+                return $this->getMeshText1();
+                break;
+            case 7:
+                return $this->getMeshUrl1();
+                break;
+            case 8:
+                return $this->getMeshText2();
+                break;
+            case 9:
+                return $this->getMeshUrl2();
+                break;
+            case 10:
+                return $this->getMeshText3();
+                break;
+            case 11:
+                return $this->getMeshUrl3();
+                break;
+            case 12:
+                return $this->getMeshText4();
+                break;
+            case 13:
+                return $this->getMeshUrl4();
+                break;
+            case 14:
+                return $this->getMeshText5();
+                break;
+            case 15:
+                return $this->getMeshUrl5();
+                break;
             default:
                 return null;
                 break;
@@ -1024,6 +1524,16 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
             $keys[3] => $this->getNofollow(),
             $keys[4] => $this->getCanonicalField(),
             $keys[5] => $this->getH1(),
+            $keys[6] => $this->getMeshText1(),
+            $keys[7] => $this->getMeshUrl1(),
+            $keys[8] => $this->getMeshText2(),
+            $keys[9] => $this->getMeshUrl2(),
+            $keys[10] => $this->getMeshText3(),
+            $keys[11] => $this->getMeshUrl3(),
+            $keys[12] => $this->getMeshText4(),
+            $keys[13] => $this->getMeshUrl4(),
+            $keys[14] => $this->getMeshText5(),
+            $keys[15] => $this->getMeshUrl5(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1086,6 +1596,36 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
             case 5:
                 $this->setH1($value);
                 break;
+            case 6:
+                $this->setMeshText1($value);
+                break;
+            case 7:
+                $this->setMeshUrl1($value);
+                break;
+            case 8:
+                $this->setMeshText2($value);
+                break;
+            case 9:
+                $this->setMeshUrl2($value);
+                break;
+            case 10:
+                $this->setMeshText3($value);
+                break;
+            case 11:
+                $this->setMeshUrl3($value);
+                break;
+            case 12:
+                $this->setMeshText4($value);
+                break;
+            case 13:
+                $this->setMeshUrl4($value);
+                break;
+            case 14:
+                $this->setMeshText5($value);
+                break;
+            case 15:
+                $this->setMeshUrl5($value);
+                break;
         } // switch()
     }
 
@@ -1116,6 +1656,16 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         if (array_key_exists($keys[3], $arr)) $this->setNofollow($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setCanonicalField($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setH1($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setMeshText1($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setMeshUrl1($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setMeshText2($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setMeshUrl2($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setMeshText3($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setMeshUrl3($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setMeshText4($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setMeshUrl4($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setMeshText5($arr[$keys[14]]);
+        if (array_key_exists($keys[15], $arr)) $this->setMeshUrl5($arr[$keys[15]]);
     }
 
     /**
@@ -1133,6 +1683,16 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         if ($this->isColumnModified(BetterSeoI18nTableMap::NOFOLLOW)) $criteria->add(BetterSeoI18nTableMap::NOFOLLOW, $this->nofollow);
         if ($this->isColumnModified(BetterSeoI18nTableMap::CANONICAL_FIELD)) $criteria->add(BetterSeoI18nTableMap::CANONICAL_FIELD, $this->canonical_field);
         if ($this->isColumnModified(BetterSeoI18nTableMap::H1)) $criteria->add(BetterSeoI18nTableMap::H1, $this->h1);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_1)) $criteria->add(BetterSeoI18nTableMap::MESH_TEXT_1, $this->mesh_text_1);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_1)) $criteria->add(BetterSeoI18nTableMap::MESH_URL_1, $this->mesh_url_1);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_2)) $criteria->add(BetterSeoI18nTableMap::MESH_TEXT_2, $this->mesh_text_2);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_2)) $criteria->add(BetterSeoI18nTableMap::MESH_URL_2, $this->mesh_url_2);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_3)) $criteria->add(BetterSeoI18nTableMap::MESH_TEXT_3, $this->mesh_text_3);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_3)) $criteria->add(BetterSeoI18nTableMap::MESH_URL_3, $this->mesh_url_3);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_4)) $criteria->add(BetterSeoI18nTableMap::MESH_TEXT_4, $this->mesh_text_4);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_4)) $criteria->add(BetterSeoI18nTableMap::MESH_URL_4, $this->mesh_url_4);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_TEXT_5)) $criteria->add(BetterSeoI18nTableMap::MESH_TEXT_5, $this->mesh_text_5);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_URL_5)) $criteria->add(BetterSeoI18nTableMap::MESH_URL_5, $this->mesh_url_5);
 
         return $criteria;
     }
@@ -1209,6 +1769,16 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         $copyObj->setNofollow($this->getNofollow());
         $copyObj->setCanonicalField($this->getCanonicalField());
         $copyObj->setH1($this->getH1());
+        $copyObj->setMeshText1($this->getMeshText1());
+        $copyObj->setMeshUrl1($this->getMeshUrl1());
+        $copyObj->setMeshText2($this->getMeshText2());
+        $copyObj->setMeshUrl2($this->getMeshUrl2());
+        $copyObj->setMeshText3($this->getMeshText3());
+        $copyObj->setMeshUrl3($this->getMeshUrl3());
+        $copyObj->setMeshText4($this->getMeshText4());
+        $copyObj->setMeshUrl4($this->getMeshUrl4());
+        $copyObj->setMeshText5($this->getMeshText5());
+        $copyObj->setMeshUrl5($this->getMeshUrl5());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1298,6 +1868,16 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         $this->nofollow = null;
         $this->canonical_field = null;
         $this->h1 = null;
+        $this->mesh_text_1 = null;
+        $this->mesh_url_1 = null;
+        $this->mesh_text_2 = null;
+        $this->mesh_url_2 = null;
+        $this->mesh_text_3 = null;
+        $this->mesh_url_3 = null;
+        $this->mesh_text_4 = null;
+        $this->mesh_url_4 = null;
+        $this->mesh_text_5 = null;
+        $this->mesh_url_5 = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();

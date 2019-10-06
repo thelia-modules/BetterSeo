@@ -31,6 +31,16 @@ CREATE TABLE `better_seo_i18n`
     `nofollow` TINYINT(4) DEFAULT 0 NOT NULL,
     `canonical_field` TEXT,
     `h1` TEXT,
+    `mesh_text_1` TEXT,
+    `mesh_url_1` TEXT,
+    `mesh_text_2` TEXT,
+    `mesh_url_2` TEXT,
+    `mesh_text_3` TEXT,
+    `mesh_url_3` TEXT,
+    `mesh_text_4` TEXT,
+    `mesh_url_4` TEXT,
+    `mesh_text_5` TEXT,
+    `mesh_url_5` TEXT,
     PRIMARY KEY (`id`,`locale`),
     CONSTRAINT `better_seo_i18n_FK_1`
         FOREIGN KEY (`id`)

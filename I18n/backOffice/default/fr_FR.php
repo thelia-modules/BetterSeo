@@ -16,4 +16,6 @@ return array(
     'Link text' => 'Texte du lien',
     'Link URL' => 'URL du lien',
     'Mesh links' => 'Liens maillés',
+    'Mesh' => 'Texte de maillage',
+    'Text' => 'Texte',
 );

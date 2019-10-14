@@ -58,7 +58,7 @@ class BetterSeoI18nTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 16;
+    const NUM_COLUMNS = 21;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class BetterSeoI18nTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 16;
+    const NUM_HYDRATE_COLUMNS = 21;
 
     /**
      * the column name for the ID field
@@ -151,6 +151,31 @@ class BetterSeoI18nTableMap extends TableMap
     const MESH_URL_5 = 'better_seo_i18n.MESH_URL_5';
 
     /**
+     * the column name for the MESH_1 field
+     */
+    const MESH_1 = 'better_seo_i18n.MESH_1';
+
+    /**
+     * the column name for the MESH_2 field
+     */
+    const MESH_2 = 'better_seo_i18n.MESH_2';
+
+    /**
+     * the column name for the MESH_3 field
+     */
+    const MESH_3 = 'better_seo_i18n.MESH_3';
+
+    /**
+     * the column name for the MESH_4 field
+     */
+    const MESH_4 = 'better_seo_i18n.MESH_4';
+
+    /**
+     * the column name for the MESH_5 field
+     */
+    const MESH_5 = 'better_seo_i18n.MESH_5';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -162,12 +187,12 @@ class BetterSeoI18nTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Locale', 'Noindex', 'Nofollow', 'CanonicalField', 'H1', 'MeshText1', 'MeshUrl1', 'MeshText2', 'MeshUrl2', 'MeshText3', 'MeshUrl3', 'MeshText4', 'MeshUrl4', 'MeshText5', 'MeshUrl5', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'locale', 'noindex', 'nofollow', 'canonicalField', 'h1', 'meshText1', 'meshUrl1', 'meshText2', 'meshUrl2', 'meshText3', 'meshUrl3', 'meshText4', 'meshUrl4', 'meshText5', 'meshUrl5', ),
-        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID, BetterSeoI18nTableMap::LOCALE, BetterSeoI18nTableMap::NOINDEX, BetterSeoI18nTableMap::NOFOLLOW, BetterSeoI18nTableMap::CANONICAL_FIELD, BetterSeoI18nTableMap::H1, BetterSeoI18nTableMap::MESH_TEXT_1, BetterSeoI18nTableMap::MESH_URL_1, BetterSeoI18nTableMap::MESH_TEXT_2, BetterSeoI18nTableMap::MESH_URL_2, BetterSeoI18nTableMap::MESH_TEXT_3, BetterSeoI18nTableMap::MESH_URL_3, BetterSeoI18nTableMap::MESH_TEXT_4, BetterSeoI18nTableMap::MESH_URL_4, BetterSeoI18nTableMap::MESH_TEXT_5, BetterSeoI18nTableMap::MESH_URL_5, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'LOCALE', 'NOINDEX', 'NOFOLLOW', 'CANONICAL_FIELD', 'H1', 'MESH_TEXT_1', 'MESH_URL_1', 'MESH_TEXT_2', 'MESH_URL_2', 'MESH_TEXT_3', 'MESH_URL_3', 'MESH_TEXT_4', 'MESH_URL_4', 'MESH_TEXT_5', 'MESH_URL_5', ),
-        self::TYPE_FIELDNAME     => array('id', 'locale', 'noindex', 'nofollow', 'canonical_field', 'h1', 'mesh_text_1', 'mesh_url_1', 'mesh_text_2', 'mesh_url_2', 'mesh_text_3', 'mesh_url_3', 'mesh_text_4', 'mesh_url_4', 'mesh_text_5', 'mesh_url_5', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
+        self::TYPE_PHPNAME       => array('Id', 'Locale', 'Noindex', 'Nofollow', 'CanonicalField', 'H1', 'MeshText1', 'MeshUrl1', 'MeshText2', 'MeshUrl2', 'MeshText3', 'MeshUrl3', 'MeshText4', 'MeshUrl4', 'MeshText5', 'MeshUrl5', 'Mesh1', 'Mesh2', 'Mesh3', 'Mesh4', 'Mesh5', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'locale', 'noindex', 'nofollow', 'canonicalField', 'h1', 'meshText1', 'meshUrl1', 'meshText2', 'meshUrl2', 'meshText3', 'meshUrl3', 'meshText4', 'meshUrl4', 'meshText5', 'meshUrl5', 'mesh1', 'mesh2', 'mesh3', 'mesh4', 'mesh5', ),
+        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID, BetterSeoI18nTableMap::LOCALE, BetterSeoI18nTableMap::NOINDEX, BetterSeoI18nTableMap::NOFOLLOW, BetterSeoI18nTableMap::CANONICAL_FIELD, BetterSeoI18nTableMap::H1, BetterSeoI18nTableMap::MESH_TEXT_1, BetterSeoI18nTableMap::MESH_URL_1, BetterSeoI18nTableMap::MESH_TEXT_2, BetterSeoI18nTableMap::MESH_URL_2, BetterSeoI18nTableMap::MESH_TEXT_3, BetterSeoI18nTableMap::MESH_URL_3, BetterSeoI18nTableMap::MESH_TEXT_4, BetterSeoI18nTableMap::MESH_URL_4, BetterSeoI18nTableMap::MESH_TEXT_5, BetterSeoI18nTableMap::MESH_URL_5, BetterSeoI18nTableMap::MESH_1, BetterSeoI18nTableMap::MESH_2, BetterSeoI18nTableMap::MESH_3, BetterSeoI18nTableMap::MESH_4, BetterSeoI18nTableMap::MESH_5, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'LOCALE', 'NOINDEX', 'NOFOLLOW', 'CANONICAL_FIELD', 'H1', 'MESH_TEXT_1', 'MESH_URL_1', 'MESH_TEXT_2', 'MESH_URL_2', 'MESH_TEXT_3', 'MESH_URL_3', 'MESH_TEXT_4', 'MESH_URL_4', 'MESH_TEXT_5', 'MESH_URL_5', 'MESH_1', 'MESH_2', 'MESH_3', 'MESH_4', 'MESH_5', ),
+        self::TYPE_FIELDNAME     => array('id', 'locale', 'noindex', 'nofollow', 'canonical_field', 'h1', 'mesh_text_1', 'mesh_url_1', 'mesh_text_2', 'mesh_url_2', 'mesh_text_3', 'mesh_url_3', 'mesh_text_4', 'mesh_url_4', 'mesh_text_5', 'mesh_url_5', 'mesh_1', 'mesh_2', 'mesh_3', 'mesh_4', 'mesh_5', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, )
     );
 
     /**
@@ -177,12 +202,12 @@ class BetterSeoI18nTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Locale' => 1, 'Noindex' => 2, 'Nofollow' => 3, 'CanonicalField' => 4, 'H1' => 5, 'MeshText1' => 6, 'MeshUrl1' => 7, 'MeshText2' => 8, 'MeshUrl2' => 9, 'MeshText3' => 10, 'MeshUrl3' => 11, 'MeshText4' => 12, 'MeshUrl4' => 13, 'MeshText5' => 14, 'MeshUrl5' => 15, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonicalField' => 4, 'h1' => 5, 'meshText1' => 6, 'meshUrl1' => 7, 'meshText2' => 8, 'meshUrl2' => 9, 'meshText3' => 10, 'meshUrl3' => 11, 'meshText4' => 12, 'meshUrl4' => 13, 'meshText5' => 14, 'meshUrl5' => 15, ),
-        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID => 0, BetterSeoI18nTableMap::LOCALE => 1, BetterSeoI18nTableMap::NOINDEX => 2, BetterSeoI18nTableMap::NOFOLLOW => 3, BetterSeoI18nTableMap::CANONICAL_FIELD => 4, BetterSeoI18nTableMap::H1 => 5, BetterSeoI18nTableMap::MESH_TEXT_1 => 6, BetterSeoI18nTableMap::MESH_URL_1 => 7, BetterSeoI18nTableMap::MESH_TEXT_2 => 8, BetterSeoI18nTableMap::MESH_URL_2 => 9, BetterSeoI18nTableMap::MESH_TEXT_3 => 10, BetterSeoI18nTableMap::MESH_URL_3 => 11, BetterSeoI18nTableMap::MESH_TEXT_4 => 12, BetterSeoI18nTableMap::MESH_URL_4 => 13, BetterSeoI18nTableMap::MESH_TEXT_5 => 14, BetterSeoI18nTableMap::MESH_URL_5 => 15, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'LOCALE' => 1, 'NOINDEX' => 2, 'NOFOLLOW' => 3, 'CANONICAL_FIELD' => 4, 'H1' => 5, 'MESH_TEXT_1' => 6, 'MESH_URL_1' => 7, 'MESH_TEXT_2' => 8, 'MESH_URL_2' => 9, 'MESH_TEXT_3' => 10, 'MESH_URL_3' => 11, 'MESH_TEXT_4' => 12, 'MESH_URL_4' => 13, 'MESH_TEXT_5' => 14, 'MESH_URL_5' => 15, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonical_field' => 4, 'h1' => 5, 'mesh_text_1' => 6, 'mesh_url_1' => 7, 'mesh_text_2' => 8, 'mesh_url_2' => 9, 'mesh_text_3' => 10, 'mesh_url_3' => 11, 'mesh_text_4' => 12, 'mesh_url_4' => 13, 'mesh_text_5' => 14, 'mesh_url_5' => 15, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Locale' => 1, 'Noindex' => 2, 'Nofollow' => 3, 'CanonicalField' => 4, 'H1' => 5, 'MeshText1' => 6, 'MeshUrl1' => 7, 'MeshText2' => 8, 'MeshUrl2' => 9, 'MeshText3' => 10, 'MeshUrl3' => 11, 'MeshText4' => 12, 'MeshUrl4' => 13, 'MeshText5' => 14, 'MeshUrl5' => 15, 'Mesh1' => 16, 'Mesh2' => 17, 'Mesh3' => 18, 'Mesh4' => 19, 'Mesh5' => 20, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonicalField' => 4, 'h1' => 5, 'meshText1' => 6, 'meshUrl1' => 7, 'meshText2' => 8, 'meshUrl2' => 9, 'meshText3' => 10, 'meshUrl3' => 11, 'meshText4' => 12, 'meshUrl4' => 13, 'meshText5' => 14, 'meshUrl5' => 15, 'mesh1' => 16, 'mesh2' => 17, 'mesh3' => 18, 'mesh4' => 19, 'mesh5' => 20, ),
+        self::TYPE_COLNAME       => array(BetterSeoI18nTableMap::ID => 0, BetterSeoI18nTableMap::LOCALE => 1, BetterSeoI18nTableMap::NOINDEX => 2, BetterSeoI18nTableMap::NOFOLLOW => 3, BetterSeoI18nTableMap::CANONICAL_FIELD => 4, BetterSeoI18nTableMap::H1 => 5, BetterSeoI18nTableMap::MESH_TEXT_1 => 6, BetterSeoI18nTableMap::MESH_URL_1 => 7, BetterSeoI18nTableMap::MESH_TEXT_2 => 8, BetterSeoI18nTableMap::MESH_URL_2 => 9, BetterSeoI18nTableMap::MESH_TEXT_3 => 10, BetterSeoI18nTableMap::MESH_URL_3 => 11, BetterSeoI18nTableMap::MESH_TEXT_4 => 12, BetterSeoI18nTableMap::MESH_URL_4 => 13, BetterSeoI18nTableMap::MESH_TEXT_5 => 14, BetterSeoI18nTableMap::MESH_URL_5 => 15, BetterSeoI18nTableMap::MESH_1 => 16, BetterSeoI18nTableMap::MESH_2 => 17, BetterSeoI18nTableMap::MESH_3 => 18, BetterSeoI18nTableMap::MESH_4 => 19, BetterSeoI18nTableMap::MESH_5 => 20, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'LOCALE' => 1, 'NOINDEX' => 2, 'NOFOLLOW' => 3, 'CANONICAL_FIELD' => 4, 'H1' => 5, 'MESH_TEXT_1' => 6, 'MESH_URL_1' => 7, 'MESH_TEXT_2' => 8, 'MESH_URL_2' => 9, 'MESH_TEXT_3' => 10, 'MESH_URL_3' => 11, 'MESH_TEXT_4' => 12, 'MESH_URL_4' => 13, 'MESH_TEXT_5' => 14, 'MESH_URL_5' => 15, 'MESH_1' => 16, 'MESH_2' => 17, 'MESH_3' => 18, 'MESH_4' => 19, 'MESH_5' => 20, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'locale' => 1, 'noindex' => 2, 'nofollow' => 3, 'canonical_field' => 4, 'h1' => 5, 'mesh_text_1' => 6, 'mesh_url_1' => 7, 'mesh_text_2' => 8, 'mesh_url_2' => 9, 'mesh_text_3' => 10, 'mesh_url_3' => 11, 'mesh_text_4' => 12, 'mesh_url_4' => 13, 'mesh_text_5' => 14, 'mesh_url_5' => 15, 'mesh_1' => 16, 'mesh_2' => 17, 'mesh_3' => 18, 'mesh_4' => 19, 'mesh_5' => 20, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, )
     );
 
     /**
@@ -217,6 +242,11 @@ class BetterSeoI18nTableMap extends TableMap
         $this->addColumn('MESH_URL_4', 'MeshUrl4', 'LONGVARCHAR', false, null, null);
         $this->addColumn('MESH_TEXT_5', 'MeshText5', 'LONGVARCHAR', false, null, null);
         $this->addColumn('MESH_URL_5', 'MeshUrl5', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('MESH_1', 'Mesh1', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('MESH_2', 'Mesh2', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('MESH_3', 'Mesh3', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('MESH_4', 'Mesh4', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('MESH_5', 'Mesh5', 'LONGVARCHAR', false, null, null);
     } // initialize()
 
     /**
@@ -430,6 +460,11 @@ class BetterSeoI18nTableMap extends TableMap
             $criteria->addSelectColumn(BetterSeoI18nTableMap::MESH_URL_4);
             $criteria->addSelectColumn(BetterSeoI18nTableMap::MESH_TEXT_5);
             $criteria->addSelectColumn(BetterSeoI18nTableMap::MESH_URL_5);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::MESH_1);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::MESH_2);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::MESH_3);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::MESH_4);
+            $criteria->addSelectColumn(BetterSeoI18nTableMap::MESH_5);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.LOCALE');
@@ -447,6 +482,11 @@ class BetterSeoI18nTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.MESH_URL_4');
             $criteria->addSelectColumn($alias . '.MESH_TEXT_5');
             $criteria->addSelectColumn($alias . '.MESH_URL_5');
+            $criteria->addSelectColumn($alias . '.MESH_1');
+            $criteria->addSelectColumn($alias . '.MESH_2');
+            $criteria->addSelectColumn($alias . '.MESH_3');
+            $criteria->addSelectColumn($alias . '.MESH_4');
+            $criteria->addSelectColumn($alias . '.MESH_5');
         }
     }
 

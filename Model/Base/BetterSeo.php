@@ -1802,6 +1802,126 @@ abstract class BetterSeo implements ActiveRecordInterface
         return $this;
     }
 
+
+        /**
+         * Get the [mesh_1] column value.
+         *
+         * @return   string
+         */
+        public function getMesh1()
+        {
+        return $this->getCurrentTranslation()->getMesh1();
+    }
+
+
+        /**
+         * Set the value of [mesh_1] column.
+         *
+         * @param      string $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setMesh1($v)
+        {    $this->getCurrentTranslation()->setMesh1($v);
+
+        return $this;
+    }
+
+
+        /**
+         * Get the [mesh_2] column value.
+         *
+         * @return   string
+         */
+        public function getMesh2()
+        {
+        return $this->getCurrentTranslation()->getMesh2();
+    }
+
+
+        /**
+         * Set the value of [mesh_2] column.
+         *
+         * @param      string $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setMesh2($v)
+        {    $this->getCurrentTranslation()->setMesh2($v);
+
+        return $this;
+    }
+
+
+        /**
+         * Get the [mesh_3] column value.
+         *
+         * @return   string
+         */
+        public function getMesh3()
+        {
+        return $this->getCurrentTranslation()->getMesh3();
+    }
+
+
+        /**
+         * Set the value of [mesh_3] column.
+         *
+         * @param      string $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setMesh3($v)
+        {    $this->getCurrentTranslation()->setMesh3($v);
+
+        return $this;
+    }
+
+
+        /**
+         * Get the [mesh_4] column value.
+         *
+         * @return   string
+         */
+        public function getMesh4()
+        {
+        return $this->getCurrentTranslation()->getMesh4();
+    }
+
+
+        /**
+         * Set the value of [mesh_4] column.
+         *
+         * @param      string $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setMesh4($v)
+        {    $this->getCurrentTranslation()->setMesh4($v);
+
+        return $this;
+    }
+
+
+        /**
+         * Get the [mesh_5] column value.
+         *
+         * @return   string
+         */
+        public function getMesh5()
+        {
+        return $this->getCurrentTranslation()->getMesh5();
+    }
+
+
+        /**
+         * Set the value of [mesh_5] column.
+         *
+         * @param      string $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setMesh5($v)
+        {    $this->getCurrentTranslation()->setMesh5($v);
+
+        return $this;
+    }
+
     /**
      * Code to be run before persisting the object
      * @param  ConnectionInterface $con

@@ -49,6 +49,7 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
         for ($i = 1; $i <= 5; $i++) {
             $query->withColumn(constant(BetterSeoI18nTableMap::class . '::MESH_TEXT_' . $i), 'mesh_text_' . $i);
             $query->withColumn(constant(BetterSeoI18nTableMap::class . '::MESH_URL_' . $i), 'mesh_url_' . $i);
+            $query->withColumn(constant(BetterSeoI18nTableMap::class . '::MESH_' . $i), 'mesh_' . $i);
         }
 
         return $query;
@@ -76,6 +77,7 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
             for ($i = 1; $i <= 5; $i++) {
                 $loopResultRow->set('MESH_TEXT_' . $i, $data->getVirtualColumn('mesh_text_' . $i));
                 $loopResultRow->set('MESH_URL_' . $i, $data->getVirtualColumn('mesh_url_' . $i));
+                $loopResultRow->set('MESH_' . $i, $data->getVirtualColumn('mesh_' . $i));
             }
 
             $loopResult->addRow($loopResultRow);

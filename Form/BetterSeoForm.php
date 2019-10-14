@@ -104,6 +104,21 @@ class BetterSeoForm extends BaseForm
                         'for' => 'mesh_url_' . $i
                     )
                 )
+            )
+            ->add(
+                'mesh_' . $i,
+                'text',
+                array(
+                    'required' => false,
+                    'label' => Translator::getInstance()->trans(
+                        'text',
+                        array(),
+                        BetterSeo::DOMAIN_NAME
+                    ),
+                    'label_attr' => array(
+                        'for' => 'mesh_' . $i
+                    )
+                )
             );
         }
     }

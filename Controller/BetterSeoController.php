@@ -52,6 +52,7 @@ class BetterSeoController extends BaseAdminController
         for ($i = 1; $i <= 5; $i++) {
             call_user_func([$objectSeo, 'setMeshUrl' . $i], $seoForm->get('mesh_url_' . $i)->getData());
             call_user_func([$objectSeo, 'setMeshText' . $i], $seoForm->get('mesh_text_' . $i)->getData());
+            call_user_func([$objectSeo, 'setMesh' . $i], $seoForm->get('mesh_' . $i)->getData());
         }
 
         $objectSeo->save();

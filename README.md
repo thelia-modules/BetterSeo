@@ -60,6 +60,6 @@ composer require thelia/better-seo-module:~1.3.1
 
 ### Exemple
 
-{loop type="better_seo_loop" name"exemple.loop" object_id="42" object_type="category" lang_id="1"}
+{loop type="better_seo_loop" name="exemple.loop" object_id="42" object_type="category" lang_id="1"}
 
 

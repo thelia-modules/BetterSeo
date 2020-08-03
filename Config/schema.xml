@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database defaultIdMethod="native" name="thelia"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../../../../vendor/propel/propel/resources/xsd/database.xsd" >
+
+    <table name="better_seo" namespace="BetterSeo\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="object_id" required="true" type="INTEGER"/>
+        <column name="object_type" required="true" />
+        <column name="noindex" required="true" default="0" type="TINYINT" size="4" />
+        <column name="nofollow" required="true" default="0" type="TINYINT" size="4" />
+        <column name="canonical_field" type="LONGVARCHAR" />
+        <column name="h1" type="LONGVARCHAR" />
+        <column name="mesh_text_1" type="LONGVARCHAR" />
+        <column name="mesh_url_1" type="LONGVARCHAR" />
+        <column name="mesh_text_2" type="LONGVARCHAR" />
+        <column name="mesh_url_2" type="LONGVARCHAR" />
+        <column name="mesh_text_3" type="LONGVARCHAR" />
+        <column name="mesh_url_3" type="LONGVARCHAR" />
+        <column name="mesh_text_4" type="LONGVARCHAR" />
+        <column name="mesh_url_4" type="LONGVARCHAR" />
+        <column name="mesh_text_5" type="LONGVARCHAR" />
+        <column name="mesh_url_5" type="LONGVARCHAR" />
+        <column name="mesh_1" type="LONGVARCHAR" />
+        <column name="mesh_2" type="LONGVARCHAR" />
+        <column name="mesh_3" type="LONGVARCHAR" />
+        <column name="mesh_4" type="LONGVARCHAR" />
+        <column name="mesh_5" type="LONGVARCHAR" />
+        <behavior name="i18n">
+            <parameter name="i18n_columns"
+                       value="noindex,
+                       nofollow,
+                       canonical_field,
+                       h1,
+mesh_text_1,
+mesh_url_1,
+mesh_text_2,
+mesh_url_2,
+mesh_text_3,
+mesh_url_3,
+mesh_text_4,
+mesh_url_4,
+mesh_text_5,
+mesh_url_5,
+mesh_1,
+mesh_2,
+mesh_3,
+mesh_4,
+mesh_5
+"
+            />
+        </behavior>
+    </table>
+    <external-schema filename="local/config/schema.xml" referenceOnly="true" />
+</database>

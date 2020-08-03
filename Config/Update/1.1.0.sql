@@ -1,0 +1,1 @@
+ALTER TABLE `better_seo_i18n` ADD `h1` TEXT NOT NULL AFTER `canonical_field`;

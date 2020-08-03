@@ -1,0 +1,10 @@
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_text_1` `mesh_text_1` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_url_1` `mesh_url_1` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_text_2` `mesh_text_2` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_url_2` `mesh_url_2` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_text_3` `mesh_text_3` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_url_3` `mesh_url_3` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_text_4` `mesh_text_4` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_url_4` `mesh_url_4` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_text_5` `mesh_text_5` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `better_seo_i18n` CHANGE `mesh_url_5` `mesh_url_5` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;

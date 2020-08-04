@@ -48,7 +48,7 @@ class BetterSeo extends BaseModule
         };
 
         $files = $finder->name('*.sql')
-            ->in(__DIR__ ."/Config/Update/")
+            ->in(__DIR__ . "/Config/Update/")
             ->sort($sort);
 
         foreach ($files as $file) {

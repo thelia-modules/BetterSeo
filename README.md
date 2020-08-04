@@ -31,7 +31,7 @@ composer require thelia/better-seo-module:~1.3.1
 |**object_type** | The type of the object to display (product, category, brand, folder, content) exemple object_type="brand"|
 |**lang_id** | The id of the language|
 
-### Output arguments
+    ### Output arguments
 
 |Variable   |Description |
 |---        |--- |
@@ -57,9 +57,19 @@ composer require thelia/better-seo-module:~1.3.1
 |$MESH_3    | mesh 3 |
 |$MESH_4    | mesh 4 |
 |$MESH_5    | mesh 5 |
+|$JSON_DATA    | JSON data for ld json |
 
 ### Exemple
 
-{loop type="better_seo_loop" name="exemple.loop" object_id="42" object_type="category" lang_id="1"}
+    {loop type="better_seo_loop" name="exemple.loop" object_id="42" object_type="category" lang_id="1"}
+
+
+To use ld json you need to add this part to the head of your pages (product, category, brand, folder, content)
+
+    {loop name="loop-name" type="better_seo_loop" object_id=$object_id object_type=$object_type lang_id=$langId}
+        <script type="application/ld+json">
+                {$JSON_DATA nofilter}
+        </script>
+    {/loop}
 
 

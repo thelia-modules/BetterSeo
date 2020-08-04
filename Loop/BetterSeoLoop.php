@@ -44,7 +44,8 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
             ->withColumn(BetterSeoI18nTableMap::NOINDEX, 'noindex')
             ->withColumn(BetterSeoI18nTableMap::NOFOLLOW, 'nofollow')
             ->withColumn(BetterSeoI18nTableMap::CANONICAL_FIELD, 'canonical')
-            ->withColumn(BetterSeoI18nTableMap::H1, 'h1');
+            ->withColumn(BetterSeoI18nTableMap::H1, 'h1')
+            ->withColumn(BetterSeoI18nTableMap::JSON_DATA, 'json_data');
 
         for ($i = 1; $i <= 5; $i++) {
             $query->withColumn(constant(BetterSeoI18nTableMap::class . '::MESH_TEXT_' . $i), 'mesh_text_' . $i);
@@ -73,6 +74,7 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
             $loopResultRow->set('NOFOLLOW', $data->getVirtualColumn('nofollow'));
             $loopResultRow->set('CANONICAL', $data->getVirtualColumn('canonical'));
             $loopResultRow->set('H1', $data->getVirtualColumn('h1'));
+            $loopResultRow->set('JSON_DATA', $data->getVirtualColumn('json_data'), true);
 
             for ($i = 1; $i <= 5; $i++) {
                 $loopResultRow->set('MESH_TEXT_' . $i, $data->getVirtualColumn('mesh_text_' . $i));

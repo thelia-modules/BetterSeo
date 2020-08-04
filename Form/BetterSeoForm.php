@@ -3,8 +3,10 @@
 namespace BetterSeo\Form;
 
 use BetterSeo\BetterSeo;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
+use Thelia\Type\JsonType;
 
 class BetterSeoForm extends BaseForm
 {
@@ -18,7 +20,7 @@ class BetterSeoForm extends BaseForm
                 'integer',
                 array(
                     'required' => false,
-                    'label'=> Translator::getInstance()->trans(
+                    'label' => Translator::getInstance()->trans(
                         'noindex',
                         array(),
                         BetterSeo::DOMAIN_NAME
@@ -33,7 +35,7 @@ class BetterSeoForm extends BaseForm
                 'integer',
                 array(
                     'required' => false,
-                    'label'=> Translator::getInstance()->trans(
+                    'label' => Translator::getInstance()->trans(
                         'nofollow',
                         array(),
                         BetterSeo::DOMAIN_NAME
@@ -72,6 +74,22 @@ class BetterSeoForm extends BaseForm
                         'for' => 'h1'
                     )
                 )
+            )
+            ->add(
+                'json_data',
+                TextareaType::class,
+                [
+                    'required' => false,
+                    'label' => Translator::getInstance()->trans(
+                        'JSON structured data',
+                        [],
+                        BetterSeo::DOMAIN_NAME
+                    ),
+                    'label_attr' => array(
+                        'for' => 'json_data'
+                    )
+                ]
+
             );
 
         for ($i = 1; $i <= 5; $i++) {
@@ -90,36 +108,36 @@ class BetterSeoForm extends BaseForm
                     )
                 )
             )
-            ->add(
-                'mesh_url_' . $i,
-                'url',
-                array(
-                    'required' => false,
-                    'label' => Translator::getInstance()->trans(
-                        'url',
-                        array(),
-                        BetterSeo::DOMAIN_NAME
-                    ),
-                    'label_attr' => array(
-                        'for' => 'mesh_url_' . $i
+                ->add(
+                    'mesh_url_' . $i,
+                    'url',
+                    array(
+                        'required' => false,
+                        'label' => Translator::getInstance()->trans(
+                            'url',
+                            array(),
+                            BetterSeo::DOMAIN_NAME
+                        ),
+                        'label_attr' => array(
+                            'for' => 'mesh_url_' . $i
+                        )
                     )
                 )
-            )
-            ->add(
-                'mesh_' . $i,
-                'text',
-                array(
-                    'required' => false,
-                    'label' => Translator::getInstance()->trans(
-                        'text',
-                        array(),
-                        BetterSeo::DOMAIN_NAME
-                    ),
-                    'label_attr' => array(
-                        'for' => 'mesh_' . $i
+                ->add(
+                    'mesh_' . $i,
+                    'text',
+                    array(
+                        'required' => false,
+                        'label' => Translator::getInstance()->trans(
+                            'text',
+                            array(),
+                            BetterSeo::DOMAIN_NAME
+                        ),
+                        'label_attr' => array(
+                            'for' => 'mesh_' . $i
+                        )
                     )
-                )
-            );
+                );
         }
     }
 

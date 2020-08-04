@@ -46,6 +46,7 @@ CREATE TABLE `better_seo_i18n`
     `mesh_3` TEXT,
     `mesh_4` TEXT,
     `mesh_5` TEXT,
+    `json_data` TEXT,
     PRIMARY KEY (`id`,`locale`),
     CONSTRAINT `better_seo_i18n_FK_1`
         FOREIGN KEY (`id`)

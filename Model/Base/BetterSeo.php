@@ -1922,6 +1922,30 @@ abstract class BetterSeo implements ActiveRecordInterface
         return $this;
     }
 
+
+        /**
+         * Get the [json_data] column value.
+         *
+         * @return   string
+         */
+        public function getJsonData()
+        {
+        return $this->getCurrentTranslation()->getJsonData();
+    }
+
+
+        /**
+         * Set the value of [json_data] column.
+         *
+         * @param      string $v new value
+         * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+         */
+        public function setJsonData($v)
+        {    $this->getCurrentTranslation()->setJsonData($v);
+
+        return $this;
+    }
+
     /**
      * Code to be run before persisting the object
      * @param  ConnectionInterface $con

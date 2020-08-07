@@ -44,6 +44,7 @@ class BetterSeoController extends BaseAdminController
 
         $objectSeo
             ->setLocale($lang->getLocale())
+            ->setJsonData($seoForm->get('json_data')->getData())
             ->setNoindex(null === $seoForm->get('noindex_checkbox')->getData() ? 0 : 1)
             ->setNofollow(null === $seoForm->get('nofollow_checkbox')->getData() ? 0 : 1)
             ->setH1(null === $seoForm->get('h1')->getData() ? '' : $seoForm->get('h1')->getData())

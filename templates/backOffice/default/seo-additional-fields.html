@@ -3,6 +3,7 @@
 {$noindex_val = $NOINDEX}
 {$nofollow_val = $NOFOLLOW}
 {$canonical_val = $CANONICAL}
+{$json_data = $JSON_DATA}
 {$h1 = $H1}
 {for $i=1 to 5}
     {assign var="mesh_text_$i" value={$MESH_TEXT_{$i}}}
@@ -26,6 +27,13 @@
                         </div>
                     </div>
                 {/if}
+
+                <div class="panel-body text-right">
+                    <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success">
+                        {intl l='Save'} <span class="glyphicon glyphicon-ok"></span>
+                    </button>
+                </div>
+
                 {form_field  field="noindex_checkbox"}
                     <div class="{if $error} has-error{/if}">
                         <input id="{$label_attr.for}" type="checkbox" name="{$name}" value="1" {if $noindex_val == 1} checked {/if}/>
@@ -77,6 +85,15 @@
                                 {$message}
                             </div>
                         {/if}
+                        <div class="help-block">
+                        </div>
+                    </div>
+                {/form_field}
+
+                {form_field field="json_data"}
+                    <div class="form-group">
+                        <label for="{$label_attr.for}" class="control-label">{$label}</label>
+                        <textarea name={$name} id="{$label_attr.for}" cols="30" rows="10" class="form-control">{$json_data}</textarea>
                     </div>
                 {/form_field}
 

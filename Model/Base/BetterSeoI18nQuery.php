@@ -42,6 +42,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBetterSeoI18nQuery orderByMesh3($order = Criteria::ASC) Order by the mesh_3 column
  * @method     ChildBetterSeoI18nQuery orderByMesh4($order = Criteria::ASC) Order by the mesh_4 column
  * @method     ChildBetterSeoI18nQuery orderByMesh5($order = Criteria::ASC) Order by the mesh_5 column
+ * @method     ChildBetterSeoI18nQuery orderByJsonData($order = Criteria::ASC) Order by the json_data column
  *
  * @method     ChildBetterSeoI18nQuery groupById() Group by the id column
  * @method     ChildBetterSeoI18nQuery groupByLocale() Group by the locale column
@@ -64,6 +65,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBetterSeoI18nQuery groupByMesh3() Group by the mesh_3 column
  * @method     ChildBetterSeoI18nQuery groupByMesh4() Group by the mesh_4 column
  * @method     ChildBetterSeoI18nQuery groupByMesh5() Group by the mesh_5 column
+ * @method     ChildBetterSeoI18nQuery groupByJsonData() Group by the json_data column
  *
  * @method     ChildBetterSeoI18nQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildBetterSeoI18nQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -97,6 +99,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBetterSeoI18n findOneByMesh3(string $mesh_3) Return the first ChildBetterSeoI18n filtered by the mesh_3 column
  * @method     ChildBetterSeoI18n findOneByMesh4(string $mesh_4) Return the first ChildBetterSeoI18n filtered by the mesh_4 column
  * @method     ChildBetterSeoI18n findOneByMesh5(string $mesh_5) Return the first ChildBetterSeoI18n filtered by the mesh_5 column
+ * @method     ChildBetterSeoI18n findOneByJsonData(string $json_data) Return the first ChildBetterSeoI18n filtered by the json_data column
  *
  * @method     array findById(int $id) Return ChildBetterSeoI18n objects filtered by the id column
  * @method     array findByLocale(string $locale) Return ChildBetterSeoI18n objects filtered by the locale column
@@ -119,6 +122,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByMesh3(string $mesh_3) Return ChildBetterSeoI18n objects filtered by the mesh_3 column
  * @method     array findByMesh4(string $mesh_4) Return ChildBetterSeoI18n objects filtered by the mesh_4 column
  * @method     array findByMesh5(string $mesh_5) Return ChildBetterSeoI18n objects filtered by the mesh_5 column
+ * @method     array findByJsonData(string $json_data) Return ChildBetterSeoI18n objects filtered by the json_data column
  *
  */
 abstract class BetterSeoI18nQuery extends ModelCriteria
@@ -207,7 +211,7 @@ abstract class BetterSeoI18nQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, LOCALE, NOINDEX, NOFOLLOW, CANONICAL_FIELD, H1, MESH_TEXT_1, MESH_URL_1, MESH_TEXT_2, MESH_URL_2, MESH_TEXT_3, MESH_URL_3, MESH_TEXT_4, MESH_URL_4, MESH_TEXT_5, MESH_URL_5, MESH_1, MESH_2, MESH_3, MESH_4, MESH_5 FROM better_seo_i18n WHERE ID = :p0 AND LOCALE = :p1';
+        $sql = 'SELECT ID, LOCALE, NOINDEX, NOFOLLOW, CANONICAL_FIELD, H1, MESH_TEXT_1, MESH_URL_1, MESH_TEXT_2, MESH_URL_2, MESH_TEXT_3, MESH_URL_3, MESH_TEXT_4, MESH_URL_4, MESH_TEXT_5, MESH_URL_5, MESH_1, MESH_2, MESH_3, MESH_4, MESH_5, JSON_DATA FROM better_seo_i18n WHERE ID = :p0 AND LOCALE = :p1';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -953,6 +957,35 @@ abstract class BetterSeoI18nQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BetterSeoI18nTableMap::MESH_5, $mesh5, $comparison);
+    }
+
+    /**
+     * Filter the query on the json_data column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByJsonData('fooValue');   // WHERE json_data = 'fooValue'
+     * $query->filterByJsonData('%fooValue%'); // WHERE json_data LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $jsonData The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBetterSeoI18nQuery The current query, for fluid interface
+     */
+    public function filterByJsonData($jsonData = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($jsonData)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $jsonData)) {
+                $jsonData = str_replace('*', '%', $jsonData);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BetterSeoI18nTableMap::JSON_DATA, $jsonData, $comparison);
     }
 
     /**

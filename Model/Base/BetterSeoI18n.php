@@ -183,6 +183,12 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
     protected $mesh_5;
 
     /**
+     * The value for the json_data field.
+     * @var        string
+     */
+    protected $json_data;
+
+    /**
      * @var        BetterSeo
      */
     protected $aBetterSeo;
@@ -700,6 +706,17 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
     }
 
     /**
+     * Get the [json_data] column value.
+     *
+     * @return   string
+     */
+    public function getJsonData()
+    {
+
+        return $this->json_data;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
@@ -1145,6 +1162,27 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
     } // setMesh5()
 
     /**
+     * Set the value of [json_data] column.
+     *
+     * @param      string $v new value
+     * @return   \BetterSeo\Model\BetterSeoI18n The current object (for fluent API support)
+     */
+    public function setJsonData($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->json_data !== $v) {
+            $this->json_data = $v;
+            $this->modifiedColumns[BetterSeoI18nTableMap::JSON_DATA] = true;
+        }
+
+
+        return $this;
+    } // setJsonData()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -1255,6 +1293,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 20 + $startcol : BetterSeoI18nTableMap::translateFieldName('Mesh5', TableMap::TYPE_PHPNAME, $indexType)];
             $this->mesh_5 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : BetterSeoI18nTableMap::translateFieldName('JsonData', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->json_data = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -1263,7 +1304,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 21; // 21 = BetterSeoI18nTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 22; // 22 = BetterSeoI18nTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \BetterSeo\Model\BetterSeoI18n object", 0, $e);
@@ -1547,6 +1588,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_5)) {
             $modifiedColumns[':p' . $index++]  = 'MESH_5';
         }
+        if ($this->isColumnModified(BetterSeoI18nTableMap::JSON_DATA)) {
+            $modifiedColumns[':p' . $index++]  = 'JSON_DATA';
+        }
 
         $sql = sprintf(
             'INSERT INTO better_seo_i18n (%s) VALUES (%s)',
@@ -1620,6 +1664,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
                         break;
                     case 'MESH_5':
                         $stmt->bindValue($identifier, $this->mesh_5, PDO::PARAM_STR);
+                        break;
+                    case 'JSON_DATA':
+                        $stmt->bindValue($identifier, $this->json_data, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1739,6 +1786,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
             case 20:
                 return $this->getMesh5();
                 break;
+            case 21:
+                return $this->getJsonData();
+                break;
             default:
                 return null;
                 break;
@@ -1789,6 +1839,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
             $keys[18] => $this->getMesh3(),
             $keys[19] => $this->getMesh4(),
             $keys[20] => $this->getMesh5(),
+            $keys[21] => $this->getJsonData(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1896,6 +1947,9 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
             case 20:
                 $this->setMesh5($value);
                 break;
+            case 21:
+                $this->setJsonData($value);
+                break;
         } // switch()
     }
 
@@ -1941,6 +1995,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         if (array_key_exists($keys[18], $arr)) $this->setMesh3($arr[$keys[18]]);
         if (array_key_exists($keys[19], $arr)) $this->setMesh4($arr[$keys[19]]);
         if (array_key_exists($keys[20], $arr)) $this->setMesh5($arr[$keys[20]]);
+        if (array_key_exists($keys[21], $arr)) $this->setJsonData($arr[$keys[21]]);
     }
 
     /**
@@ -1973,6 +2028,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_3)) $criteria->add(BetterSeoI18nTableMap::MESH_3, $this->mesh_3);
         if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_4)) $criteria->add(BetterSeoI18nTableMap::MESH_4, $this->mesh_4);
         if ($this->isColumnModified(BetterSeoI18nTableMap::MESH_5)) $criteria->add(BetterSeoI18nTableMap::MESH_5, $this->mesh_5);
+        if ($this->isColumnModified(BetterSeoI18nTableMap::JSON_DATA)) $criteria->add(BetterSeoI18nTableMap::JSON_DATA, $this->json_data);
 
         return $criteria;
     }
@@ -2064,6 +2120,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         $copyObj->setMesh3($this->getMesh3());
         $copyObj->setMesh4($this->getMesh4());
         $copyObj->setMesh5($this->getMesh5());
+        $copyObj->setJsonData($this->getJsonData());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -2168,6 +2225,7 @@ abstract class BetterSeoI18n implements ActiveRecordInterface
         $this->mesh_3 = null;
         $this->mesh_4 = null;
         $this->mesh_5 = null;
+        $this->json_data = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();

@@ -26,6 +26,7 @@
         <column name="mesh_3" type="LONGVARCHAR" />
         <column name="mesh_4" type="LONGVARCHAR" />
         <column name="mesh_5" type="LONGVARCHAR" />
+        <column name="json_data" type="LONGVARCHAR" />
         <behavior name="i18n">
             <parameter name="i18n_columns"
                        value="noindex,
@@ -46,7 +47,8 @@ mesh_1,
 mesh_2,
 mesh_3,
 mesh_4,
-mesh_5
+mesh_5,
+json_data
 "
             />
         </behavior>

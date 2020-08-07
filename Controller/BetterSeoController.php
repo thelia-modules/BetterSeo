@@ -5,7 +5,6 @@ namespace BetterSeo\Controller;
 use BetterSeo\Form\BetterSeoForm;
 use BetterSeo\Model\BetterSeo;
 use BetterSeo\Model\BetterSeoQuery;
-use Symfony\Component\Filesystem\Filesystem;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Model\LangQuery;
 

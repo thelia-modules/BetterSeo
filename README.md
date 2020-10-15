@@ -16,7 +16,7 @@ Add Noindex checkbox and Canonical Url, h1 field and manage mesh links, in the S
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/better-seo-module:~1.3.1
+composer require thelia/better-seo-module:~1.4.1
 ```
 
 ## Loop

@@ -1,14 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicolasbarbey
- * Date: 25/07/2019
- * Time: 09:20
- */
 
 namespace BetterSeo\Hook;
-
-
 
 
 use BetterSeo\Model\BetterSeo;

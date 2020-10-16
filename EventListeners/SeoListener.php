@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicolasbarbey
- * Date: 24/07/2019
- * Time: 15:46
- */
 
 namespace BetterSeo\EventListeners;
 

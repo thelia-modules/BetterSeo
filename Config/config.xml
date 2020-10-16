@@ -23,7 +23,7 @@
         <hook id="betterseo.addfields.hook" class="BetterSeo\Hook\SeoFormHook">
             <tag name="hook.event_listener" event="tab-seo.bottom" type="back" method="onTabSeoUpdateForm" />
         </hook>
-        <hook id="canonicalurl.meta.hook" class="BetterSeo\Hook\MetaHook" scope="request">
+        <hook id="betterseo.meta.hook" class="BetterSeo\Hook\MetaHook" scope="request">
             <tag name="hook.event_listener" event="main.head-bottom" type="front" method="onMainHeadBottom" />
             <argument type="service" id="request" />
         </hook>

@@ -58,8 +58,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
      */
     public function betterSeoMicroData($params)
     {
-        $type = $params['type'];
-        $id = $params['id'];
+        $type = $params['type'] ?: $this->request->get('_view');
 
         $lang = $this->request->getSession()->getLang();
 
@@ -69,10 +68,13 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
 
         switch ($type) {
             case 'product':
+                $id = $params['id'] ?: $this->request->get('product_id');
                 $product = ProductQuery::create()->filterById($id)->findOne();
-                return json_encode($this->getProductMicroData($product, $lang));
+                $relatedProducts = is_array($params['related_products']) ? $params['related_products'] : $this->explode($params['related_products']);
+                return json_encode($this->getProductMicroData($product, $lang, $relatedProducts));
                 break;
             case 'category':
+                $id = $params['id'] ?: $this->request->get('category_id');
                 $category = CategoryQuery::create()->filterById($id)->findOne();
                 return json_encode($this->getCategoryMicroData($category, $lang));
                 break;
@@ -83,12 +85,12 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     /**
      * @param Product $product
      * @param Lang $lang
-     * @param bool $getProductRelated
+     * @param array $relatedProducts
      * @return array
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    protected function getProductMicroData(Product $product, Lang $lang, $getProductRelated = true)
+    protected function getProductMicroData(Product $product, Lang $lang, $relatedProducts = [])
     {
         $product->setLocale($lang->getLocale());
         $image = ProductImageQuery::create()->filterByProductId($product->getId())->orderByPosition()->find()[0];
@@ -161,9 +163,10 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             $microData['brand']['name'] = $brand->getTitle();
         }
 
-        if ($getProductRelated) {
-            foreach ($product->getProductsRelatedByAccessory() as $productRelated) {
-                $microData['isRelatedTo'][] = $this->getProductMicroData($productRelated, $lang, false);
+        if ($relatedProducts) {
+            foreach ($relatedProducts as $relatedProductId) {
+                $relatedProduct = ProductQuery::create()->filterById($relatedProductId)->findOne();
+                $microData['isRelatedTo'][] = $this->getProductMicroData($relatedProduct, $lang);
             }
         }
 

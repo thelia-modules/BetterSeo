@@ -9,7 +9,6 @@
 namespace BetterSeo\Smarty\Plugins;
 
 
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Thelia\Core\Event\Image\ImageEvent;
 use Thelia\Core\Event\TheliaEvents;
@@ -25,20 +24,20 @@ use Thelia\Model\ProductImageQuery;
 use Thelia\Model\ProductPriceQuery;
 use Thelia\Model\ProductQuery;
 use Thelia\Model\ProductSaleElementsQuery;
-use Thelia\Tools\URL;
+use Thelia\TaxEngine\TaxEngine;
 use TheliaSmarty\Template\AbstractSmartyPlugin;
 use TheliaSmarty\Template\SmartyPluginDescriptor;
 
 class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
 {
     protected $request;
-    protected $container;
+    protected $taxEngine;
     protected $dispatcher;
 
-    public function __construct(Request $request, Container $container, EventDispatcher $dispatcher)
+    public function __construct(Request $request, TaxEngine $taxEngine, EventDispatcher $dispatcher)
     {
         $this->request = $request;
-        $this->container = $container;
+        $this->taxEngine = $taxEngine;
         $this->dispatcher = $dispatcher;
     }
 
@@ -96,7 +95,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
         $image = ProductImageQuery::create()->filterByProductId($product->getId())->orderByPosition()->find()[0];
         $pse = ProductSaleElementsQuery::create()->filterByProductId($product->getId())->filterByIsDefault(1)->findOne();
         $psePrice = ProductPriceQuery::create()->filterByProductSaleElementsId($pse->getId())->findOne();
-        $taxCountry = $this->container->get('thelia.taxEngine')->getDeliveryCountry();
+        $taxCountry = $this->taxEngine->getDeliveryCountry();
 
         try {
             $taxedPrice = $product->getTaxedPrice(

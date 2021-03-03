@@ -3,7 +3,10 @@
 namespace BetterSeo\Form;
 
 use BetterSeo\BetterSeo;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 use Thelia\Type\JsonType;
@@ -17,7 +20,7 @@ class BetterSeoForm extends BaseForm
         $form
             ->add(
                 'noindex_checkbox',
-                'integer',
+                IntegerType::class,
                 array(
                     'required' => false,
                     'label' => Translator::getInstance()->trans(
@@ -32,7 +35,7 @@ class BetterSeoForm extends BaseForm
             )
             ->add(
                 'nofollow_checkbox',
-                'integer',
+                IntegerType::class,
                 array(
                     'required' => false,
                     'label' => Translator::getInstance()->trans(
@@ -47,7 +50,7 @@ class BetterSeoForm extends BaseForm
             )
             ->add(
                 'canonical_url',
-                'url',
+                UrlType::class,
                 array(
                     'required' => false,
                     'label' => Translator::getInstance()->trans(
@@ -62,7 +65,7 @@ class BetterSeoForm extends BaseForm
             )
             ->add(
                 'h1',
-                'text',
+                TextType::class,
                 array(
                     'required' => false,
                     'label' => Translator::getInstance()->trans(
@@ -95,7 +98,7 @@ class BetterSeoForm extends BaseForm
         for ($i = 1; $i <= 5; $i++) {
             $form->add(
                 'mesh_text_' . $i,
-                'text',
+                TextType::class,
                 array(
                     'required' => false,
                     'label' => Translator::getInstance()->trans(
@@ -110,7 +113,7 @@ class BetterSeoForm extends BaseForm
             )
                 ->add(
                     'mesh_url_' . $i,
-                    'url',
+                    UrlType::class,
                     array(
                         'required' => false,
                         'label' => Translator::getInstance()->trans(
@@ -125,7 +128,7 @@ class BetterSeoForm extends BaseForm
                 )
                 ->add(
                     'mesh_' . $i,
-                    'text',
+                    TextType::class,
                     array(
                         'required' => false,
                         'label' => Translator::getInstance()->trans(
@@ -141,7 +144,7 @@ class BetterSeoForm extends BaseForm
         }
     }
 
-    public function getName()
+    public static function getName()
     {
         return 'betterseo_form';
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<database defaultIdMethod="native" name="thelia"
+<database defaultIdMethod="native" name="TheliaMain"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:noNamespaceSchemaLocation="../../../../vendor/propel/propel/resources/xsd/database.xsd" >
+          xsi:noNamespaceSchemaLocation="../../../../vendor/thelia/propel/resources/xsd/database.xsd" >
 
     <table name="better_seo" namespace="BetterSeo\Model">
         <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
@@ -26,32 +26,31 @@
         <column name="mesh_3" type="LONGVARCHAR" />
         <column name="mesh_4" type="LONGVARCHAR" />
         <column name="mesh_5" type="LONGVARCHAR" />
-        <column name="json_data" type="LONGVARCHAR" />
-        <behavior name="i18n">
-            <parameter name="i18n_columns"
-                       value="noindex,
+      <column name="json_data" type="LONGVARCHAR"/>
+      <behavior name="i18n">
+        <parameter name="i18n_columns"
+                   value="noindex,
                        nofollow,
                        canonical_field,
                        h1,
-mesh_text_1,
-mesh_url_1,
-mesh_text_2,
-mesh_url_2,
-mesh_text_3,
-mesh_url_3,
-mesh_text_4,
-mesh_url_4,
-mesh_text_5,
-mesh_url_5,
-mesh_1,
-mesh_2,
-mesh_3,
-mesh_4,
-mesh_5,
-json_data
-"
-            />
-        </behavior>
+                      mesh_text_1,
+                      mesh_url_1,
+                      mesh_text_2,
+                      mesh_url_2,
+                      mesh_text_3,
+                      mesh_url_3,
+                      mesh_text_4,
+                      mesh_url_4,
+                      mesh_text_5,
+                      mesh_url_5,
+                      mesh_1,
+                      mesh_2,
+                      mesh_3,
+                      mesh_4,
+                      mesh_5,
+                      json_data"
+        />
+      </behavior>
     </table>
-    <external-schema filename="local/config/schema.xml" referenceOnly="true" />
+  <external-schema filename="local/config/schema.xml" referenceOnly="true" />
 </database>

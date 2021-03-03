@@ -27,7 +27,7 @@ class BetterSeo extends BaseModule
      * @param ConnectionInterface|null $con
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function postActivation(ConnectionInterface $con = null)
+    public function postActivation(ConnectionInterface $con = null):void
     {
         try {
             BetterSeoQuery::create()->findOne();
@@ -37,7 +37,7 @@ class BetterSeo extends BaseModule
         }
     }
 
-    public function update($currentVersion, $newVersion, ConnectionInterface $con = null)
+    public function update($currentVersion, $newVersion, ConnectionInterface $con = null):void
     {
         $sqlToExecute = [];
         $finder = new Finder();

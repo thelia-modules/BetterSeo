@@ -129,7 +129,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
 
             try {
 
-                $this->dispatcher->dispatch(TheliaEvents::IMAGE_PROCESS, $event);
+                $this->dispatcher->dispatch($event, TheliaEvents::IMAGE_PROCESS);
                 $imagePath = $event->getFileUrl();
 
             } catch (\Exception $e) {

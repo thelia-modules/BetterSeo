@@ -1,4 +1,15 @@
-{$pageUrl}
+{$pageUrl|default:null}
+{$noindex_val = null}
+{$nofollow_val = null}
+{$canonical_val = null}
+{$json_data = null}
+{$h1 = null}
+{for $i=1 to 5}
+    {assign var="mesh_text_$i" value=null}
+    {assign var="mesh_url_$i" value=null}
+    {assign var="mesh_$i" value=null}
+{/for}
+
 {loop type="better_seo_loop" name="better_seo_data" object_id=$object_id object_type=$object_type lang_id=$edit_language_id}
 {$noindex_val = $NOINDEX}
 {$nofollow_val = $NOFOLLOW}

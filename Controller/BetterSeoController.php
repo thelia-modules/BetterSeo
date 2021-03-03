@@ -16,7 +16,7 @@ class BetterSeoController extends BaseAdminController
      */
     public function saveAction()
     {
-        $form = new BetterSeoForm($this->getRequest());
+        $form = $this->createForm(BetterSeoForm::getName());
         $response = null;
 
         $seoForm = $this->validateForm($form);

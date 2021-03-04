@@ -2,14 +2,13 @@
 
 namespace BetterSeo\EventListeners;
 
-
-
 use AlternateHreflang\Event\AlternateHreflangEvent;
 use BetterSeo\Model\BetterSeoQuery;
 use CanonicalUrl\Event\CanonicalUrlEvent;
 use CanonicalUrl\Event\CanonicalUrlEvents;
 use Sitemap\Event\SitemapEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Core\HttpFoundation\Request;
 
 class SeoListener implements EventSubscriberInterface
@@ -17,9 +16,9 @@ class SeoListener implements EventSubscriberInterface
     /** @var Request  */
     protected $request;
 
-    public function __construct(Request $request)
+    public function __construct(RequestStack $requestStack)
     {
-        $this->request = $request;
+        $this->request = $requestStack->getCurrentRequest();
     }
 
 

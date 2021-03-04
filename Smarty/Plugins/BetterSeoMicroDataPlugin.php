@@ -10,6 +10,8 @@ namespace BetterSeo\Smarty\Plugins;
 
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Image\ImageEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\HttpFoundation\Request;
@@ -34,9 +36,9 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     protected $taxEngine;
     protected $dispatcher;
 
-    public function __construct(Request $request, TaxEngine $taxEngine, EventDispatcher $dispatcher)
+    public function __construct(RequestStack $requestStack, TaxEngine $taxEngine, EventDispatcherInterface $dispatcher)
     {
-        $this->request = $request;
+        $this->request = $requestStack->getCurrentRequest();
         $this->taxEngine = $taxEngine;
         $this->dispatcher = $dispatcher;
     }

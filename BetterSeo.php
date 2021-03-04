@@ -14,6 +14,7 @@ namespace BetterSeo;
 
 use BetterSeo\Model\BetterSeoQuery;
 use Propel\Runtime\Connection\ConnectionInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symfony\Component\Finder\Finder;
 use Thelia\Install\Database;
 use Thelia\Module\BaseModule;
@@ -62,5 +63,16 @@ class BetterSeo extends BaseModule
         foreach ($sqlToExecute as $version => $sql) {
             $database->insertSql(null, [$sql]);
         }
+    }
+
+    /**
+     * Defines how services are loaded in your modules.
+     */
+    public static function configureServices(ServicesConfigurator $servicesConfigurator): void
+    {
+        $servicesConfigurator->load(self::getModuleCode().'\\', __DIR__)
+            ->exclude([THELIA_MODULE_DIR.ucfirst(self::getModuleCode()).'/I18n/*'])
+            ->autowire(true)
+            ->autoconfigure(true);
     }
 }

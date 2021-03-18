@@ -31,6 +31,10 @@ class MetaHook extends BaseHook
 
             $lang = $request->getSession()->getLang();
 
+            if ($id == 0) {
+                return;
+            }
+
             $event->add(
                 $this->render('meta_hook.html', [
                     'object_id' => $id,

@@ -21,33 +21,12 @@ class SeoListener implements EventSubscriberInterface
         $this->request = $requestStack->getCurrentRequest();
     }
 
-
-    public function generateCanonical(CanonicalUrlEvent $event)
-    {
-        $objectType = $this->request->get('_view');
-        $objectId = $this->request->get($objectType.'_id');
-
-        $betterSeoObject = $this->getBetterSeoObject($objectType, $objectId);
-
-        if (null !== $betterSeoObject){
-            if (null !== $betterSeoObject->getCanonicalField()){
-                $event->setUrl($betterSeoObject->getCanonicalField());
-            }
-        }
-    }
-
     public function removeHrefLang(AlternateHreflangEvent $event)
     {
         $objectType = $this->request->get('_view');
         $objectId = $this->request->get($objectType.'_id');
 
         $betterSeoObject = $this->getBetterSeoObject($objectType, $objectId);
-
-        if (null !== $betterSeoObject){
-            if (null !== $betterSeoObject->getCanonicalField()){
-                $event->setUrl(null);
-            }
-        }
     }
 
     public function checkSiteMap(SitemapEvent $event)
@@ -75,9 +54,6 @@ class SeoListener implements EventSubscriberInterface
         }
         if (class_exists('AlternateHreflang\Event\AlternateHreflangEvent')){
             $events[AlternateHreflangEvent::BASE_EVENT_NAME] = ['removeHrefLang',128];
-        }
-        if (class_exists('CanonicalUrl\Event\CanonicalUrlEvents')){
-            $events[CanonicalUrlEvents::GENERATE_CANONICAL] = ['generateCanonical', 128];
         }
         return $events;
     }

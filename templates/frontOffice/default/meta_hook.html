@@ -7,10 +7,6 @@
         <meta name="robots" content="nofollow">
     {/if}
 
-    {if $CANONICAL}
-        <link rel="canonical" href="{url path="$CANONICAL"}" />
-    {/if}
-
     {if $JSON_DATA}
         <script type="application/ld+json">
         {$JSON_DATA nofilter}

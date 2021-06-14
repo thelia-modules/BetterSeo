@@ -17,14 +17,9 @@ class BetterSeoController extends BaseAdminController
     public function saveAction()
     {
         $form = $this->createForm(BetterSeoForm::getName());
-        $response = null;
 
         $seoForm = $this->validateForm($form);
 
-        $canonical = $seoForm->get('canonical_url')->getData();
-        if ($canonical !== null && $canonical[0] !== '/' && filter_var($canonical, FILTER_VALIDATE_URL) === false) {
-            throw new \InvalidArgumentException('The value "' . (string) $canonical . '" is not a valid Url or Uri.');
-        }
         $object_id = $this->getRequest()->get('object_id');
         $object_type = $this->getRequest()->get('object_type');
 
@@ -47,8 +42,7 @@ class BetterSeoController extends BaseAdminController
             ->setJsonData($seoForm->get('json_data')->getData())
             ->setNoindex(null === $seoForm->get('noindex_checkbox')->getData() ? 0 : 1)
             ->setNofollow(null === $seoForm->get('nofollow_checkbox')->getData() ? 0 : 1)
-            ->setH1(null === $seoForm->get('h1')->getData() ? '' : $seoForm->get('h1')->getData())
-            ->setCanonicalField($canonical);
+            ->setH1(null === $seoForm->get('h1')->getData() ? '' : $seoForm->get('h1')->getData());
 
         for ($i = 1; $i <= 5; $i++) {
             call_user_func([$objectSeo, 'setMeshUrl' . $i], $seoForm->get('mesh_url_' . $i)->getData());

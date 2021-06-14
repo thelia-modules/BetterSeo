@@ -43,7 +43,6 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
             ->endUse()
             ->withColumn(BetterSeoI18nTableMap::NOINDEX, 'noindex')
             ->withColumn(BetterSeoI18nTableMap::NOFOLLOW, 'nofollow')
-            ->withColumn(BetterSeoI18nTableMap::CANONICAL_FIELD, 'canonical')
             ->withColumn(BetterSeoI18nTableMap::H1, 'h1')
             ->withColumn(BetterSeoI18nTableMap::JSON_DATA, 'json_data');
 
@@ -72,7 +71,6 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
             $loopResultRow->set('OBJECT_TYPE', $data->getObjectType());
             $loopResultRow->set('NOINDEX', $data->getVirtualColumn('noindex'));
             $loopResultRow->set('NOFOLLOW', $data->getVirtualColumn('nofollow'));
-            $loopResultRow->set('CANONICAL', $data->getVirtualColumn('canonical'));
             $loopResultRow->set('H1', $data->getVirtualColumn('h1'));
             $loopResultRow->set('JSON_DATA', $data->getVirtualColumn('json_data'));
 

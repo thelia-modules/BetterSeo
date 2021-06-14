@@ -49,21 +49,6 @@ class BetterSeoForm extends BaseForm
                 )
             )
             ->add(
-                'canonical_url',
-                UrlType::class,
-                array(
-                    'required' => false,
-                    'label' => Translator::getInstance()->trans(
-                        'canonical',
-                        array(),
-                        BetterSeo::DOMAIN_NAME
-                    ),
-                    'label_attr' => array(
-                        'for' => 'canonical_url'
-                    )
-                )
-            )
-            ->add(
                 'h1',
                 TextType::class,
                 array(

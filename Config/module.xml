@@ -4,10 +4,10 @@
         xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_2.xsd">
     <fullnamespace>BetterSeo\BetterSeo</fullnamespace>
     <descriptive locale="en_US">
-        <title>Set noindex, nofollow, h1, canonical tag on pages, and manage mesh links</title>
+        <title>Set noindex, nofollow, h1, tag on pages, and manage mesh links</title>
     </descriptive>
     <descriptive locale="fr_FR">
-        <title>Ajoute la balise noindex, nofollow, h1, canonical sur les pages, plus gestion des liens maillés</title>
+        <title>Ajoute la balise noindex, nofollow, h1, sur les pages, plus gestion des liens maillés</title>
     </descriptive>
     <languages>
         <language>en_US</language>

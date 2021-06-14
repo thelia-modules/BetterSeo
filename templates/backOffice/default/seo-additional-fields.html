@@ -1,7 +1,6 @@
 {$pageUrl|default:null}
 {$noindex_val = null}
 {$nofollow_val = null}
-{$canonical_val = null}
 {$json_data = null}
 {$h1 = null}
 {for $i=1 to 5}
@@ -13,7 +12,6 @@
 {loop type="better_seo_loop" name="better_seo_data" object_id=$object_id object_type=$object_type lang_id=$edit_language_id}
 {$noindex_val = $NOINDEX}
 {$nofollow_val = $NOFOLLOW}
-{$canonical_val = $CANONICAL}
 {$json_data = $JSON_DATA}
 {$h1 = $H1}
 {for $i=1 to 5}
@@ -71,21 +69,6 @@
                 <div class="help-block">
                     {intl l="noindex_nofollow.help" d="betterseo.bo.default"}
                 </div>
-
-                {form_field  field="canonical_url"}
-                    <div class="{if $error} has-error{/if}">
-                        <label class="control-label danger" for="{$label_attr.for}">{intl l=$label d="betterseo.bo.default"}</label>
-                        <input type="url" id="{$label_attr.for}"  class="form-control" name="{$name}" pattern="http://.*|https://.*" value="{$canonical_val}"/>
-                        {if $error}
-                            <div class="text-danger">
-                                {$message}
-                            </div>
-                        {/if}
-                    </div>
-                    <div class="help-block">
-                        {intl l="canonical.help" d="betterseo.bo.default"}
-                    </div>
-                {/form_field}
 
                 {form_field  field="h1"}
                     <div class="{if $error} has-error{/if}">

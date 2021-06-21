@@ -13,7 +13,7 @@
         </hook>
         <hook id="betterseo.meta.hook" class="BetterSeo\Hook\MetaHook" scope="request">
             <tag name="hook.event_listener" event="main.head-bottom" type="front" method="onMainHeadBottom" />
-            <argument type="service" id="request" />
+            <argument type="service" id="request_stack" />
         </hook>
     </hooks>
 

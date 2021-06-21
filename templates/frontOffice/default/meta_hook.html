@@ -1,3 +1,6 @@
+<script type="application/ld+json">
+    {BetterSeoMicroData}
+</script>
 {loop type="better_seo_loop" name="better_seo_meta_loop" object_id=$object_id object_type=$object_type lang_id=$lang_id}
     {if $NOINDEX == 1 and $NOFOLLOW == 1}
         <meta name="robots" content="noindex, nofollow">
@@ -9,7 +12,7 @@
 
     {if $JSON_DATA}
         <script type="application/ld+json">
-        {$JSON_DATA nofilter}
+            {$JSON_DATA nofilter}
         </script>
     {/if}
 {/loop}

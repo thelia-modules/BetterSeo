@@ -73,14 +73,12 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
                 $product = ProductQuery::create()->filterById($id)->findOne();
                 $relatedProducts = is_array($params['related_products']) ? $params['related_products'] : $this->explode($params['related_products']);
                 return json_encode($this->getProductMicroData($product, $lang, $relatedProducts));
-                break;
             case 'category':
                 $id = $params['id'] ?: $this->request->get('category_id');
                 $category = CategoryQuery::create()->filterById($id)->findOne();
                 return json_encode($this->getCategoryMicroData($category, $lang));
-                break;
         }
-        return 'type ' . $type . ' not found';
+        return json_encode([]);
     }
 
     /**

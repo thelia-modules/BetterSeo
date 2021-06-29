@@ -1,27 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicolasbarbey
- * Date: 23/11/2020
- * Time: 09:29
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace BetterSeo\Smarty\Plugins;
 
-
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Image\ImageEvent;
 use Thelia\Core\Event\TheliaEvents;
-use Thelia\Core\HttpFoundation\Request;
 use Thelia\Exception\TaxEngineException;
 use Thelia\Model\Category;
-use Thelia\Model\Product;
 use Thelia\Model\CategoryQuery;
 use Thelia\Model\ConfigQuery;
 use Thelia\Model\Lang;
 use Thelia\Model\LangQuery;
+use Thelia\Model\Product;
 use Thelia\Model\ProductImageQuery;
 use Thelia\Model\ProductPriceQuery;
 use Thelia\Model\ProductQuery;
@@ -46,14 +47,15 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     public function getPluginDescriptors()
     {
         return [
-            new SmartyPluginDescriptor('function', 'BetterSeoMicroData', $this, 'betterSeoMicroData')
+            new SmartyPluginDescriptor('function', 'BetterSeoMicroData', $this, 'betterSeoMicroData'),
         ];
     }
 
-
     /**
      * @param $params
+     *
      * @return array|int|string
+     *
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
@@ -66,26 +68,62 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
         if (!$lang) {
             $lang = LangQuery::create()->filterByByDefault(1)->findOne();
         }
+        $microdata = null;
 
         switch ($type) {
             case 'product':
                 $id = $params['id'] ?: $this->request->get('product_id');
                 $product = ProductQuery::create()->filterById($id)->findOne();
-                $relatedProducts = is_array($params['related_products']) ? $params['related_products'] : $this->explode($params['related_products']);
-                return json_encode($this->getProductMicroData($product, $lang, $relatedProducts));
+                $relatedProducts = \is_array($params['related_products']) ? $params['related_products'] : $this->explode($params['related_products']);
+
+                $microdata = $this->getProductMicroData($product, $lang, $relatedProducts);
+                break;
             case 'category':
                 $id = $params['id'] ?: $this->request->get('category_id');
-                $category = CategoryQuery::create()->filterById($id)->findOne();
-                return json_encode($this->getCategoryMicroData($category, $lang));
+                if ($id) {
+                    $category = CategoryQuery::create()->filterById($id)->findOne();
+                    $microdata = $this->getCategoryMicroData($category, $lang);
+                }
+                break;
         }
-        return json_encode([]);
+
+        $scriptsTag = '';
+
+        $scriptsTag .= '<script type="application/ld+json">'.json_encode($this->getStoreMicroData()).'</script>';
+        if (null !== $microdata) {
+            $scriptsTag .= '<script type="application/ld+json">'.json_encode($microdata).'</script>';
+        }
+
+        return $scriptsTag;
     }
 
     /**
-     * @param Product $product
-     * @param Lang $lang
-     * @param array $relatedProducts
      * @return array
+     */
+    protected function getStoreMicroData()
+    {
+        $microData = [
+            '@context' => 'https://schema.org/',
+            '@type' => 'Organization',
+            'name' => ConfigQuery::read('store_name'),
+            'description' => ConfigQuery::read('store_description'),
+            'url' => ConfigQuery::read('url_site'),
+            'address' => [
+                '@type' => 'PostalAddress',
+                'streetAddress' => ConfigQuery::read('store_address1').' '.ConfigQuery::read('store_address2').' '.ConfigQuery::read('store_address3'),
+                'addressLocality' => ConfigQuery::read('store_city'),
+                'postalCode' => ConfigQuery::read('store_zipcode'),
+            ],
+        ];
+
+        return $microData;
+    }
+
+    /**
+     * @param array $relatedProducts
+     *
+     * @return array
+     *
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
@@ -117,21 +155,19 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
         if ($image) {
             $baseSourceFilePath = ConfigQuery::read('images_library_path');
             if ($baseSourceFilePath === null) {
-                $baseSourceFilePath = THELIA_LOCAL_DIR . 'media' . DS . 'images';
+                $baseSourceFilePath = THELIA_LOCAL_DIR.'media'.DS.'images';
             } else {
-                $baseSourceFilePath = THELIA_ROOT . $baseSourceFilePath;
+                $baseSourceFilePath = THELIA_ROOT.$baseSourceFilePath;
             }
             $event = new ImageEvent();
-            $sourceFilePath = $baseSourceFilePath . '/product/' . $image->getFile();
+            $sourceFilePath = $baseSourceFilePath.'/product/'.$image->getFile();
 
             $event->setSourceFilepath($sourceFilePath);
             $event->setCacheSubdirectory('product');
 
             try {
-
                 $this->dispatcher->dispatch($event, TheliaEvents::IMAGE_PROCESS);
                 $imagePath = $event->getFileUrl();
-
             } catch (\Exception $e) {
                 $imagePath = $image->getFile();
             }
@@ -149,8 +185,8 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
                 'priceCurrency' => $this->request->getSession()->getCurrency()->getCode(),
                 'price' => $taxedPrice,
                 'itemCondition' => 'https://schema.org/NewCondition',
-                'availability' => $pse->getQuantity() > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'
-            ]
+                'availability' => $pse->getQuantity() > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock',
+            ],
         ];
 
         if ($pse->getEanCode()) {
@@ -173,8 +209,6 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     }
 
     /**
-     * @param Category $category
-     * @param Lang $lang
      * @return array
      */
     protected function getCategoryMicroData(Category $category, Lang $lang)
@@ -190,7 +224,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             $itemListElement[] = [
                 '@type' => 'ListItem',
                 'position' => $i++,
-                'url' => $product->getUrl()
+                'url' => $product->getUrl(),
             ];
         }
 
@@ -198,8 +232,8 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             '@context' => 'https://schema.org/',
             '@type' => 'ItemList',
             'url' => $category->getUrl(),
-            'numberOfItems' => count($products),
-            'itemListElement' => $itemListElement
+            'numberOfItems' => \count($products),
+            'itemListElement' => $itemListElement,
         ];
 
         return $microData;

@@ -1,19 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicolasbarbey
- * Date: 23/11/2020
- * Time: 09:29
- */
 
 namespace BetterSeo\Smarty\Plugins;
 
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Thelia\Core\Event\Image\ImageEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\HttpFoundation\Request;
 use Thelia\Exception\TaxEngineException;
+use Thelia\Model\Accessory;
+use Thelia\Model\Base\AccessoryQuery;
+use Thelia\Model\Base\ModuleQuery;
+use Thelia\Model\Base\ProductImage;
 use Thelia\Model\Category;
 use Thelia\Model\Product;
 use Thelia\Model\CategoryQuery;
@@ -33,29 +32,32 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     protected $request;
     protected $taxEngine;
     protected $dispatcher;
+    protected $container;
 
-    public function __construct(Request $request, TaxEngine $taxEngine, EventDispatcher $dispatcher)
+    public function __construct(Request $request, TaxEngine $taxEngine, EventDispatcher $dispatcher, ContainerInterface $container)
     {
         $this->request = $request;
         $this->taxEngine = $taxEngine;
         $this->dispatcher = $dispatcher;
+        $this->container = $container;
     }
 
     public function getPluginDescriptors()
     {
         return [
-            new SmartyPluginDescriptor('function', 'BetterSeoMicroData', $this, 'betterSeoMicroData')
+            new SmartyPluginDescriptor('function', 'BetterSeoMicroData', $this, 'betterSeoMicroData'),
         ];
     }
 
 
     /**
      * @param $params
-     * @return array|int|string
+     * @param \Smarty_Internal_Template $smarty
+     * @return string
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function betterSeoMicroData($params)
+    public function betterSeoMicroData($params,\Smarty_Internal_Template $smarty)
     {
         $type = $params['type'] ?: $this->request->get('_view');
 
@@ -69,14 +71,18 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             case 'product':
                 $id = $params['id'] ?: $this->request->get('product_id');
                 $product = ProductQuery::create()->filterById($id)->findOne();
-                $relatedProducts = is_array($params['related_products']) ? $params['related_products'] : $this->explode($params['related_products']);
+                $relatedProducts = AccessoryQuery::create()->filterByProductId($product->getId())->find();
                 return json_encode($this->getProductMicroData($product, $lang, $relatedProducts));
                 break;
             case 'category':
                 $id = $params['id'] ?: $this->request->get('category_id');
+                $inPageProduct = is_array($params['in_page_products']) ? $params['in_page_products'] : $this->explode($params['in_page_products']);
                 $category = CategoryQuery::create()->filterById($id)->findOne();
-                return json_encode($this->getCategoryMicroData($category, $lang));
+                return json_encode($this->getCategoryMicroData($category, $lang, $inPageProduct));
                 break;
+            case 'index':
+                $externalLinks = is_array($params['external_links']) ? $params['external_links'] : $this->explode($params['external_links']);
+                return json_encode($this->getIndexMicroData($externalLinks));
         }
         return 'type ' . $type . ' not found';
     }
@@ -92,9 +98,9 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     protected function getProductMicroData(Product $product, Lang $lang, $relatedProducts = [])
     {
         $product->setLocale($lang->getLocale());
-        $image = ProductImageQuery::create()->filterByProductId($product->getId())->orderByPosition()->find()[0];
-        $pse = ProductSaleElementsQuery::create()->filterByProductId($product->getId())->filterByIsDefault(1)->findOne();
-        $psePrice = ProductPriceQuery::create()->filterByProductSaleElementsId($pse->getId())->findOne();
+        $images = ProductImageQuery::create()->filterByProductId($product->getId())->orderByPosition()->find();
+        $defaultPse = ProductSaleElementsQuery::create()->filterByProductId($product->getId())->filterByIsDefault(1)->findOne();
+        $psePrice = ProductPriceQuery::create()->filterByProductSaleElementsId($defaultPse->getId())->findOne();
         $taxCountry = $this->taxEngine->getDeliveryCountry();
 
         try {
@@ -102,7 +108,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
                 $taxCountry,
                 $psePrice->getPrice()
             );
-            if ($pse->getPromo()) {
+            if ($defaultPse->getPromo()) {
                 $taxedPrice = $product->getTaxedPromoPrice(
                     $taxCountry,
                     $psePrice->getPromoPrice()
@@ -112,9 +118,28 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             $taxedPrice = null;
         }
 
-        $imagePath = null;
+        $microData = [
+            '@context' => 'https://schema.org/',
+            '@type' => 'Product',
+            'name' => $product->getTitle(),
+            'description' => $product->getDescription(),
+            'sku' => $product->getRef(),
+            'url' => $product->getUrl(),
+            'weight' => $defaultPse->getWeight() . ' kg',
+            'offers' => [
+                '@type' => 'Offer',
+                'name' => $product->getTitle(),
+                'url' => $product->getUrl(),
+                'priceCurrency' => $this->request->getSession()->getCurrency()->getCode(),
+                'price' => $taxedPrice,
+                'itemCondition' => 'https://schema.org/NewCondition',
+                'availability' => $defaultPse->getQuantity() > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'
+            ]
+        ];
 
-        if ($image) {
+        /** @var ProductImage $image */
+        foreach ($images as $image){
+
             $baseSourceFilePath = ConfigQuery::read('images_library_path');
             if ($baseSourceFilePath === null) {
                 $baseSourceFilePath = THELIA_LOCAL_DIR . 'media' . DS . 'images';
@@ -135,26 +160,12 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             } catch (\Exception $e) {
                 $imagePath = $image->getFile();
             }
+
+            $microData['image'][] = $imagePath;
         }
 
-        $microData = [
-            '@context' => 'https://schema.org/',
-            '@type' => 'Product',
-            'name' => $product->getTitle(),
-            'image' => $imagePath,
-            'description' => $product->getDescription(),
-            'sku' => $product->getRef(),
-            'offers' => [
-                'url' => $product->getUrl(),
-                'priceCurrency' => $this->request->getSession()->getCurrency()->getCode(),
-                'price' => $taxedPrice,
-                'itemCondition' => 'https://schema.org/NewCondition',
-                'availability' => $pse->getQuantity() > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'
-            ]
-        ];
-
-        if ($pse->getEanCode()) {
-            $microData['gtin13'] = $pse->getEanCode();
+        if ($defaultPse->getEanCode()) {
+            $microData['gtin13'] = $defaultPse->getEanCode();
         }
 
         if ($brand = $product->getBrand()) {
@@ -162,10 +173,46 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             $microData['brand']['name'] = $brand->getTitle();
         }
 
-        if ($relatedProducts) {
-            foreach ($relatedProducts as $relatedProductId) {
-                $relatedProduct = ProductQuery::create()->filterById($relatedProductId)->findOne();
-                $microData['isRelatedTo'][] = $this->getProductMicroData($relatedProduct, $lang);
+        $reviews = null;
+        if (null !== $isNetReviewModule = ModuleQuery::create()->filterByCode("NetReviews")->filterByActivate(1)->findOne()){
+            $productReviewService = $this->container->get("netreviews.product_review.service");
+
+            $reviews = $productReviewService->getProductReviews($product->getId(), false);
+
+            if ($reviews['count'] > 0){
+                $microData['aggregateRating'] = [
+                    "@type" => "AggregateRating",
+                    "bestRating" => 5,
+                    "ratingCount" => $reviews['count'],
+                    "ratingValue" => $reviews['rate']
+                ];
+            }
+        }
+
+        if (null !== $relatedProducts) {
+            if (null !== $isNetReviewModule){
+                $ratings = null;
+                foreach ($reviews["reviews"] as $index => $review){
+                    $ratings[] = [
+                        "@type" => "Review",
+                        "author" => $review['firstname'] . " " . $review['lastname'],
+                        "datePublished" => $reviews["date"],
+                        "description" => $review['message'],
+                        "name" => $index,
+                        "reviewRating" => [
+                            "@type" => "Rating",
+                            "bestRating" => 5,
+                            "ratingValue" => $review["rate"],
+                            "worstRating" => 1]
+                    ];
+                }
+                $microData["review"] = $ratings;
+            }
+
+            /** @var Accessory $relatedProduct */
+            foreach ($relatedProducts as $relatedProduct) {
+                $relatedProduct = ProductQuery::create()->filterById($relatedProduct->getAccessory())->findOne();
+                $microData['isRelatedTo'][] = $this->getProductMicroData($relatedProduct, $lang, null);
             }
         }
 
@@ -175,31 +222,56 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     /**
      * @param Category $category
      * @param Lang $lang
+     * @param array $inPageProduct
      * @return array
+     * @throws \Exception
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    protected function getCategoryMicroData(Category $category, Lang $lang)
+    protected function getCategoryMicroData(Category $category, Lang $lang, $inPageProduct)
     {
         $category->setLocale($lang->getLocale());
 
-        $products = $category->getProducts();
-
         $itemListElement = [];
 
-        $i = 1;
-        foreach ($products as $product) {
-            $itemListElement[] = [
-                '@type' => 'ListItem',
-                'position' => $i++,
-                'url' => $product->getUrl()
-            ];
+        foreach ($inPageProduct as $productId) {
+            $product = ProductQuery::create()->filterById($productId)->findOne();
+            $itemListElement[] = $this->getProductMicroData($product, $lang, null);
         }
 
         $microData = [
             '@context' => 'https://schema.org/',
-            '@type' => 'ItemList',
+            '@type' => 'WebPage',
             'url' => $category->getUrl(),
-            'numberOfItems' => count($products),
-            'itemListElement' => $itemListElement
+            'mainEntity' => [
+                '@context' => 'https://schema.org/',
+                '@type' => 'OfferCatalog',
+                'name' => $category->getTitle(),
+                'url' => $category->getUrl(),
+                'numberOfItems' => count($inPageProduct),
+                'itemListElement' => $itemListElement
+            ]
+        ];
+
+        return $microData;
+    }
+
+    protected function getIndexMicroData($externalLinks)
+    {
+
+        $microData = [
+            "@context"=> "http://schema.org",
+            "@type"=> "Organization",
+            "name"=> ConfigQuery::read("store_name"),
+            "description"=> ConfigQuery::read("store_description"),
+            "url"=> ConfigQuery::read("url_site"),
+            "telephone"=> ConfigQuery::read("store_phone"),
+            "address"=>[
+                "@type"=> "PostalAddress",
+                "addressLocality"=> ConfigQuery::read("store_city"),
+                "streetAddress"=> ConfigQuery::read("store_address1"),
+                "postalCode"=> ConfigQuery::read("store_zipcode")
+            ],
+            "sameAs"=> $externalLinks
         ];
 
         return $microData;

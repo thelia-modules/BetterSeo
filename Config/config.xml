@@ -21,6 +21,11 @@
             <argument type="service" id="request"/>
             <argument type="service" id="thelia.taxEngine"/>
             <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="service_container"/>
+            <tag name="thelia.parser.register_plugin" />
+        </service>
+        <service id="better.seo.loop.smarty.plugin" class="BetterSeo\Smarty\Plugins\BetterSeoLoopPlugin" scope="request">
+            <argument type="service" id="service_container"/>
             <tag name="thelia.parser.register_plugin" />
         </service>
     </services>

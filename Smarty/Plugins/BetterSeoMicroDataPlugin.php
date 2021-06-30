@@ -20,6 +20,10 @@ use Thelia\Exception\TaxEngineException;
 use Thelia\Model\Category;
 use Thelia\Model\CategoryQuery;
 use Thelia\Model\ConfigQuery;
+use Thelia\Model\Content;
+use Thelia\Model\ContentQuery;
+use Thelia\Model\Folder;
+use Thelia\Model\FolderQuery;
 use Thelia\Model\Lang;
 use Thelia\Model\LangQuery;
 use Thelia\Model\Product;
@@ -85,13 +89,27 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
                     $microdata = $this->getCategoryMicroData($category, $lang);
                 }
                 break;
+            case 'folder':
+                $id = $params['id'] ?: $this->request->get('folder_id');
+                if ($id) {
+                    $folder = FolderQuery::create()->filterById($id)->findOne();
+                    $microdata = $this->getFolderMicroData($folder, $lang);
+                }
+                break;
+            case 'content':
+                $id = $params['id'] ?: $this->request->get('content_id');
+                if ($id) {
+                    $content = ContentQuery::create()->filterById($id)->findOne();
+                    $microdata = $this->getContentMicroData($content, $lang);
+                }
+                break;
         }
 
         $scriptsTag = '';
 
-        $scriptsTag .= '<script type="application/ld+json">'.json_encode($this->getStoreMicroData()).'</script>';
+        $scriptsTag .= '<script type="application/ld+json">'.json_encode($this->getStoreMicroData(), JSON_UNESCAPED_UNICODE).'</script>';
         if (null !== $microdata) {
-            $scriptsTag .= '<script type="application/ld+json">'.json_encode($microdata).'</script>';
+            $scriptsTag .= '<script type="application/ld+json">'.json_encode($microdata, JSON_UNESCAPED_UNICODE).'</script>';
         }
 
         return $scriptsTag;
@@ -235,6 +253,56 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             'numberOfItems' => \count($products),
             'itemListElement' => $itemListElement,
         ];
+
+        return $microData;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getFolderMicroData(Folder $folder, Lang $lang)
+    {
+        $folder->setLocale($lang->getLocale());
+
+        $microData = [
+            '@context' => 'https://schema.org/',
+            '@type' => 'Guide',
+            'url' => $folder->getUrl(),
+            "name" => $folder->getTitle(),
+            "abstract" => $folder->getChapo(),
+        ];
+
+
+        return $microData;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getContentMicroData(Content $content, Lang $lang)
+    {
+        $content->setLocale($lang->getLocale());
+
+        $microData = [
+            '@context' => 'https://schema.org/',
+            '@type' => 'Article',
+            'url' => $content->getUrl(),
+            "name" => $content->getTitle(),
+            "abstract" => $content->getChapo(),
+        ];
+
+        $defaultFoIdlder = $content->getDefaultFolderId();
+
+        if (null !== $defaultFoIdlder) {
+            $default_folder = FolderQuery::create()->findOneById($defaultFoIdlder);
+            if (null !== $default_folder) {
+                $default_folder->setLocale($lang->getLocale());
+                $microData['isPartOf'] = [
+                    'name' => $default_folder->getTitle(),
+                    'url' => $default_folder->getUrl()
+                ];
+            }
+        }
 
         return $microData;
     }

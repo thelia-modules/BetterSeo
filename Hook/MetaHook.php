@@ -19,7 +19,8 @@ class MetaHook extends BaseHook
 
     public function onMainHeadBottom(HookRenderEvent $event)
     {
-        if($view = $this->request->get('_view')) {
+        $view = $this->request->get('_view');
+        if ($view && preg_match('#^[a-zA-Z0-9\-_\.]+$#', $view)) {
 
             $id = $this->request->get($view . '_id');
 

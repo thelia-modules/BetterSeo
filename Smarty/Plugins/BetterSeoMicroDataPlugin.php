@@ -76,28 +76,28 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
 
         switch ($type) {
             case 'product':
-                $id = $params['id'] ?: $this->request->get('product_id');
+                $id = $params['id'] ?? $this->request->get('product_id');
                 $product = ProductQuery::create()->filterById($id)->findOne();
                 $relatedProducts = \is_array($params['related_products']) ? $params['related_products'] : $this->explode($params['related_products']);
 
                 $microdata = $this->getProductMicroData($product, $lang, $relatedProducts);
                 break;
             case 'category':
-                $id = $params['id'] ?: $this->request->get('category_id');
+                $id = $params['id'] ?? $this->request->get('category_id');
                 if ($id) {
                     $category = CategoryQuery::create()->filterById($id)->findOne();
                     $microdata = $this->getCategoryMicroData($category, $lang);
                 }
                 break;
             case 'folder':
-                $id = $params['id'] ?: $this->request->get('folder_id');
+                $id = $params['id'] ?? $this->request->get('folder_id');
                 if ($id) {
                     $folder = FolderQuery::create()->filterById($id)->findOne();
                     $microdata = $this->getFolderMicroData($folder, $lang);
                 }
                 break;
             case 'content':
-                $id = $params['id'] ?: $this->request->get('content_id');
+                $id = $params['id'] ?? $this->request->get('content_id');
                 if ($id) {
                     $content = ContentQuery::create()->filterById($id)->findOne();
                     $microdata = $this->getContentMicroData($content, $lang);

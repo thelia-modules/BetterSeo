@@ -78,7 +78,11 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             case 'product':
                 $id = $params['id'] ?? $this->request->get('product_id');
                 $product = ProductQuery::create()->filterById($id)->findOne();
-                $relatedProducts = \is_array($params['related_products']) ? $params['related_products'] : $this->explode($params['related_products']);
+                $relatedProducts = null;
+
+                if (array_key_exists('related_products', $params)){
+                    $relatedProducts = \is_array($params['related_products']) ? $params['related_products'] : $this->explode($params['related_products']);
+                }
 
                 $microdata = $this->getProductMicroData($product, $lang, $relatedProducts);
                 break;

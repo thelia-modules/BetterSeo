@@ -103,8 +103,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             case 'content':
                 $id = $params['id'] ?? $this->request->get('content_id');
                 if ($id) {
-                    $content = ContentQuery::create()->filterById($id)->findOne();
-                    $microdata = $this->getContentMicroData($content, $lang);
+                    $microdata = $this->getContentMicroData($id, $lang);
                 }
                 break;
         }
@@ -283,8 +282,14 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     /**
      * @return array
      */
-    protected function getContentMicroData(Content $content, Lang $lang)
+    protected function getContentMicroData($contentId, Lang $lang)
     {
+        $content = ContentQuery::create()->filterById($contentId)->findOne();
+
+        if (null === $content) {
+            return null;
+        }
+
         $content->setLocale($lang->getLocale());
 
         $microData = [

@@ -18,7 +18,7 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
     protected function getArgDefinitions()
     {
         return new ArgumentCollection(
-            Argument::createIntTypeArgument('object_id'),
+            Argument::createAlphaNumStringTypeArgument('object_id'),
             Argument::createAlphaNumStringTypeArgument('object_type'),
             Argument::createIntTypeArgument('lang_id')
         );

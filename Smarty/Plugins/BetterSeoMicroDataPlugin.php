@@ -59,7 +59,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
      */
     public function betterSeoMicroData($params,\Smarty_Internal_Template $smarty)
     {
-        $type = $params['type'] ?: $this->request->get('_view');
+        $type = $params['type'] ?? $this->request->get('_view');
 
         $lang = $this->request->getSession()->getLang();
 

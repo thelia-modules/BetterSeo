@@ -12,6 +12,10 @@
 
 namespace BetterSeo\Smarty\Plugins;
 
+use BetterSeo\Event\BetterSeoMicroDataEvent;
+use BetterSeo\Event\BetterSeoMicroDataEvents;
+use BetterSeo\Event\BetterSeoStoreMicroDataEvent;
+use BetterSeo\Event\BetterSeoStoreMicroDataEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Image\ImageEvent;
@@ -110,7 +114,30 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
 
         $scriptsTag = '';
 
-        $scriptsTag .= '<script type="application/ld+json">'.json_encode($this->getStoreMicroData(), JSON_UNESCAPED_UNICODE).'</script>';
+        $storeMicroData = $this->getStoreMicroData();
+
+        if (isset($id)){
+            $storeEvent = new BetterSeoStoreMicroDataEvent($storeMicroData, $type,
+                $id, $lang->getLocale());
+
+            $this->dispatcher->dispatch(
+                $storeEvent,
+                BetterSeoStoreMicroDataEvents::BETTER_SEO_STORE_MICRO_DATA);
+
+            $storeMicroData = $storeEvent->getStoreMicrodata();
+        }
+
+        if (isset($id)){
+            $viewEvent = new BetterSeoMicroDataEvent($microdata, $type,
+                $id, $lang->getLocale());
+
+            $this->dispatcher->dispatch(
+                $viewEvent,
+                BetterSeoMicroDataEvents::BETTER_SEO_MICRO_DATA);
+            $microdata = $viewEvent->getMicrodata();
+        }
+
+        $scriptsTag .= '<script type="application/ld+json">'.json_encode($storeMicroData, JSON_UNESCAPED_UNICODE).'</script>';
         if (null !== $microdata) {
             $scriptsTag .= '<script type="application/ld+json">'.json_encode($microdata, JSON_UNESCAPED_UNICODE).'</script>';
         }

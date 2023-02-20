@@ -5,8 +5,10 @@ namespace BetterSeo\Controller;
 use BetterSeo\Form\BetterSeoForm;
 use BetterSeo\Model\BetterSeo;
 use BetterSeo\Model\BetterSeoQuery;
+use Symfony\Component\HttpFoundation\Request;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Model\LangQuery;
+use Thelia\Tools\URL;
 
 class BetterSeoController extends BaseAdminController
 {
@@ -14,17 +16,17 @@ class BetterSeoController extends BaseAdminController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function saveAction()
+    public function saveAction(Request $request)
     {
         $form = $this->createForm(BetterSeoForm::getName());
 
         $seoForm = $this->validateForm($form);
 
-        $object_id = $this->getRequest()->get('object_id');
-        $object_type = $this->getRequest()->get('object_type');
+        $object_id = $request->get('object_id');
+        $object_type = $request->get('object_type');
 
         $lang = LangQuery::create()
-            ->filterById($this->getRequest()->get('lang_id'))
+            ->filterById($request->get('lang_id'))
             ->findOne();
 
         if (null === $objectSeo = BetterSeoQuery::create()
@@ -52,18 +54,11 @@ class BetterSeoController extends BaseAdminController
 
         $objectSeo->save();
 
-        static $routes = [
-            'product' => 'products',
-            'category' => 'categories',
-            'folder' => 'folders',
-            'content' => 'content',
-            'brand' => 'brand'
-        ];
-
-        return $this->generateRedirectFromRoute(
-            'admin.'.$routes[$object_type].'.update',
-            ['current_tab' => 'seo'],
-            [$object_type.'_id' => $object_id]
+        return $this->generateRedirect(
+            URL::getInstance()->absoluteUrl(
+                $request->getSession()->getReturnToUrl(),
+                ['current_tab' => 'seo']
+            )
         );
     }
 }

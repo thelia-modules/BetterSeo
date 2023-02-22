@@ -151,7 +151,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     protected function getProductMicroData(Product $product, Lang $lang, $relatedProducts = [])
     {
         $product->setLocale($lang->getLocale());
-        $image = ProductImageQuery::create()->filterByProductId($product->getId())->orderByPosition()->find()[0];
+        $image = ProductImageQuery::create()->filterByProductId($product->getId())->orderByPosition()->find()->getFirst();
         $pse = ProductSaleElementsQuery::create()->filterByProductId($product->getId())->filterByIsDefault(1)->findOne();
         $psePrice = ProductPriceQuery::create()->filterByProductSaleElementsId($pse->getId())->findOne();
         $taxCountry = $this->taxEngine->getDeliveryCountry();

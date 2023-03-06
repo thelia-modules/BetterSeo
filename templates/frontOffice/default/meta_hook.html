@@ -7,7 +7,9 @@
     {elseif $NOINDEX == 1}
         <meta name="robots" content="noindex, follow">
     {elseif $NOFOLLOW == 1}
-        <meta name="robots" content="nofollow">
+        <meta name="robots" content="index, nofollow">
+    {else}
+        <meta name="robots" content="index, follow">
     {/if}
 
     {if $JSON_DATA}
@@ -16,3 +18,7 @@
         </script>
     {/if}
 {/loop}
+
+{elseloop rel="better_seo_meta_loop"}
+    <meta name="robots" content="index, follow">
+{/elseloop}

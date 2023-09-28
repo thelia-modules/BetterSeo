@@ -12,6 +12,7 @@
 
 namespace BetterSeo\Smarty\Plugins;
 
+use BetterSeo\Events\BetterSeoEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Image\ImageEvent;
@@ -226,7 +227,10 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             }
         }
 
-        return $microData;
+        $event = new BetterSeoEvent($microData, get_class($product), $product);
+        $this->dispatcher->dispatch($event, BetterSeoEvent::BETTER_SEO_EVENT);
+
+        return $event->getMetaDatas();
     }
 
     /**

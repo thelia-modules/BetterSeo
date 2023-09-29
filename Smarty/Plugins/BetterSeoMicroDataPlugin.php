@@ -69,6 +69,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
      */
     public function betterSeoMicroData($params)
     {
+        $objectId = null;
         $type = $params['type'] ?? $this->request->get('_view');
 
         $lang = $this->request->getSession()->getLang();
@@ -80,34 +81,34 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
 
         switch ($type) {
             case 'product':
-                $id = $params['id'] ?? $this->request->get('product_id');
-                $product = ProductQuery::create()->filterById($id)->findOne();
+                $objectId = $params['id'] ?? $this->request->get('product_id');
+                $product = ProductQuery::create()->filterById($objectId)->findOne();
                 $relatedProducts = null;
 
-                if (array_key_exists('related_products', $params)){
+                if (array_key_exists('related_products', $params)) {
                     $relatedProducts = \is_array($params['related_products']) ? $params['related_products'] : $this->explode($params['related_products']);
                 }
 
                 $microdata = $this->getProductMicroData($product, $lang, $relatedProducts);
                 break;
             case 'category':
-                $id = $params['id'] ?? $this->request->get('category_id');
-                if ($id) {
-                    $category = CategoryQuery::create()->filterById($id)->findOne();
+                $objectId = $params['id'] ?? $this->request->get('category_id');
+                if ($objectId) {
+                    $category = CategoryQuery::create()->filterById($objectId)->findOne();
                     $microdata = $this->getCategoryMicroData($category, $lang);
                 }
                 break;
             case 'folder':
-                $id = $params['id'] ?? $this->request->get('folder_id');
-                if ($id) {
-                    $folder = FolderQuery::create()->filterById($id)->findOne();
+                $objectId = $params['id'] ?? $this->request->get('folder_id');
+                if ($objectId) {
+                    $folder = FolderQuery::create()->filterById($objectId)->findOne();
                     $microdata = $this->getFolderMicroData($folder, $lang);
                 }
                 break;
             case 'content':
-                $id = $params['id'] ?? $this->request->get('content_id');
-                if ($id) {
-                    $microdata = $this->getContentMicroData($id, $lang);
+                $objectId = $params['id'] ?? $this->request->get('content_id');
+                if ($objectId) {
+                    $microdata = $this->getContentMicroData($objectId, $lang);
                 }
                 break;
         }
@@ -116,20 +117,18 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
 
         $storeMicroData = $this->getStoreMicroData();
 
-        if (isset($id)){
+        if ($objectId) {
             $storeEvent = new BetterSeoStoreMicroDataEvent($storeMicroData, $type,
-                $id, $lang->getLocale());
+                $objectId, $lang->getLocale());
 
             $this->dispatcher->dispatch(
                 $storeEvent,
                 BetterSeoStoreMicroDataEvents::BETTER_SEO_STORE_MICRO_DATA);
 
             $storeMicroData = $storeEvent->getStoreMicrodata();
-        }
 
-        if (isset($id)){
             $viewEvent = new BetterSeoMicroDataEvent($microdata, $type,
-                $id, $lang->getLocale());
+                $objectId, $lang->getLocale());
 
             $this->dispatcher->dispatch(
                 $viewEvent,
@@ -137,9 +136,9 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             $microdata = $viewEvent->getMicrodata();
         }
 
-        $scriptsTag .= '<script type="application/ld+json">'.json_encode($storeMicroData, JSON_UNESCAPED_UNICODE).'</script>';
+        $scriptsTag .= '<script type="application/ld+json">' . json_encode($storeMicroData, JSON_UNESCAPED_UNICODE) . '</script>';
         if (null !== $microdata) {
-            $scriptsTag .= '<script type="application/ld+json">'.json_encode($microdata, JSON_UNESCAPED_UNICODE).'</script>';
+            $scriptsTag .= '<script type="application/ld+json">' . json_encode($microdata, JSON_UNESCAPED_UNICODE) . '</script>';
         }
 
         return $scriptsTag;
@@ -158,7 +157,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             'url' => ConfigQuery::read('url_site'),
             'address' => [
                 '@type' => 'PostalAddress',
-                'streetAddress' => ConfigQuery::read('store_address1').' '.ConfigQuery::read('store_address2').' '.ConfigQuery::read('store_address3'),
+                'streetAddress' => ConfigQuery::read('store_address1') . ' ' . ConfigQuery::read('store_address2') . ' ' . ConfigQuery::read('store_address3'),
                 'addressLocality' => ConfigQuery::read('store_city'),
                 'postalCode' => ConfigQuery::read('store_zipcode'),
             ],
@@ -203,12 +202,12 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
         if ($image) {
             $baseSourceFilePath = ConfigQuery::read('images_library_path');
             if ($baseSourceFilePath === null) {
-                $baseSourceFilePath = THELIA_LOCAL_DIR.'media'.DS.'images';
+                $baseSourceFilePath = THELIA_LOCAL_DIR . 'media' . DS . 'images';
             } else {
-                $baseSourceFilePath = THELIA_ROOT.$baseSourceFilePath;
+                $baseSourceFilePath = THELIA_ROOT . $baseSourceFilePath;
             }
             $event = new ImageEvent();
-            $sourceFilePath = $baseSourceFilePath.'/product/'.$image->getFile();
+            $sourceFilePath = $baseSourceFilePath . '/product/' . $image->getFile();
 
             $event->setSourceFilepath($sourceFilePath);
             $event->setCacheSubdirectory('product');

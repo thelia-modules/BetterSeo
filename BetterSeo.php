@@ -22,7 +22,7 @@ use Thelia\Module\BaseModule;
 class BetterSeo extends BaseModule
 {
     /** @var string */
-    const DOMAIN_NAME = 'betterseo.bo.default';
+    const DOMAIN_NAME = 'betterseo';
 
     /**
      * @param ConnectionInterface|null $con

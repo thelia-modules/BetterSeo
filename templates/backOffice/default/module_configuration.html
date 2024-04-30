@@ -1,0 +1,31 @@
+<div class="general-block-decorator">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="title">
+                {intl l="Better Seo configuration" d='betterseo.bo.default'}
+            </div>
+
+            {form name="betterseo_form_configuration_form"}
+                <form method="post" action="{url path='/admin/module/BetterSeo/configuration'}" {form_enctype form=$form}>
+                    {form_hidden_fields form=$form}
+
+                    {render_form_field field="success_url" value={navigate to='current'}}
+                    {render_form_field field="error_url" value={navigate to='current'}}
+
+                    {if $form_error}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger">{$form_error_message}</div>
+                            </div>
+                        </div>
+                    {/if}
+
+                    {render_form_field field='category_limit'}
+
+                    <br>
+                    <button type="submit" class="btn btn-success" >{intl l="Save" d="betterseo.bo.default"}</button>
+                </form>
+            {/form}
+        </div>
+    </div>
+</div>

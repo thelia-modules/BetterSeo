@@ -12,10 +12,13 @@
 
 namespace BetterSeo\Smarty\Plugins;
 
+use BetterSeo\BetterSeo;
 use BetterSeo\Event\BetterSeoMicroDataEvent;
 use BetterSeo\Event\BetterSeoMicroDataEvents;
 use BetterSeo\Event\BetterSeoStoreMicroDataEvent;
 use BetterSeo\Event\BetterSeoStoreMicroDataEvents;
+use Propel\Runtime\Collection\ObjectCollection;
+use Propel\Runtime\Util\PropelModelPager;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Image\ImageEvent;
@@ -94,8 +97,12 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             case 'category':
                 $objectId = $params['id'] ?? $this->request->get('category_id');
                 if ($objectId) {
+                    $page = $params['page'] ?? $this->request->get('page') ?? 1;
+                    $limit = $params['limit'] ?? $this->request->get('limit') ??
+                        BetterSeo::getConfigValue(BetterSeo::BETTER_SE0_LIMIT_CONFIG_KEY);
+
                     $category = CategoryQuery::create()->filterById($objectId)->findOne();
-                    $microdata = $this->getCategoryMicroData($category, $lang);
+                    $microdata = $this->getCategoryMicroData($category, $lang, $page, $limit);
                 }
                 break;
             case 'folder':
@@ -258,11 +265,11 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
     /**
      * @return array
      */
-    protected function getCategoryMicroData(Category $category, Lang $lang)
+    protected function getCategoryMicroData(Category $category, Lang $lang, $page, $limit)
     {
         $category->setLocale($lang->getLocale());
 
-        $products = $category->getProducts();
+        $products = $this->getProduct($category, $page, $limit);
 
         $itemListElement = [];
 
@@ -284,6 +291,15 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
         ];
 
         return $microData;
+    }
+
+    private function getProduct(Category $category, $page, $limit): PropelModelPager|ObjectCollection|array
+    {
+        if (null !== $limit) {
+            return ProductQuery::create()->filterByCategory($category)->paginate($page, $limit);
+        }
+
+        return $category->getProducts();
     }
 
     /**

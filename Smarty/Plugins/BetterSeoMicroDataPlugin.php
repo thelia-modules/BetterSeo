@@ -24,6 +24,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Image\ImageEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Exception\TaxEngineException;
+use Thelia\Model\BrandI18nQuery;
 use Thelia\Model\Category;
 use Thelia\Model\CategoryQuery;
 use Thelia\Model\ConfigQuery;
@@ -248,8 +249,15 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
         }
 
         if ($brand = $product->getBrand()) {
+            $brandTitle = BrandI18nQuery::create()
+                ->filterById($brand->getId())
+                ->findOne()
+                ->getTitle();
+        }
+
+        if ($brandTitle) {
             $microData['brand']['@type'] = 'Brand';
-            $microData['brand']['name'] = $brand->getTitle();
+            $microData['brand']['name'] = $brandTitle;
         }
 
         if ($relatedProducts) {

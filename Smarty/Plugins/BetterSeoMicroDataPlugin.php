@@ -42,6 +42,7 @@ use Thelia\Model\ProductSaleElementsQuery;
 use Thelia\TaxEngine\TaxEngine;
 use TheliaSmarty\Template\AbstractSmartyPlugin;
 use TheliaSmarty\Template\SmartyPluginDescriptor;
+use Thelia\Model\CountryQuery;
 
 class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
 {
@@ -157,9 +158,10 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
      */
     protected function getStoreMicroData()
     {
+        $country = CountryQuery::create()->filterById(ConfigQuery::read('store_country',64))->findOne();
         $microData = [
             '@context' => 'https://schema.org/',
-            '@type' => 'Organization',
+            '@type' => 'Organization', 
             'name' => ConfigQuery::read('store_name'),
             'description' => ConfigQuery::read('store_description'),
             'url' => ConfigQuery::read('url_site'),
@@ -167,6 +169,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
                 '@type' => 'PostalAddress',
                 'streetAddress' => ConfigQuery::read('store_address1') . ' ' . ConfigQuery::read('store_address2') . ' ' . ConfigQuery::read('store_address3'),
                 'addressLocality' => ConfigQuery::read('store_city'),
+                'addressCountry' => $country?->getIsoalpha2(),
                 'postalCode' => ConfigQuery::read('store_zipcode'),
             ],
         ];

@@ -28,7 +28,6 @@ use Thelia\Model\BrandI18nQuery;
 use Thelia\Model\Category;
 use Thelia\Model\CategoryQuery;
 use Thelia\Model\ConfigQuery;
-use Thelia\Model\Content;
 use Thelia\Model\ContentQuery;
 use Thelia\Model\Folder;
 use Thelia\Model\FolderQuery;
@@ -251,6 +250,8 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
             $microData['gtin13'] = $pse->getEanCode();
         }
 
+        $brandTitle = null;
+
         if ($brand = $product->getBrand()) {
             $brandTitle = BrandI18nQuery::create()
                 ->filterById($brand->getId())
@@ -261,6 +262,11 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
         if ($brandTitle) {
             $microData['brand']['@type'] = 'Brand';
             $microData['brand']['name'] = $brandTitle;
+        }
+
+
+        if ($weight = $pse->getWeight()) {
+            $microData['shipping_weight'] = $weight . ' ' .'kg';
         }
 
         if ($relatedProducts) {

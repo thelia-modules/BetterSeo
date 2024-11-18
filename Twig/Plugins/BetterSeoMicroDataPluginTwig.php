@@ -17,6 +17,8 @@ use BetterSeo\Event\BetterSeoMicroDataEvent;
 use BetterSeo\Event\BetterSeoMicroDataEvents;
 use BetterSeo\Event\BetterSeoStoreMicroDataEvent;
 use BetterSeo\Event\BetterSeoStoreMicroDataEvents;
+use BetterSeo\Model\BetterSeoQuery;
+use BetterSeo\Model\Map\BetterSeoI18nTableMap;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Util\PropelModelPager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -41,12 +43,13 @@ use Thelia\Model\ProductQuery;
 use Thelia\Model\ProductSaleElementsQuery;
 use Thelia\Service\Model\LangService;
 use Thelia\TaxEngine\TaxEngine;
+use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class BetterSeoMicroDataPluginTwig extends AbstractExtension
 {
-    public function __construct(private RequestStack $requestStack, private EventDispatcherInterface $dispatcher, private TaxEngine $taxEngine, private LangService $langService)
+    public function __construct(private Environment $twig, private RequestStack $requestStack, private EventDispatcherInterface $dispatcher, private TaxEngine $taxEngine, private LangService $langService)
     {
     }
 
@@ -54,7 +57,13 @@ class BetterSeoMicroDataPluginTwig extends AbstractExtension
     {
         return [
             new TwigFunction('BetterSeoMicroData', [$this, 'betterSeoMicroData']),
+            new TwigFunction('BetterSeoPageTitle', [$this, 'betterSeoPageTitle']),
         ];
+    }
+
+    public function BetterSeoPageTitle()
+    {
+        return 'toto';
     }
 
     public function betterSeoMicroData(?string $view, ?array $params)
@@ -132,9 +141,35 @@ class BetterSeoMicroDataPluginTwig extends AbstractExtension
             $microdata = $viewEvent->getMicrodata();
         }
 
+        $query = BetterSeoQuery::create()
+        ->filterByObjectId($objectId)
+        ->filterByObjectType($type)
+        ->useBetterSeoI18nQuery()
+        ->filterByLocale($this->langService->getLocale())
+        ->endUse()
+        ->withColumn(BetterSeoI18nTableMap::NOINDEX, 'noindex')
+        ->withColumn(BetterSeoI18nTableMap::NOFOLLOW, 'nofollow')
+        ->withColumn(BetterSeoI18nTableMap::H1, 'h1')
+        ->withColumn(BetterSeoI18nTableMap::JSON_DATA, 'json_data')
+        ->findOne();
+
+        if (null !== $query) {
+            if ($query->getVirtualColumn('noindex') === 1 && $query->getVirtualColumn('nofollow') === 1) {
+                $scriptsTag .= '<meta name="robots" content="noindex, nofollow">';
+            } elseif ($query->getVirtualColumn('noindex') === 1) {
+                $scriptsTag .= '<meta name="robots" content="noindex, follow">';
+            } elseif ($query->getVirtualColumn('nofollow') === 1) {
+                $scriptsTag .= '<meta name="robots" content="nofollow">';
+            }
+        }
+
         $scriptsTag .= '<script type="application/ld+json">'.json_encode($storeMicroData, \JSON_UNESCAPED_UNICODE).'</script>';
         if (null !== $microdata) {
             $scriptsTag .= '<script type="application/ld+json">'.json_encode($microdata, \JSON_UNESCAPED_UNICODE).'</script>';
+        }
+
+        if (null !== $query && $query->getVirtualColumn('json_data')) {
+            $scriptsTag .= '<script type="application/ld+json">'.$query->getVirtualColumn('json_data').'</script>';
         }
 
         return $scriptsTag;

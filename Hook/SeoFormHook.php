@@ -1,30 +1,30 @@
 <?php
 
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace BetterSeo\Hook;
 
-
-use BetterSeo\Model\BetterSeo;
-use BetterSeo\Model\BetterSeoQuery;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Hook\BaseHook;
-use Thelia\Model\BrandQuery;
-use Thelia\Model\CategoryQuery;
-use Thelia\Model\ContentQuery;
-use Thelia\Model\FolderQuery;
-use Thelia\Model\Lang;
-use Thelia\Model\LangQuery;
-use Thelia\Model\ProductQuery;
 
 class SeoFormHook extends BaseHook
 {
-    public function onTabSeoUpdateForm(HookRenderEvent $event)
+    public function onTabSeoUpdateForm(HookRenderEvent $event): void
     {
         $objectId = $event->getArgument('id');
         $objectType = $event->getArgument('type');
 
         $event->add(
             $this->render(
-                "seo-additional-fields.html",
+                'seo-additional-fields.html',
                 [
                     'object_id' => $objectId,
                     'object_type' => $objectType,

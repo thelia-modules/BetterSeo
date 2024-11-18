@@ -15,6 +15,9 @@
             <tag name="hook.event_listener" event="main.head-bottom" type="front" method="onMainHeadBottom" />
             <argument type="service" id="request_stack" />
         </hook>
+        <hook id="betterseo.seo.update.form" class="BetterSeo\Hook\SeoUpdateFormHook">
+            <tag name="hook.event_listener" event="tab-seo.update-form" type="backoffice" method="addInputs"/>
+        </hook>
     </hooks>
 
 </config>

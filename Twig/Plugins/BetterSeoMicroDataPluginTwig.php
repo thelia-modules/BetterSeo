@@ -15,6 +15,7 @@ namespace BetterSeo\Twig\Plugins;
 use BetterSeo\BetterSeo;
 use BetterSeo\Event\BetterSeoMicroDataEvent;
 use BetterSeo\Event\BetterSeoMicroDataEvents;
+use BetterSeo\Event\BetterSeoPageTitleEvent;
 use BetterSeo\Event\BetterSeoStoreMicroDataEvent;
 use BetterSeo\Event\BetterSeoStoreMicroDataEvents;
 use BetterSeo\Model\BetterSeoQuery;
@@ -58,12 +59,52 @@ class BetterSeoMicroDataPluginTwig extends AbstractExtension
         return [
             new TwigFunction('BetterSeoMicroData', [$this, 'betterSeoMicroData']),
             new TwigFunction('BetterSeoPageTitle', [$this, 'betterSeoPageTitle']),
+            new TwigFunction('BetterSeoPageH1', [$this, 'betterSeoPageH1']),
         ];
     }
 
-    public function BetterSeoPageTitle()
+    public function BetterSeoPageTitle(?string $type = null, ?string $id = null): string
     {
-        return 'toto';
+        $lang = $this->langService->getLang();
+
+        $defaultType = $type ?? $this->getPageType() ?? '';
+        $defaultId = $id ?? $this->getPageId($defaultType);
+        $defaultTitle = $this->getPageTitle($defaultType, $defaultId) ?? '';
+
+        $pageTitleEvent = new BetterSeoPageTitleEvent($defaultTitle, $defaultType,
+            $defaultId, $lang->getLocale());
+
+        $this->dispatcher->dispatch(
+            $pageTitleEvent,
+            BetterSeoPageTitleEvent::BETTER_SEO_PAGE_TITLE);
+
+        return $pageTitleEvent->getTitle() ?? '';
+    }
+
+    public function betterSeoPageH1(?string $view = null, ?string $id = null)
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $type = $view ?? $request->get('_view');
+        $objectId = $id ?? $this->getPageId($type);
+
+        if (null === $objectId) {
+            return '';
+        }
+
+        $query = BetterSeoQuery::create()
+        ->filterByObjectId($objectId)
+        ->filterByObjectType($type)
+        ->useBetterSeoI18nQuery()
+        ->filterByLocale($this->langService->getLocale())
+        ->endUse()
+        ->withColumn(BetterSeoI18nTableMap::H1, 'h1')
+        ->findOne();
+
+        if (null !== $query && $query->getVirtualColumn('h1')) {
+            return $query->getVirtualColumn('h1');
+        }
+
+        return $this->getPageTitle($type, $objectId) ?? '';
     }
 
     public function betterSeoMicroData(?string $view, ?array $params)
@@ -194,6 +235,58 @@ class BetterSeoMicroDataPluginTwig extends AbstractExtension
         ];
 
         return $microData;
+    }
+
+    protected function getPageId(string $type)
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $objectId = null;
+
+        switch ($type) {
+            case 'product':
+                $objectId = $request->get('product_id');
+                break;
+            case 'category':
+                $objectId = $request->get('category_id');
+                break;
+            case 'folder':
+                $objectId = $request->get('folder_id');
+                break;
+            case 'content':
+                $objectId = $request->get('content_id');
+                break;
+        }
+
+        return $objectId;
+    }
+
+    protected function getPageType()
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        return $request->get('_view');
+    }
+
+    protected function getPageTitle(?string $type = null, ?string $objectId = null)
+    {
+        $item = null;
+
+        switch ($type) {
+            case 'product':
+                $item = ProductQuery::create()->filterById($objectId)->findOne();
+                break;
+            case 'category':
+                $item = CategoryQuery::create()->filterById($objectId)->findOne();
+                break;
+            case 'folder':
+                $item = FolderQuery::create()->filterById($objectId)->findOne();
+                break;
+            case 'content':
+                $item = ContentQuery::create()->filterById($objectId)->findOne();
+                break;
+        }
+
+        return $item?->getTitle() ?? ConfigQuery::read('store_name') ?? '';
     }
 
     protected function getProductMicroData(Product $product, Lang $lang, $relatedProducts = [])

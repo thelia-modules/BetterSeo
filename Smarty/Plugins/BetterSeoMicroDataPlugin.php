@@ -56,7 +56,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
         $this->dispatcher = $dispatcher;
     }
 
-    public function getPluginDescriptors()
+    public function getPluginDescriptors(): array
     {
         return [
             new SmartyPluginDescriptor('function', 'BetterSeoMicroData', $this, 'betterSeoMicroData'),

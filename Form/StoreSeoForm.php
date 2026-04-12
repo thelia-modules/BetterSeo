@@ -19,7 +19,7 @@ use Thelia\Form\BaseForm;
 
 class StoreSeoForm extends BaseForm
 {
-    public static function getName()
+    public static function getName(): string
     {
         return 'betterseo_store_form_config';
     }

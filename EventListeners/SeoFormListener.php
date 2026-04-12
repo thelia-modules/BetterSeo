@@ -33,7 +33,7 @@ class SeoFormListener extends BaseAction implements EventSubscriberInterface
         $this->requestStack = $requestStack;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             TheliaEvents::FORM_AFTER_BUILD.'.thelia_seo' => ['addCanonicalField', 128],

@@ -129,7 +129,7 @@ class BetterSeoForm extends BaseForm
         }
     }
 
-    public static function getName()
+    public static function getName(): string
     {
         return 'betterseo_form';
     }

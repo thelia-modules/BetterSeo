@@ -19,7 +19,7 @@ use Thelia\Form\BaseForm;
 
 class CategoryLimitForm extends BaseForm
 {
-    public static function getName()
+    public static function getName(): string
     {
         return 'betterseo_category_form_config';
     }

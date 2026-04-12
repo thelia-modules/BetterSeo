@@ -54,7 +54,7 @@ class SeoListener implements EventSubscriberInterface
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         $events = [];
         if (class_exists('Sitemap\Event\SitemapEvent')) {

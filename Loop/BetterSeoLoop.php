@@ -5,6 +5,7 @@ namespace BetterSeo\Loop;
 use BetterSeo\Model\BetterSeo;
 use BetterSeo\Model\BetterSeoQuery;
 use BetterSeo\Model\Map\BetterSeoI18nTableMap;
+use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Thelia\Core\Template\Element\BaseI18nLoop;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
@@ -15,7 +16,7 @@ use Thelia\Model\LangQuery;
 
 class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
 {
-    protected function getArgDefinitions()
+    protected function getArgDefinitions(): ArgumentCollection
     {
         return new ArgumentCollection(
             Argument::createAlphaNumStringTypeArgument('object_id'),
@@ -24,7 +25,7 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
         );
     }
 
-    public function buildModelCriteria()
+    public function buildModelCriteria(): ModelCriteria
     {
 
         $objectId = $this->getObjectId();
@@ -60,7 +61,7 @@ class BetterSeoLoop extends BaseI18nLoop implements PropelSearchLoopInterface
      * @return LoopResult
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function parseResults(LoopResult $loopResult)
+    public function parseResults(LoopResult $loopResult): LoopResult
     {
         /** @var BetterSeo $data */
         foreach ($loopResult->getResultDataCollection() as $data) {

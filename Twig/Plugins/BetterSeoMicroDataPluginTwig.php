@@ -42,7 +42,7 @@ use Thelia\Model\ProductImageQuery;
 use Thelia\Model\ProductPriceQuery;
 use Thelia\Model\ProductQuery;
 use Thelia\Model\ProductSaleElementsQuery;
-use Thelia\Service\Model\LangService;
+use Thelia\Domain\Localization\Service\LangService;
 use Thelia\Domain\Taxation\TaxEngine\TaxEngine;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;

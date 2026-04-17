@@ -21,8 +21,6 @@ use Thelia\Core\Hook\BaseHook;
 
 class MetaHook extends BaseHook
 {
-    protected $request;
-
     public function __construct(RequestStack $requestStack)
     {
         $this->request = $requestStack->getCurrentRequest();

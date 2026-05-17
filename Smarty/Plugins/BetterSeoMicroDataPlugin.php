@@ -272,7 +272,11 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
 
 
         if ($weight = $pse->getWeight()) {
-            $microData['shipping_weight'] = $weight . ' ' .'kg';
+           $microData['weight'] = [
+                '@type'    => 'QuantitativeValue',
+                'value'    => $weight,
+                'unitCode' => 'KGM',
+            ];
         }
 
         if ($relatedProducts) {

@@ -2,7 +2,7 @@
 
 /*
  * This file is part of the Thelia package.
- * http://www.thelia.net
+ * https://www.thelia.net
  *
  * (c) OpenStudio <info@thelia.net>
  *
@@ -248,7 +248,7 @@ class BetterSeoMicroDataPlugin extends AbstractSmartyPlugin
                 'priceCurrency' => $this->request->getSession()->getCurrency()->getCode(),
                 'price' => $taxedPrice,
                 'itemCondition' => 'https://schema.org/NewCondition',
-                'availability' => $pse->getQuantity() > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock',
+                'availability' => $pse->getQuantity() > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
             ],
         ];
 

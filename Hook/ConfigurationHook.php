@@ -4,19 +4,20 @@ namespace BetterSeo\Hook;
 
 use BetterSeo\Form\CategoryLimitForm;
 use BetterSeo\Form\StoreSeoForm;
-use Symfony\Component\DependencyInjection\Attribute\Required;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Form\TheliaFormFactory;
 use Thelia\Core\Hook\BaseHook;
+use Thelia\Core\Template\Parser\ParserResolver;
 
 class ConfigurationHook extends BaseHook
 {
-    private TheliaFormFactory $formFactory;
-
-    #[Required]
-    public function setFormFactory(TheliaFormFactory $formFactory): void
-    {
-        $this->formFactory = $formFactory;
+    public function __construct(
+        private readonly TheliaFormFactory $formFactory,
+        ?EventDispatcherInterface $dispatcher = null,
+        ?ParserResolver $parserResolver = null,
+    ) {
+        parent::__construct($dispatcher, $parserResolver);
     }
 
     public function onModuleConfiguration(HookRenderEvent $event): void

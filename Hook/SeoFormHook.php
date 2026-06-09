@@ -15,20 +15,21 @@ namespace BetterSeo\Hook;
 use BetterSeo\Form\BetterSeoForm;
 use BetterSeo\Model\BetterSeoQuery;
 use BetterSeo\Model\Map\BetterSeoI18nTableMap;
-use Symfony\Component\DependencyInjection\Attribute\Required;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Form\TheliaFormFactory;
 use Thelia\Core\Hook\BaseHook;
+use Thelia\Core\Template\Parser\ParserResolver;
 use Thelia\Model\LangQuery;
 
 class SeoFormHook extends BaseHook
 {
-    private TheliaFormFactory $formFactory;
-
-    #[Required]
-    public function setFormFactory(TheliaFormFactory $formFactory): void
-    {
-        $this->formFactory = $formFactory;
+    public function __construct(
+        private readonly TheliaFormFactory $formFactory,
+        ?EventDispatcherInterface $dispatcher = null,
+        ?ParserResolver $parserResolver = null,
+    ) {
+        parent::__construct($dispatcher, $parserResolver);
     }
 
     public function onTabSeoUpdateForm(HookRenderEvent $event): void

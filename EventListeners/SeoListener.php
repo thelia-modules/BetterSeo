@@ -12,7 +12,6 @@
 
 namespace BetterSeo\EventListeners;
 
-use AlternateHreflang\Event\AlternateHreflangEvent;
 use BetterSeo\Model\BetterSeoQuery;
 use Sitemap\Event\SitemapEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -29,10 +28,14 @@ class SeoListener implements EventSubscriberInterface
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    public function removeHrefLang(AlternateHreflangEvent $event): void
+    public function removeHrefLang(object $event): void
     {
-        $objectType = $this->request->get('_view');
-        $objectId = $this->request->get($objectType.'_id');
+        if (!$event instanceof \AlternateHreflang\Event\AlternateHreflangEvent) {
+            return;
+        }
+
+        $objectType = $this->request->query->get('_view') ?? $this->request->request->get('_view');
+        $objectId = $this->request->query->get($objectType.'_id') ?? $this->request->request->get($objectType.'_id');
 
         $betterSeoObject = $this->getBetterSeoObject($objectType, $objectId);
     }
@@ -61,7 +64,7 @@ class SeoListener implements EventSubscriberInterface
             $events[SitemapEvent::SITEMAP_EVENT] = ['checkSiteMap', 128];
         }
         if (class_exists('AlternateHreflang\Event\AlternateHreflangEvent')) {
-            $events[AlternateHreflangEvent::BASE_EVENT_NAME] = ['removeHrefLang', 128];
+            $events[\AlternateHreflang\Event\AlternateHreflangEvent::BASE_EVENT_NAME] = ['removeHrefLang', 128];
         }
 
         return $events;

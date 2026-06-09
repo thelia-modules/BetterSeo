@@ -5,6 +5,10 @@
   "require": {
     "thelia/installer": "~1.1"
   },
+  "suggest": {
+    "thelia/alternate-hreflang-module": "Enables hreflang alternate tag removal based on BetterSeo noindex settings",
+    "thelia/sitemap-module": "Enables sitemap filtering based on BetterSeo noindex settings"
+  },
   "extra": {
     "installer-name": "BetterSeo"
   }

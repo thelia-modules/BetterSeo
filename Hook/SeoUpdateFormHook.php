@@ -40,11 +40,22 @@ class SeoUpdateFormHook extends BaseHook
         }
 
         $event->add($this->render(
-            'hook-seo-update-form.html',
+            'hook-seo-update-form.html.twig',
             [
-                'form' => $event->getArgument('form'),
                 'canonical' => $canonical,
             ]
         ));
+    }
+
+    public static function getSubscribedHooks(): array
+    {
+        return [
+            'tab-seo.update-form' => [
+                [
+                    'type' => 'back',
+                    'method' => 'addInputs',
+                ],
+            ],
+        ];
     }
 }

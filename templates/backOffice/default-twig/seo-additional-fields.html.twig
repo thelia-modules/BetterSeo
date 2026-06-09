@@ -1,0 +1,183 @@
+{{ form_start(form, {'attr': {'method': 'POST', 'action': path('betterseo.save', {'object_id': object_id, 'object_type': object_type, 'lang_id': edit_language_id})}}) }}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <label>{{ 'label.noindex'|trans({}, 'betterseo.bo.default') }}</label>
+    </div>
+    <div class="card-body">
+
+        {{ form_widget(form._token) }}
+        {% do form._token.setRendered %}
+
+        <div class="card-body text-end">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-success">
+                {{ 'Save'|trans({}, 'betterseo.bo.default') }} <i class="bi bi-check-lg"></i>
+            </button>
+        </div>
+
+        <div class="form-check mb-2{% if form.noindex_checkbox.vars.errors|length %} is-invalid{% endif %}">
+            <input
+                id="{{ form.noindex_checkbox.vars.label_attr.for|default('noindex_checkbox') }}"
+                class="form-check-input{% if form.noindex_checkbox.vars.errors|length %} is-invalid{% endif %}"
+                type="checkbox"
+                name="{{ form.noindex_checkbox.vars.full_name }}"
+                value="1"
+                {% if better_seo_data.noindex == 1 %}checked{% endif %}
+            >
+            <label class="form-check-label" for="{{ form.noindex_checkbox.vars.label_attr.for|default('noindex_checkbox') }}">
+                {{ form.noindex_checkbox.vars.label|trans({}, 'betterseo.bo.default') }}
+            </label>
+            {% if form.noindex_checkbox.vars.errors|length %}
+                <div class="invalid-feedback">{{ form_errors(form.noindex_checkbox) }}</div>
+            {% endif %}
+        </div>
+        {% do form.noindex_checkbox.setRendered %}
+
+        <div class="form-check mb-2{% if form.nofollow_checkbox.vars.errors|length %} is-invalid{% endif %}">
+            <input
+                id="{{ form.nofollow_checkbox.vars.label_attr.for|default('nofollow_checkbox') }}"
+                class="form-check-input{% if form.nofollow_checkbox.vars.errors|length %} is-invalid{% endif %}"
+                type="checkbox"
+                name="{{ form.nofollow_checkbox.vars.full_name }}"
+                value="1"
+                {% if better_seo_data.nofollow == 1 %}checked{% endif %}
+            >
+            <label class="form-check-label" for="{{ form.nofollow_checkbox.vars.label_attr.for|default('nofollow_checkbox') }}">
+                {{ form.nofollow_checkbox.vars.label|trans({}, 'betterseo.bo.default') }}
+            </label>
+            {% if form.nofollow_checkbox.vars.errors|length %}
+                <div class="invalid-feedback">{{ form_errors(form.nofollow_checkbox) }}</div>
+            {% endif %}
+        </div>
+        {% do form.nofollow_checkbox.setRendered %}
+
+        <p class="form-text">{{ 'noindex_nofollow.help'|trans({}, 'betterseo.bo.default') }}</p>
+
+        <div class="mb-3{% if form.h1.vars.errors|length %} has-validation{% endif %}">
+            <label class="form-label" for="{{ form.h1.vars.label_attr.for|default('h1') }}">
+                {{ form.h1.vars.label|trans({}, 'betterseo.bo.default') }}
+            </label>
+            <input
+                type="text"
+                id="{{ form.h1.vars.label_attr.for|default('h1') }}"
+                class="form-control{% if form.h1.vars.errors|length %} is-invalid{% endif %}"
+                name="{{ form.h1.vars.full_name }}"
+                value="{{ better_seo_data.h1|default('') }}"
+            >
+            {% if form.h1.vars.errors|length %}
+                <div class="invalid-feedback">{{ form_errors(form.h1) }}</div>
+            {% endif %}
+        </div>
+        {% do form.h1.setRendered %}
+
+        <div class="mb-3">
+            <label class="form-label" for="{{ form.json_data.vars.label_attr.for|default('json_data') }}">
+                {{ form.json_data.vars.label|trans({}, 'betterseo.bo.default') }}
+            </label>
+            <textarea
+                name="{{ form.json_data.vars.full_name }}"
+                id="{{ form.json_data.vars.label_attr.for|default('json_data') }}"
+                cols="30"
+                rows="10"
+                class="form-control{% if form.json_data.vars.errors|length %} is-invalid{% endif %}"
+            >{{ better_seo_data.json_data|default('') }}</textarea>
+            {% if form.json_data.vars.errors|length %}
+                <div class="invalid-feedback">{{ form_errors(form.json_data) }}</div>
+            {% endif %}
+        </div>
+        {% do form.json_data.setRendered %}
+
+        <hr>
+        <table class="table table-striped">
+            <caption>{{ 'Mesh'|trans({}, 'betterseo.bo.default') }}</caption>
+            <thead>
+                <tr>
+                    {% for i in 1..5 %}
+                        <th>{{ 'Text'|trans({}, 'betterseo.bo.default') }} {{ i }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for i in 1..5 %}
+                        {% set mesh_field = form['mesh_' ~ i] %}
+                        <td>
+                            <input
+                                type="text"
+                                id="{{ mesh_field.vars.label_attr.for|default('mesh_' ~ i) }}"
+                                class="form-control{% if mesh_field.vars.errors|length %} is-invalid{% endif %}"
+                                name="{{ mesh_field.vars.full_name }}"
+                                value="{{ attribute(better_seo_data, 'mesh_' ~ i)|default('') }}"
+                            >
+                            {% if mesh_field.vars.errors|length %}
+                                <div class="invalid-feedback">{{ form_errors(mesh_field) }}</div>
+                            {% endif %}
+                        </td>
+                        {% do mesh_field.setRendered %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+        <table class="table table-striped">
+            <caption>{{ 'Mesh links'|trans({}, 'betterseo.bo.default') }}</caption>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{{ 'Link text'|trans({}, 'betterseo.bo.default') }}</th>
+                    <th>{{ 'Link URL'|trans({}, 'betterseo.bo.default') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in 1..5 %}
+                    {% set text_field = form['mesh_text_' ~ i] %}
+                    {% set url_field = form['mesh_url_' ~ i] %}
+                    <tr>
+                        <td>{{ 'Link'|trans({}, 'betterseo.bo.default') }} {{ i }}</td>
+                        <td>
+                            <label class="form-label" for="{{ text_field.vars.label_attr.for|default('mesh_text_' ~ i) }}">
+                                {{ text_field.vars.label|trans({}, 'betterseo.bo.default') }}
+                            </label>
+                            <input
+                                type="text"
+                                id="{{ text_field.vars.label_attr.for|default('mesh_text_' ~ i) }}"
+                                class="form-control{% if text_field.vars.errors|length %} is-invalid{% endif %}"
+                                name="{{ text_field.vars.full_name }}"
+                                value="{{ attribute(better_seo_data, 'mesh_text_' ~ i)|default('') }}"
+                            >
+                            {% if text_field.vars.errors|length %}
+                                <div class="invalid-feedback">{{ form_errors(text_field) }}</div>
+                            {% endif %}
+                            {% do text_field.setRendered %}
+                        </td>
+                        <td>
+                            <label class="form-label" for="{{ url_field.vars.label_attr.for|default('mesh_url_' ~ i) }}">
+                                {{ url_field.vars.label|trans({}, 'betterseo.bo.default') }}
+                            </label>
+                            <input
+                                type="url"
+                                id="{{ url_field.vars.label_attr.for|default('mesh_url_' ~ i) }}"
+                                class="form-control{% if url_field.vars.errors|length %} is-invalid{% endif %}"
+                                name="{{ url_field.vars.full_name }}"
+                                value="{{ attribute(better_seo_data, 'mesh_url_' ~ i)|default('') }}"
+                            >
+                            {% if url_field.vars.errors|length %}
+                                <div class="invalid-feedback">{{ form_errors(url_field) }}</div>
+                            {% endif %}
+                            {% do url_field.setRendered %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    <div class="card-body text-end">
+        <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-success">
+            {{ 'Save'|trans({}, 'betterseo.bo.default') }} <i class="bi bi-check-lg"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}

@@ -22,11 +22,11 @@ class BetterSeoController extends BaseAdminController
 
         $seoForm = $this->validateForm($form);
 
-        $object_id = $request->get('object_id');
-        $object_type = $request->get('object_type');
+        $object_id = $request->query->get('object_id') ?? $request->request->get('object_id');
+        $object_type = $request->query->get('object_type') ?? $request->request->get('object_type');
 
         $lang = LangQuery::create()
-            ->filterById($request->get('lang_id'))
+            ->filterById($request->query->get('lang_id') ?? $request->request->get('lang_id'))
             ->findOne();
 
         if (null === $objectSeo = BetterSeoQuery::create()

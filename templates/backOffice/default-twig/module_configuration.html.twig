@@ -1,0 +1,70 @@
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="card-title">{{ 'Configure Store'|trans({}, 'betterseo.bo.default') }}</h5>
+    </div>
+    <div class="card-body">
+
+        {% if success|default(false) %}
+            <div class="alert alert-success">
+                {{ 'Configuration correctly saved'|trans({}, 'betterseo.bo.default') }}
+            </div>
+        {% endif %}
+
+        {{ form_start(store_form, {'attr': {'method': 'post', 'action': path('betterseo_config_store_configuration')}}) }}
+            {{ form_widget(store_form._token) }}
+
+            <div class="mb-3">
+                {{ form_label(store_form.title) }}
+                {{ form_widget(store_form.title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(store_form.title) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(store_form.description) }}
+                {{ form_widget(store_form.description, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(store_form.description) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(store_form.keywords) }}
+                {{ form_widget(store_form.keywords, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(store_form.keywords) }}
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-save"></i> {{ 'Save'|trans({}, 'betterseo.bo.default') }}
+            </button>
+        {{ form_end(store_form) }}
+
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="card-title">{{ 'Better Seo configuration'|trans({}, 'betterseo.bo.default') }}</h5>
+    </div>
+    <div class="card-body">
+
+        {{ form_start(category_form, {'attr': {'method': 'post', 'action': path('betterseo_config_category_configuration')}}) }}
+            {{ form_widget(category_form._token) }}
+
+            {% if form_error|default(false) %}
+                <div class="alert alert-danger">{{ form_error_message|default('') }}</div>
+            {% endif %}
+
+            <div class="mb-3">
+                {{ form_label(category_form.category_limit) }}
+                {{ form_widget(category_form.category_limit, {'attr': {'class': 'form-control'}}) }}
+                {% if category_form.category_limit.vars.label_attr.help is defined %}
+                    <div class="form-text">{{ category_form.category_limit.vars.label_attr.help }}</div>
+                {% endif %}
+                {{ form_errors(category_form.category_limit) }}
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                {{ 'Save'|trans({}, 'betterseo.bo.default') }}
+            </button>
+        {{ form_end(category_form) }}
+
+    </div>
+</div>
